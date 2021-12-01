@@ -67,10 +67,9 @@ scons
 
 ### 所有平台
 
-* 如果 glob 没有安装，请用 npm 安装：
-
 ```
-npm install -g glob
+cd tools/idl_gen
+npm install
 ```
 
 ## 在独立项目中使用
