@@ -1,2 +1,5 @@
-# tkc
-zlg awtk c libary
+# TKC = ToolKit C Library
+
+一套跨平台的基础工具库。其中包括链表、数组、字符串 (UTF8 和 widechar)，事件发射器、值、对象、文
+件系统、互斥锁和线程、表达式和字符串解析等等。
+
