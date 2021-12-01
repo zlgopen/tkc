@@ -43,11 +43,12 @@ if OS_NAME == 'Windows':
 
 TOOLS_NAME = ''
 NANOVG_BACKEND=''
+NATIVE_WINDOW=''
 #TOOLS_NAME = 'mingw'
 
 COMMON_CCFLAGS=' -DTK_ROOT=\"\\\"'+TK_ROOT+'\\\"\" ' 
 
-COMMON_CCFLAGS=COMMON_CCFLAGS+' -DWITHOUT_AWTK=1 '
+COMMON_CCFLAGS=COMMON_CCFLAGS+' -DTKC_ONLY=1 '
 COMMON_CCFLAGS=COMMON_CCFLAGS+' -DWITH_MBEDTLS=1 '
 COMMON_CCFLAGS=COMMON_CCFLAGS+' -DWITH_DATA_READER_WRITER=1 '
 COMMON_CCFLAGS=COMMON_CCFLAGS+' -DWITH_SDL -DHAS_STDIO -DHAVE_STDIO_H -DHAS_GET_TIME_US64 '
@@ -95,7 +96,7 @@ elif OS_NAME == 'Linux':
 
   OS_LINKFLAGS=' -Wl,-rpath=./bin -Wl,-rpath=./ '
   AWTK_DLL_DEPS_LIBS = ['SDL2', 'glad'] + OS_LIBS
-  OS_WHOLE_ARCHIVE =' -Wl,--whole-archive -lfscript_ext -lstreams -lconf_io -lhal -lxml -lcharset -lcsv -lubjson -lcompressors-lmbedtls -lminiz -ltkc_core -Wl,--no-whole-archive'
+  OS_WHOLE_ARCHIVE =' -Wl,--whole-archive -lfscript_ext -lstreams -lconf_io -lhal -lxml -lcharset -lcsv -lubjson -lcompressors -lmbedtls -lminiz -ltkc_core -Wl,--no-whole-archive'
 
 elif OS_NAME == 'Windows':
   if not os.path.exists(os.path.abspath(TK_BIN_DIR)) :
@@ -126,7 +127,7 @@ elif OS_NAME == 'Windows':
     OS_LINKFLAGS=' -Wl,-rpath=./bin -Wl,-rpath=./ '
     COMMON_CFLAGS=COMMON_CFLAGS+' -std=gnu99 '
     COMMON_CCFLAGS=COMMON_CCFLAGS+' -U__FLT_EVAL_METHOD__ -D__FLT_EVAL_METHOD__=0 -DUNICODE -DDECLSPEC=  ' 
-    OS_WHOLE_ARCHIVE =' -Wl,--whole-archive -lfscript_ext -lstreams -lconf_io -lhal -lxml -charset -lcsv -lubjson -lcompressors-lmbedtls -lminiz -ltkc_core -Wl,--no-whole-archive'
+    OS_WHOLE_ARCHIVE =' -Wl,--whole-archive -lfscript_ext -lstreams -lconf_io -lhal -lxml -lcharset -lcsv -lubjson -lcompressors -lmbedtls -lminiz -ltkc_core -Wl,--no-whole-archive'
     AWTK_DLL_DEPS_LIBS = AWTK_STATIC_LIBS + ['SDL2', 'glad'] + OS_LIBS
     
   #OS_FLAGS='-DWIN32 -D_WIN32 -DWINDOWS /EHsc -D_CONSOLE  /DEBUG /Od  /FS /Z7 -D_DEBUG /MDd '
@@ -167,6 +168,7 @@ os.environ['AWTK_DLL_DEPS_LIBS'] = ';'.join(AWTK_DLL_DEPS_LIBS)
 os.environ['STATIC_LIBS'] = ';'.join(STATIC_LIBS)
 os.environ['AWTK_CCFLAGS'] = AWTK_CCFLAGS;
 os.environ['SDL_UBUNTU_USE_IME'] = str(False)
+os.environ['NATIVE_WINDOW']  = ''
 
 def has_custom_cc():
     return False
@@ -209,3 +211,6 @@ def genIdlAndDef():
         print(cmd)
         if os.system(cmd) != 0:
             print('exe cmd: ' + cmd + ' failed.')
+
+
+print('OS_WHOLE_ARCHIVE:', OS_WHOLE_ARCHIVE)

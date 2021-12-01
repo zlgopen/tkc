@@ -36,8 +36,8 @@ env.Library(os.path.join(LIB_DIR, 'tkc_core'), TK_SOURCES, LIBS=[])
 TKC_DEPS_LIBS=[]
 OS_NAME = platform.system()
 TKC_LINKFLAGS = env['LINKFLAGS'];
-TKC_STATIC_LIBS = ['conf_io', 'hal', 'csv', 'ubjson', 'streams', 'tkc_core', 'compressors', 'mbedtls', 'miniz']
-TKC_LINK_ALL=' -Wl,--whole-archive -lstreams -lconf_io -lhal -lcsv -lubjson -ltkc_core -lcompressors -lmbedtls -lminiz -Wl,--no-whole-archive'
+TKC_STATIC_LIBS = ['fscript_ext', 'streams', 'conf_io', 'hal', 'xml', 'charset', 'csv', 'ubjson', 'compressors', 'mbedtls', 'miniz', 'tkc_core', 'mbedtls']
+TKC_LINK_ALL=' -Wl,--whole-archive  -lfscript_ext -lstreams -lconf_io -lhal -lxml -lcharset -lcsv -lubjson -lcompressors -lmbedtls -lminiz -ltkc_core -Wl,--no-whole-archive'
 
 if OS_NAME == 'Windows':
   if TOOLS_NAME == '' :
