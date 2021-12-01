@@ -47,7 +47,7 @@ if OS_NAME == 'Windows':
     TKC_DEPS_LIBS= TKC_STATIC_LIBS + ['SDL2', 'user32','winmm','advapi32','shell32', 'ole32', 'ws2_32','Gdi32','Imm32', 'Version', 'OleAut32', 'UUID']
     TKC_LINKFLAGS += TKC_LINK_ALL
 elif OS_NAME == 'Darwin':
-  TKC_DEPS_LIBS= TKC_STATIC_LIBS
+  TKC_DEPS_LIBS= TKC_STATIC_LIBS + ['iconv', 'pthread', 'm']
   TKC_LINKFLAGS +=' -all_load '
 elif OS_NAME == 'Linux':
   TKC_LINKFLAGS += TKC_LINK_ALL
