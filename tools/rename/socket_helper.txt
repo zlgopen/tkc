@@ -1,0 +1,11 @@
+tcp_listen
+tcp_accept
+tcp_connect
+udp_listen
+udp_connect
+socket_init
+socket_deinit
+socket_close
+socket_bind
+socket_wait_for_data
+socket_set_blocking

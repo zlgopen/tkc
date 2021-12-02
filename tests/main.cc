@@ -46,7 +46,7 @@ GTEST_API_ int main(int argc, char** argv) {
   testing::InitGoogleTest(&argc, argv);
 
   return_value_if_fail(platform_prepare() == RET_OK, RET_FAIL);
-  socket_init();
+  tk_socket_init();
   data_writer_factory_set(data_writer_factory_create());
   data_reader_factory_set(data_reader_factory_create());
   data_writer_factory_register(data_writer_factory(), "file", data_writer_file_create);
@@ -58,7 +58,7 @@ GTEST_API_ int main(int argc, char** argv) {
 
   int ret = RUN_ALL_TESTS();
 
-  socket_deinit();
+  tk_socket_deinit();
   app_conf_deinit();
   data_writer_factory_destroy(data_writer_factory());
   data_reader_factory_destroy(data_reader_factory());

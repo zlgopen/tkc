@@ -116,7 +116,7 @@ struct _value_t;
 typedef struct _value_t value_t;
 
 struct _object_t;
-typedef struct _object_t object_t;
+typedef struct _object_t tk_object_t;
 
 /**
  * @enum ret_t
