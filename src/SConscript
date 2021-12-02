@@ -14,7 +14,7 @@ config.setEnvSpawn(env)
 TK_SOURCES = Glob('tkc/*.c') + Glob('platforms/pc/*.c')
 env.Library(os.path.join(LIB_DIR, 'tkc_core'), TK_SOURCES, LIBS=[])
 
-TKC_DEPS_LIBS = config.TKC_STATIC_LIBS + config.OS_LIBS
+TKC_DEPS_LIBS = config.TKC_STATIC_LIBS +  ['SDL2', 'glad'] + config.OS_LIBS
 TKC_LINKFLAGS= env['LINKFLAGS'] + config.genDllLinkFlags(config.TKC_STATIC_LIBS, 'tkc')
 
 env.SharedLibrary(os.path.join(BIN_DIR, 'tkc'), [],
