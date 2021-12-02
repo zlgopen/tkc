@@ -57,7 +57,7 @@ scons
 
 ### Windows
 
-如果没有安装nodejs，请到 [nodejs](https://nodejs.org/en/)下载并安装。
+如果没有安装 nodejs，请到 [nodejs](https://nodejs.org/en/) 下载并安装。
 
 编译运行 （在命令行模式下，进入 tkc 所在的目录，并运行下列命令）：
 
@@ -74,17 +74,16 @@ npm install
 
 ## 在独立项目中使用
 
-> TODO
-
-### SConstruct 文件
+使用方法和之前使用 AWTK 类似，只是需要在 import scripts.app_helper 之前设置环境变量 TKC_ONLY 为 True。如：
 
 ```python
-import os
+import os 
+
 os.environ['TKC_ONLY'] = 'True'
 import scripts.app_helper as app 
 
 helper = app.Helper(ARGUMENTS)
-helper.add_libs(['foo'])
+helper.set_tkc_only().add_libs(['foo'])
 helper.set_dll_def('src/foo.def').call(DefaultEnvironment)
 
 SConsFiles = [ 
@@ -96,6 +95,8 @@ SConsFiles = [
 SConscript(SConsFiles)
 ```
 
-
 完整项目请参考：[tkc-hello](https://github.com/zlgopen/tkc-hello)
 
+## 与 AWTK 的同步
+
+TKC 是从 AWTK 中独立出来的，为了保持兼容性，不影响 AWTK 的用户，TKC 在 AWTK 中的文件位置保持不变，TKC 有更新时，在 AWTK 中运行脚本 sync_tkc.sh 进行文件同步。
