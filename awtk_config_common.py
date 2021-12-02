@@ -55,7 +55,7 @@ TK_TOOLS_ROOT = joinPath(TK_ROOT, 'tools')
 TK_DEMO_ROOT = joinPath(TK_ROOT, 'demos')
 GTEST_ROOT = joinPath(TK_ROOT, '3rd/gtest/googletest')
 TKC_STATIC_LIBS = ['fscript_ext', 'streams', 'conf_io', 'hal', 'xml', 'charset',
-                   'csv', 'ubjson', 'compressors', 'mbedtls', 'miniz', 'tkc_core', 'mbedtls']
+                   'csv', 'ubjson', 'compressors', 'miniz', 'tkc_core', 'mbedtls']
 
 TOOLS_NAME = ''
 NANOVG_BACKEND = ''
