@@ -48,6 +48,7 @@ os.environ['SDL_UBUNTU_USE_IME'] = str(False)
 os.environ['NATIVE_WINDOW'] = ''
 os.environ['CCFLAGS'] = CCFLAGS
 
+OS_LIBS = ['SDL2', 'glad'] + OS_LIBS
 
 def genIdlAndDef():
     genIdlAndDefEx(False)
