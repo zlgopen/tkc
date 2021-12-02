@@ -27,8 +27,8 @@
 
 BEGIN_C_DECLS
 
-struct _object_vtable_t;
-typedef struct _object_vtable_t object_vtable_t;
+struct _tk_object_vtable_t;
+typedef struct _tk_object_vtable_t object_vtable_t;
 
 typedef ret_t (*tk_object_on_destroy_t)(tk_object_t* obj);
 typedef int32_t (*tk_object_compare_t)(tk_object_t* obj, tk_object_t* other);
@@ -41,7 +41,7 @@ typedef bool_t (*tk_object_can_exec_t)(tk_object_t* obj, const char* name, const
 typedef ret_t (*tk_object_exec_t)(tk_object_t* obj, const char* name, const char* args);
 typedef tk_object_t* (*tk_object_clone_t)(tk_object_t* obj);
 
-struct _object_vtable_t {
+struct _tk_object_vtable_t {
   const char* type;
   const char* desc;
   uint32_t size : 28;
@@ -67,7 +67,7 @@ struct _object_vtable_t {
  * 对象接口。
  *
  */
-struct _object_t {
+struct _tk_object_t {
   emitter_t emitter;
 
   /**
