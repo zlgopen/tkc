@@ -97,6 +97,12 @@ SConscript(SConsFiles)
 
 完整项目请参考：[tkc-hello](https://github.com/zlgopen/tkc-hello)
 
+## 交叉编译
+
+* linux 平台交叉编译，请修改 awtk\_config.py 中的 TOOLS\_PREFIX 和相应参数。
+
+> 依赖 tkc 的应用程序无需修改。
+
 ## 与 AWTK 的同步
 
 TKC 是从 AWTK 中独立出来的，为了保持兼容性，不影响 AWTK 的用户，TKC 在 AWTK 中的文件位置保持不变，TKC 有更新时，在 AWTK 中运行脚本 sync_tkc.sh 进行文件同步。
