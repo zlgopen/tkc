@@ -6,16 +6,36 @@ if awtk.TOOLS_NAME != '' :
   APP_TOOLS = [awtk.TOOLS_NAME]
 
 awtk.genIdlAndDef();
-DefaultEnvironment(TOOLS = APP_TOOLS,
-  CCFLAGS = awtk.AWTK_CCFLAGS,
-  LIBS = awtk.LIBS,
-  LIBPATH = awtk.LIBPATH,
-  CPPPATH = awtk.CPPPATH + [awtk.joinPath(awtk.TK_ROOT, 'res')],
-  LINKFLAGS = awtk.LINKFLAGS,
-  TARGET_ARCH=awtk.TARGET_ARCH,
-  OS_SUBSYSTEM_CONSOLE=awtk.OS_SUBSYSTEM_CONSOLE,
-  OS_SUBSYSTEM_WINDOWS=awtk.OS_SUBSYSTEM_WINDOWS
-)
+if awtk.TOOLS_PREFIX == '' :
+  DefaultEnvironment(TOOLS = APP_TOOLS,
+    CCFLAGS = awtk.AWTK_CCFLAGS,
+    LIBS = awtk.LIBS,
+    LIBPATH = awtk.LIBPATH,
+    CPPPATH = awtk.CPPPATH + [awtk.joinPath(awtk.TK_ROOT, 'res')],
+    LINKFLAGS = awtk.LINKFLAGS,
+    TARGET_ARCH=awtk.TARGET_ARCH,
+    OS_SUBSYSTEM_CONSOLE=awtk.OS_SUBSYSTEM_CONSOLE,
+    OS_SUBSYSTEM_WINDOWS=awtk.OS_SUBSYSTEM_WINDOWS
+  )
+
+  awtk.OS_PROJECTS += ['src/hal/tools/network_shell/SConscript']
+else :
+  DefaultEnvironment(
+    CC = awtk.CC,
+    CXX= awtk.CXX,
+    LD = awtk.LD,
+    AR = awtk.AR,
+    RANLIB = awtk.RANLIB,
+    STRIP = awtk.STRIP,
+    LIBS = awtk.LIBS,
+    CFLAGS = awtk.CFLAGS,
+    LIBPATH = awtk.LIBPATH,
+    CPPPATH = awtk.CPPPATH,
+    LINKFLAGS = awtk.LINKFLAGS,
+    CCFLAGS = awtk.AWTK_CCFLAGS, 
+    OS_SUBSYSTEM_CONSOLE = awtk.OS_SUBSYSTEM_CONSOLE,
+    OS_SUBSYSTEM_WINDOWS = awtk.OS_SUBSYSTEM_WINDOWS
+  )
 
 SConscriptFiles=[
   '3rd/glad/SConscript',
@@ -33,7 +53,6 @@ SConscriptFiles=[
   'src/streams/tools/SConscript',
   'src/compressors/SConscript',
   'src/ubjson/SConscript',
-  'src/hal/tools/network_shell/SConscript',
   'tests/SConscript',
   'demos/SConscript',
   ] + awtk.OS_PROJECTS
