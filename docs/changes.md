@@ -1,5 +1,6 @@
 2021/12/11
   * 增加tk\_str\_is\_in\_array。
+  * 增加tk\_utf8\_trim\_invalid\_char。
 
 2021/12/09
   * 完善json解析对整数的处理。
