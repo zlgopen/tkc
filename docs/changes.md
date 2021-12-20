@@ -1,3 +1,6 @@
+2021/12/20
+  * fscript支持全局对象。
+
 2021/12/11
   * 增加tk\_str\_is\_in\_array。
   * 增加tk\_utf8\_trim\_invalid\_char。

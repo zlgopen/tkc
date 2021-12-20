@@ -54,12 +54,14 @@ GTEST_API_ int main(int argc, char** argv) {
   data_reader_factory_register(data_reader_factory(), "mem", data_reader_mem_create);
   data_writer_factory_register(data_writer_factory(), "wbuffer", data_writer_wbuffer_create);
 
+  fscript_global_init();
   fscript_ext_init();
-
+  
   int ret = RUN_ALL_TESTS();
 
   tk_socket_deinit();
   app_conf_deinit();
+  fscript_global_deinit();
   data_writer_factory_destroy(data_writer_factory());
   data_reader_factory_destroy(data_reader_factory());
   data_writer_factory_set(NULL);
