@@ -1,5 +1,6 @@
 2021/12/22
   * 复原被覆盖的tools/idl\_gen/README.md(感谢雨欣提供补丁)
+  * 增加tkc/sha256.h
 
 2021/12/20
   * fscript支持全局对象。
