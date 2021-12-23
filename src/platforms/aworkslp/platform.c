@@ -233,11 +233,13 @@ static void platform_test(void) {
     ENSURE(p && p1);
 
     tk_log_info_htlf("[TEST]", "tk_thread: start %u ms ", (unsigned int)time_now_ms());
-    ENSURE(tk_thread_set_priority(p1, tk_thread_get_priority_from_platform(TK_THREAD_PRIORITY_BELOW_NORAML)) == RET_OK);
+    ENSURE(tk_thread_set_priority(p1, tk_thread_get_priority_from_platform(
+                                          TK_THREAD_PRIORITY_BELOW_NORAML)) == RET_OK);
     ENSURE(tk_thread_start(p) == RET_OK);
 
     tk_log_info_htlf("[TEST]", "tk_thread: start %u ms ", (unsigned int)time_now_ms());
-    ENSURE(tk_thread_set_priority(p1, tk_thread_get_priority_from_platform(TK_THREAD_PRIORITY_ABOVE_NORAML)) == RET_OK);
+    ENSURE(tk_thread_set_priority(p1, tk_thread_get_priority_from_platform(
+                                          TK_THREAD_PRIORITY_ABOVE_NORAML)) == RET_OK);
     ENSURE(tk_thread_start(p1) == RET_OK);
 
     tk_log_info_htlf("[TEST]", "task startup:");
@@ -260,7 +262,8 @@ static void platform_test(void) {
     }
     ENSURE(file_write("/lfs/test_dir/tkc_test", "abc123456", tk_strlen("abc123456") + 1) == RET_OK);
     p = file_read("/lfs/test_dir/tkc_test", &sz);
-    ENSURE(p && sz >= tk_strlen("abc123456") + 1 && tk_str_eq_with_len(p, "abc123456", tk_strlen("abc123456") + 1));
+    ENSURE(p && sz >= tk_strlen("abc123456") + 1 &&
+           tk_str_eq_with_len(p, "abc123456", tk_strlen("abc123456") + 1));
     TKMEM_FREE(p);
   }
 

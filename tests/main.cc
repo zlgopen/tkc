@@ -56,7 +56,7 @@ GTEST_API_ int main(int argc, char** argv) {
 
   fscript_global_init();
   fscript_ext_init();
-  
+
   int ret = RUN_ALL_TESTS();
 
   tk_socket_deinit();
