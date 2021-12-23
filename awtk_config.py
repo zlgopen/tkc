@@ -1,3 +1,5 @@
+# -*- coding:utf-8 -*-
+
 import os
 import os.path
 import platform
@@ -7,7 +9,7 @@ from awtk_config_common import OS_NAME, TARGET_ARCH, TOOLS_PREFIX, TK_SRC, TK_BI
 from awtk_config_common import joinPath, toWholeArchive, genIdlAndDefEx, setEnvSpawn,genDllLinkFlags,copySharedLib
 from awtk_config_common import OS_FLAGS, OS_LIBS, OS_LIBPATH, OS_CPPPATH, OS_LINKFLAGS, OS_SUBSYSTEM_CONSOLE, OS_SUBSYSTEM_WINDOWS, OS_PROJECTS, COMMON_CFLAGS
 
-#交叉编译时，请根据自己的情况修改以下参数：
+######################## 交叉编译时，请根据自己的情况修改以下参数：
 # TOOLS_PREFIX='/opt/poky/1.7/sysroots/x86_64-pokysdk-linux/usr/bin/arm-poky-linux-gnueabi/arm-poky-linux-gnueabi-'
 
 # OS_LINKFLAGS = ''
@@ -18,22 +20,23 @@ from awtk_config_common import OS_FLAGS, OS_LIBS, OS_LIBPATH, OS_CPPPATH, OS_LIN
 # OS_PROJECTS = []
 # # OS_FLAGS += ' -Wall -Os -fno-strict-aliasing '
 # OS_FLAGS +=' -g -Wall -Os -mfloat-abi=hard -fno-strict-aliasing '
+###################################################################
 
 
 AWTK_STATIC_LIBS = TKC_STATIC_LIBS
 
 COMMON_CCFLAGS = ' -DTK_ROOT=\"\\\"'+TK_ROOT+'\\\"\" '
 COMMON_CCFLAGS = COMMON_CCFLAGS+' -DTKC_ONLY=1 '
-COMMON_CCFLAGS = COMMON_CCFLAGS+' '
 COMMON_CCFLAGS = COMMON_CCFLAGS+' -DWITH_MBEDTLS=1 '
 COMMON_CCFLAGS = COMMON_CCFLAGS+' -DWITH_DATA_READER_WRITER=1 '
 COMMON_CCFLAGS = COMMON_CCFLAGS + \
-    ' -DWITH_SDL -DHAS_STDIO -DHAVE_STDIO_H -DHAS_GET_TIME_US64 '
+    ' -DHAS_STDIO -DHAVE_STDIO_H -DHAS_GET_TIME_US64 '
 COMMON_CCFLAGS = COMMON_CCFLAGS+' -DHAS_STD_MALLOC -DTK_MAX_MEM_BLOCK_NR=3 '
 
 SDL_LIBS=[]
 if TOOLS_PREFIX == '' :
     SDL_LIBS = ['SDL2', 'glad']
+    COMMON_CCFLAGS = COMMON_CCFLAGS+' -DWITH_SDL '
 else :
     SDL_LIBS = []
     CC = TOOLS_PREFIX+'gcc'
