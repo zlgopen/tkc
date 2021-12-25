@@ -1369,3 +1369,27 @@ TEST(FExr, global) {
 
   TK_OBJECT_UNREF(obj);
 }
+
+TEST(FExr, text_count) {
+  value_t v;
+  tk_object_t* obj = object_default_create();
+
+  fscript_eval(obj, "text_count(\"abc abc\", \"abc\")", &v);
+  ASSERT_EQ(value_int(&v), 2);
+  fscript_eval(obj, "text_count(\"abc abc abc\", \"abc\")", &v);
+  ASSERT_EQ(value_int(&v), 3);
+  value_reset(&v);
+
+  TK_OBJECT_UNREF(obj);
+}
+
+TEST(FExr, text_reverse) {
+  value_t v;
+  tk_object_t* obj = object_default_create();
+
+  fscript_eval(obj, "text_reverse(\"abc\")", &v);
+  ASSERT_STREQ(value_str(&v), "cba");
+  value_reset(&v);
+
+  TK_OBJECT_UNREF(obj);
+}

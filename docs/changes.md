@@ -1,3 +1,7 @@
+2021/12/25
+  * 增加函数str\_reverse/str\_count。
+  * 增加fscript函数text\_reverse/text\_count。
+
 2021/12/24
   * 增加状态机(感谢林福提供补丁)
   * 修复单元测试：兼容非utf8编码的编译器（VS2015）(感谢雨欣提供补丁)
