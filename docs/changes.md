@@ -1,3 +1,7 @@
+2021/12/26
+  * 增加函数array\_reverse
+  * 增加fscript函数array\_reverse
+
 2021/12/25
   * 增加函数str\_reverse/str\_count。
   * 增加fscript函数text\_reverse/text\_count。
