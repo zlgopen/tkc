@@ -1,3 +1,6 @@
+2021/12/28
+  * 完善serial\_helper.c(感谢朝泽提供补丁)
+
 2021/12/26
   * 增加函数array\_reverse
   * 增加fscript函数array\_reverse
