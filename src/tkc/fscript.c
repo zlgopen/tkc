@@ -418,7 +418,7 @@ static ret_t fscript_exec_ext_func(fscript_t* fscript, fscript_func_call_t* iter
   value_t args_values[5];
 
   value_set_int(&v, 0);
-  if(iter->args.size <= ARRAY_SIZE(args_values)) {
+  if (iter->args.size <= ARRAY_SIZE(args_values)) {
     memset(&args, 0x00, sizeof(args));
     memset(&args_values, 0x00, sizeof(args_values));
     args.capacity = ARRAY_SIZE(args_values);
@@ -433,7 +433,7 @@ static ret_t fscript_exec_ext_func(fscript_t* fscript, fscript_func_call_t* iter
     ret = fscript_eval_arg(fscript, iter, i, args.args + i);
     if (fscript->breaked || fscript->continued || fscript->returned) {
       value_deep_copy(result, args.args + i);
-      if(iter->args.size <= ARRAY_SIZE(args_values)) {
+      if (iter->args.size <= ARRAY_SIZE(args_values)) {
         func_args_reset(&args);
       } else {
         func_args_deinit(&args);
@@ -446,7 +446,7 @@ static ret_t fscript_exec_ext_func(fscript_t* fscript, fscript_func_call_t* iter
   fscript->curr = iter;
   ret = iter->func(fscript, &args, result);
 
-  if(iter->args.size <= ARRAY_SIZE(args_values)) {
+  if (iter->args.size <= ARRAY_SIZE(args_values)) {
     func_args_reset(&args);
   } else {
     func_args_deinit(&args);

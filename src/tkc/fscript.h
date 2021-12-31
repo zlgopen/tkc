@@ -135,7 +135,7 @@ struct _fscript_t {
    * 脚本执行上下文。
    */
   tk_object_t* obj;
-  
+
   /**
    * @property {ret_t} error_code
    * @annotation ["readable"]
@@ -351,7 +351,6 @@ struct _fscript_func_call_t {
   fscript_args_t args;
   fscript_func_call_t* next;
 };
-
 
 /*注册自定义函数时，属性名的前缀。*/
 #define STR_FSCRIPT_FUNCTION_PREFIX "function."

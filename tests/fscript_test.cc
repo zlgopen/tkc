@@ -8,7 +8,7 @@ TEST(FScript, args) {
   tk_object_t* obj = object_default_create();
   fscript_eval(obj, "sum(1,2)", &v);
   ASSERT_EQ(3, value_int(&v));
-  
+
   fscript_eval(obj, "sum(1,2,3)", &v);
   ASSERT_EQ(6, value_int(&v));
 
