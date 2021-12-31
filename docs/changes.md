@@ -1,5 +1,6 @@
 2021/12/31
   * fscript允许重载print函数。
+  * 修复使用thread\_with\_pthread时，线程运行完毕后调 用join函数出现内存泄漏的问题 (感谢雨欣提供补丁)
 
 2021/12/29
   * 修复fscript中unset的问题。
