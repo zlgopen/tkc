@@ -1,5 +1,6 @@
 2022/01/01
   * 优化fscript函数调用。
+  * 公开结构fscript\_func\_call\_t。
 
 2021/12/31
   * fscript允许重载print函数。

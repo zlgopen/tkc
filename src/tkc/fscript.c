@@ -24,15 +24,6 @@
 #include "tkc/general_factory.h"
 #include "tkc/object_locker.h"
 
-struct _fscript_func_call_t {
-  void* ctx;
-  fscript_func_t func;
-  fscript_args_t args;
-  fscript_func_call_t* next;
-  uint16_t row;
-  uint16_t col;
-};
-
 #define STR_GLOBAL_PREFIX "global."
 #define GLOBAL_PREFIX_LEN 7
 #define VALUE_TYPE_JSCRIPT_ID 128

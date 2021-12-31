@@ -276,6 +276,44 @@ double tk_expr_eval(const char* expr);
  */
 tk_object_t* fscript_get_global_object(void);
 
+/**
+ * @class fscript_func_call_t
+ * 
+ * 函数描述。
+ *
+ */
+struct _fscript_func_call_t {
+  /**
+   * @property {void*} ctx
+   * @annotation ["readable"]
+   * 函数需要的上下文。
+   * >目前主要保持自定义函数的实现。
+   */
+  void* ctx;
+  /**
+   * @property {uint16_t} row
+   * @annotation ["readable"]
+   * 对应源代码行号。
+   */
+  uint16_t row;
+  /**
+   * @property {uint16_t} row
+   * @annotation ["readable"]
+   * 对应源代码列号。
+   */
+  uint16_t col;
+  /**
+   * @property {fscript_func_t} func
+   * @annotation ["readable"]
+   * 函数指针。
+   */
+  fscript_func_t func;
+  /*private*/
+  fscript_args_t args;
+  fscript_func_call_t* next;
+};
+
+
 /*注册自定义函数时，属性名的前缀。*/
 #define STR_FSCRIPT_FUNCTION_PREFIX "function."
 
