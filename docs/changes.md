@@ -1,6 +1,7 @@
 2021/12/29
   * 修复fscript中unset的问题。
   * fscript增加f64/double数据类型转换函数。
+  * fscript允许重载print函数。
 
 2021/12/28
   * 完善serial\_helper.c(感谢朝泽提供补丁)
