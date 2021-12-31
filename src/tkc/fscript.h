@@ -24,7 +24,6 @@
 BEGIN_C_DECLS
 
 #define FSCRIPT_MAX_ARGS 128
-#define FSCRIPT_FAST_VAR_NR 4
 
 /**
  * @class fscript_args_t

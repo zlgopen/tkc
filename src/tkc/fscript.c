@@ -142,7 +142,8 @@ static ret_t func_args_init(fscript_args_t* args, uint16_t init_args_capacity) {
 }
 
 static ret_t fscript_func_call_destroy(fscript_func_call_t* call);
-static ret_t func_args_deinit(fscript_args_t* args) {
+
+static ret_t func_args_reset(fscript_args_t* args) {
   uint32_t i = 0;
   for (i = 0; i < args->size; i++) {
     value_t* v = args->args + i;
@@ -153,6 +154,12 @@ static ret_t func_args_deinit(fscript_args_t* args) {
     }
     value_reset(args->args + i);
   }
+
+  return RET_OK;
+}
+
+static ret_t func_args_deinit(fscript_args_t* args) {
+  func_args_reset(args);
   TKMEM_FREE(args->args);
   memset(args, 0x00, sizeof(fscript_args_t));
 
@@ -404,16 +411,29 @@ static ret_t fscript_exec_ext_func(fscript_t* fscript, fscript_func_call_t* iter
   uint32_t i = 0;
   ret_t ret = RET_OK;
   fscript_args_t args;
+  value_t args_values[5];
 
   value_set_int(&v, 0);
-  func_args_init(&args, iter->args.size);
+  if(iter->args.size <= ARRAY_SIZE(args_values)) {
+    memset(&args, 0x00, sizeof(args));
+    memset(&args_values, 0x00, sizeof(args_values));
+    args.capacity = ARRAY_SIZE(args_values);
+    args.args = args_values;
+  } else {
+    func_args_init(&args, iter->args.size);
+  }
   args.size = iter->args.size;
+
   return_value_if_fail((args.args != NULL || args.size == 0), RET_OOM);
   for (i = 0; i < iter->args.size; i++) {
     ret = fscript_eval_arg(fscript, iter, i, args.args + i);
     if (fscript->breaked || fscript->continued || fscript->returned) {
       value_deep_copy(result, args.args + i);
-      func_args_deinit(&args);
+      if(iter->args.size <= ARRAY_SIZE(args_values)) {
+        func_args_reset(&args);
+      } else {
+        func_args_deinit(&args);
+      }
       return RET_OK;
     }
   }
@@ -421,7 +441,12 @@ static ret_t fscript_exec_ext_func(fscript_t* fscript, fscript_func_call_t* iter
   value_set_int(result, 0);
   fscript->curr = iter;
   ret = iter->func(fscript, &args, result);
-  func_args_deinit(&args);
+
+  if(iter->args.size <= ARRAY_SIZE(args_values)) {
+    func_args_reset(&args);
+  } else {
+    func_args_deinit(&args);
+  }
 
   return ret;
 }
