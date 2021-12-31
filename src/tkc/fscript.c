@@ -248,32 +248,7 @@ static ret_t fexpr_parse(fscript_parser_t* parser, value_t* result);
 static ret_t fscript_parse_statements(fscript_parser_t* parser, fscript_func_call_t* acall);
 static fscript_func_call_t* fscript_func_call_create(fscript_parser_t* parser, const char* name,
                                                      uint32_t size);
-static inline bool_t is_fast_var(const char* name) {
-  char c = name[1];
-  int32_t index = *name - 'a';
-
-  if (c != '\0' && c != '.') {
-    return FALSE;
-  }
-
-  if (index < 0 || index >= FSCRIPT_FAST_VAR_NR) {
-    return FALSE;
-  }
-
-  return TRUE;
-}
-
-static value_t* fscript_get_fast_var(fscript_t* fscript, const char* name) {
-  int32_t index = name[0] - 'a';
-  if (index >= 0 && index < ARRAY_SIZE(fscript->fast_vars)) {
-    return fscript->fast_vars + index;
-  }
-
-  return NULL;
-}
-
 static ret_t fscript_get_var(fscript_t* fscript, const char* name, value_t* value) {
-  ret_t ret = RET_OK;
   value_set_str(value, NULL);
   return_value_if_fail(name != NULL, RET_BAD_PARAMS);
   if (*name == '$') {
@@ -290,51 +265,21 @@ static ret_t fscript_get_var(fscript_t* fscript, const char* name, value_t* valu
     }
   }
 
-  if (is_fast_var(name)) {
-    value_t* var = fscript_get_fast_var(fscript, name);
-    if (name[1] == '.') {
-      if (var->type == VALUE_TYPE_OBJECT) {
-        tk_object_t* obj = value_object(var);
-        ret = tk_object_get_prop(obj, name + 2, value);
-      } else {
-        ret = tk_object_get_prop(fscript->obj, name, value);
-      }
-    } else {
-      ret = value_copy(value, var);
-    }
-  } else {
-    ret = tk_object_get_prop(fscript->obj, name, value);
-  }
-
-  return ret;
+  return tk_object_get_prop(fscript->obj, name, value);
 }
 
 static ret_t fscript_set_var(fscript_t* fscript, const char* name, const value_t* value) {
+  value_t v;
   ret_t ret = RET_FAIL;
+
   if (strncmp(name, STR_GLOBAL_PREFIX, GLOBAL_PREFIX_LEN) == 0) {
     return tk_object_set_prop(fscript_get_global_object(), name + GLOBAL_PREFIX_LEN, value);
   }
 
-  if (is_fast_var(name)) {
-    value_t* var = fscript_get_fast_var(fscript, name);
-    if (name[1] == '.') {
-      if (var->type == VALUE_TYPE_OBJECT) {
-        tk_object_t* obj = value_object(var);
-        ret = tk_object_set_prop(obj, name + 2, value);
-      } else {
-        ret = tk_object_set_prop(fscript->obj, name, value);
-      }
-    } else {
-      value_reset(var);
-      ret = value_deep_copy(var, value);
-    }
+  if (fscript->locals != NULL && tk_object_get_prop(fscript->locals, name, &v) == RET_OK) {
+    ret = tk_object_set_prop(fscript->locals, name, value);
   } else {
-    value_t v;
-    if (fscript->locals != NULL && tk_object_get_prop(fscript->locals, name, &v) == RET_OK) {
-      ret = tk_object_set_prop(fscript->locals, name, value);
-    } else {
-      ret = tk_object_set_prop(fscript->obj, name, value);
-    }
+    ret = tk_object_set_prop(fscript->obj, name, value);
   }
 
   return ret;
@@ -519,7 +464,6 @@ static ret_t on_free_func_def(void* ctx, const void* data) {
 }
 
 ret_t fscript_destroy(fscript_t* fscript) {
-  uint32_t i = 0;
   return_value_if_fail(fscript != NULL, RET_FAIL);
 
   str_reset(&(fscript->str));
@@ -530,9 +474,6 @@ ret_t fscript_destroy(fscript_t* fscript) {
   TK_OBJECT_UNREF(fscript->funcs_def);
   TKMEM_FREE(fscript->error_message);
   fscript_func_call_destroy(fscript->first);
-  for (i = 0; i < ARRAY_SIZE(fscript->fast_vars); i++) {
-    value_reset(fscript->fast_vars + i);
-  }
   TKMEM_FREE(fscript->code_id);
   memset(fscript, 0x00, sizeof(fscript_t));
   TKMEM_FREE(fscript);
@@ -2289,25 +2230,16 @@ static ret_t func_exec(fscript_t* fscript, fscript_args_t* args, value_t* result
 }
 
 static ret_t func_unset(fscript_t* fscript, fscript_args_t* args, value_t* result) {
-  value_t* var = NULL;
+  value_t v;
   const char* name = NULL;
   FSCRIPT_FUNC_CHECK(args->size == 1, RET_BAD_PARAMS);
   name = value_str(args->args);
   return_value_if_fail(name != NULL, RET_BAD_PARAMS);
 
-  if (is_fast_var(name)) {
-    var = fscript_get_fast_var(fscript, name);
-  }
-
-  if (var != NULL) {
-    value_reset(var);
+  if (fscript->locals != NULL && tk_object_get_prop(fscript->locals, name, &v) == RET_OK) {
+    tk_object_remove_prop(fscript->locals, name);
   } else {
-    value_t v;
-    if (fscript->locals != NULL && tk_object_get_prop(fscript->locals, name, &v) == RET_OK) {
-      tk_object_remove_prop(fscript->locals, name);
-    } else {
-      tk_object_remove_prop(fscript->obj, name);
-    }
+    tk_object_remove_prop(fscript->obj, name);
   }
   value_set_bool(result, TRUE);
 

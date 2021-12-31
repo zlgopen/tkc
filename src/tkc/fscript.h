@@ -130,12 +130,6 @@ typedef struct _fscript_t {
    * 脚本执行上下文。
    */
   tk_object_t* obj;
-  /**
-   * @property {value_t*} fast_vars
-   * @annotation ["readable"]
-   * 快速访问变量。在脚本可以用a/b/c/d来访问，需要优化时使用。
-   */
-  value_t fast_vars[FSCRIPT_FAST_VAR_NR];
 
   /*private*/
   ret_t error_code;

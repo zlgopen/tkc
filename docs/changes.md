@@ -2,6 +2,7 @@
   * fscript允许重载print函数。
   * 修复emitter的事件中删除事件同时递归触发事件导致emitter不正常的问题（感谢zxc3489和智明提供补丁）
   * 修复使用thread\_with\_pthread时，线程运行完毕后调 用join函数出现内存泄漏的问题 (感谢雨欣提供补丁)
+  * fscript去掉a,b,c,d快速变量，a,b,c,d和普通变量一样处理。
 
 2021/12/29
   * 修复fscript中unset的问题。
