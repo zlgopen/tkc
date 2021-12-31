@@ -1520,3 +1520,27 @@ TEST(FScript, print) {
   value_reset(&v);
   TK_OBJECT_UNREF(obj);
 }
+
+static ret_t my_on_error(void* ctx, fscript_t* fscript) {
+  str_t* str = (str_t*)ctx;
+  str_set(str, fscript->error_message);
+
+  return RET_OK;
+}
+
+TEST(FScript, on_error) {
+  value_t v;
+  str_t str;
+  tk_object_t* obj = object_default_create();
+
+  str_init(&str, 10);
+  fscript_t* fscript = fscript_create(obj, "len(1,2,3)");
+  fscript_set_on_error(fscript, my_on_error, &str);
+  fscript_exec(fscript, &v);
+
+  ASSERT_STREQ(str.str, "args->size == 1 not satisfied.");
+  str_reset(&str);
+
+  value_reset(&v);
+  TK_OBJECT_UNREF(obj);
+}

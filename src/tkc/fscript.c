@@ -64,6 +64,19 @@ ret_t fscript_set_error(fscript_t* fscript, ret_t code, const char* func, const 
     log_debug("(%d:%d): %s code=%d %s\n", fscript->curr->row, fscript->curr->col, func, code,
               message);
   }
+
+  if (fscript->on_error != NULL) {
+    fscript->on_error(fscript->on_error_ctx, fscript);
+  }
+
+  return RET_OK;
+}
+
+ret_t fscript_set_on_error(fscript_t* fscript, fscript_on_error_t on_error, void* ctx) {
+  return_value_if_fail(fscript != NULL, RET_BAD_PARAMS);
+  fscript->on_error = on_error;
+  fscript->on_error_ctx = ctx;
+
   return RET_OK;
 }
 
