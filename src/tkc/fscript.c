@@ -2276,7 +2276,6 @@ static ret_t func_unset(fscript_t* fscript, fscript_args_t* args, value_t* resul
 }
 
 static ret_t func_sleep_ms(fscript_t* fscript, fscript_args_t* args, value_t* result) {
-  str_t* str = &(fscript->str);
   FSCRIPT_FUNC_CHECK(args->size == 1, RET_BAD_PARAMS);
   sleep_ms(value_uint32(args->args));
   value_set_bool(result, TRUE);
