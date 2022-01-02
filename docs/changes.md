@@ -1,3 +1,6 @@
+2022/01/02
+  * 修复fscript中while语句对return的处理。
+
 2022/01/01
   * 优化fscript函数调用。
   * 公开结构fscript\_func\_call\_t。
