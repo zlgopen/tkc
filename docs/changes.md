@@ -2,6 +2,7 @@
   * fscript公开函数value\_id/value\_func。
   * fscript增加log10/pow10等函数。
   * 修复注释错误(感谢朝泽提供补丁)
+  * fscript中三角函数增加以度数为单位的相应函数。
 
 2022/01/04
   * fscript支持保存函数名，方便调试。
