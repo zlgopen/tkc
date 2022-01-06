@@ -42,6 +42,9 @@ static ret_t func_until(fscript_t* fscript, fscript_args_t* args, value_t* resul
 static ret_t func_repeat_times(fscript_t* fscript, fscript_args_t* args, value_t* result) {
   return RET_OK;
 }
+static ret_t func_repeat(fscript_t* fscript, fscript_args_t* args, value_t* result) {
+  return RET_OK;
+}
 static ret_t func_noop(fscript_t* fscript, fscript_args_t* args, value_t* result) {
   return RET_OK;
 }
@@ -409,7 +412,41 @@ static ret_t fscript_exec_while_or_until(fscript_t* fscript, fscript_func_call_t
   return RET_OK;
 }
 
-static ret_t fscript_exec_repeat_times(fscript_t* fscript, fscript_func_call_t* iter, value_t* result) {
+/*repeat(a, 0, 100, 1) {*/
+static ret_t fscript_exec_repeat(fscript_t* fscript, fscript_func_call_t* iter, value_t* result) {
+  value_t v;
+  int32_t start = 0;
+  int32_t end = 0;
+  int32_t delta = 0;
+  bool_t done = FALSE;
+  const char* id = NULL;
+  return_value_if_fail(iter->args.size > 4, RET_FAIL);
+
+  id = value_id(iter->args.args);
+  return_value_if_fail(fscript_eval_arg(fscript, iter, 1, &v) == RET_OK, RET_BAD_PARAMS);
+  start = value_int(&v);
+  return_value_if_fail(fscript_eval_arg(fscript, iter, 2, &v) == RET_OK, RET_BAD_PARAMS);
+  end = value_int(&v);
+  return_value_if_fail(fscript_eval_arg(fscript, iter, 3, &v) == RET_OK, RET_BAD_PARAMS);
+  delta = value_int(&v);
+  if (fscript->locals == NULL) {
+    fscript->locals = object_default_create();
+  }
+
+  fscript->loop_count++;
+  while ((start != end) && !done) {
+    value_set_int(&v, start);
+    tk_object_set_prop(fscript->locals, id, &v);
+    fscript_exec_loop_body(fscript, iter, 4, result, &done);
+    start += delta;
+  }
+  fscript->loop_count--;
+
+  return RET_OK;
+}
+
+static ret_t fscript_exec_repeat_times(fscript_t* fscript, fscript_func_call_t* iter,
+                                       value_t* result) {
   value_t v;
   uint32_t i = 0;
   uint32_t n = 0;
@@ -442,6 +479,8 @@ static ret_t fscript_exec_core_func(fscript_t* fscript, fscript_func_call_t* ite
     return fscript_exec_while(fscript, iter, result);
   } else if (iter->func == func_until) {
     return fscript_exec_until(fscript, iter, result);
+  } else if (iter->func == func_repeat) {
+    return fscript_exec_repeat(fscript, iter, result);
   } else if (iter->func == func_repeat_times) {
     return fscript_exec_repeat_times(fscript, iter, result);
   } else if (iter->func == func_function_def) {
@@ -1132,6 +1171,10 @@ static ret_t fexpr_parse_function(fscript_parser_t* parser, value_t* result) {
   } else if ((acall->func == func_while || acall->func == func_until ||
               acall->func == func_repeat_times) &&
              acall->args.size == 1) {
+    if (fscript_parser_expect_token(parser, TOKEN_LBRACKET, "expect \"{\"") == RET_OK) {
+      fexpr_parse_block(parser, acall);
+    }
+  } else if (acall->func == func_repeat && acall->args.size == 4) {
     if (fscript_parser_expect_token(parser, TOKEN_LBRACKET, "expect \"{\"") == RET_OK) {
       fexpr_parse_block(parser, acall);
     }
@@ -2359,6 +2402,7 @@ static const func_entry_t s_builtin_funcs[] = {{"func", func_function_def, 4},
                                                {"if", func_if, 3},
                                                {"while", func_while, 10},
                                                {"until", func_until, 10},
+                                               {"repeat", func_repeat, 10},
                                                {"repeat_times", func_repeat_times, 10},
                                                {"int", func_int, 1},
                                                {"i8", func_i8, 1},

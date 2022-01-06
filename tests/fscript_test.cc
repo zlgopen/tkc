@@ -239,8 +239,7 @@ TEST(FScript, while1) {
 TEST(FScript, until) {
   value_t v;
   tk_object_t* obj = object_default_create();
-  fscript_eval(obj, "set(a,0);set(b,0);until(>(a,100), set(b, +(b, a)),set(a, +(a,1)));int(b)",
-               &v);
+  fscript_eval(obj, "set(a,0);set(b,0);until(>(a,100), set(b, +(b, a)),set(a, +(a,1)));int(b)", &v);
   ASSERT_EQ(value_int(&v), 5050);
   value_reset(&v);
   TK_OBJECT_UNREF(obj);
@@ -1259,6 +1258,50 @@ TEST(FExr, repeat_times_statement1) {
   TK_OBJECT_UNREF(obj);
 }
 
+TEST(FExr, repeat_statement1) {
+  value_t v;
+  tk_object_t* obj = object_default_create();
+
+  fscript_eval(obj, "abc=0;repeat(i, 0, 100, 1) {abc = abc+1};abc", &v);
+  ASSERT_EQ(value_int(&v), 100);
+  value_reset(&v);
+
+  TK_OBJECT_UNREF(obj);
+}
+
+TEST(FExr, repeat_statement11) {
+  value_t v;
+  tk_object_t* obj = object_default_create();
+
+  fscript_eval(obj, "abc=0;repeat(i, 10, 100, 1) {abc = abc+1};abc", &v);
+  ASSERT_EQ(value_int(&v), 90);
+  value_reset(&v);
+
+  TK_OBJECT_UNREF(obj);
+}
+
+TEST(FExr, repeat_statement12) {
+  value_t v;
+  tk_object_t* obj = object_default_create();
+
+  fscript_eval(obj, "abc=0;repeat(i, 100, 0, -1) {abc = abc+1};abc", &v);
+  ASSERT_EQ(value_int(&v), 100);
+  value_reset(&v);
+
+  TK_OBJECT_UNREF(obj);
+}
+
+TEST(FExr, repeat_statement13) {
+  value_t v;
+  tk_object_t* obj = object_default_create();
+
+  fscript_eval(obj, "abc=0;repeat(i, 0, 10, 1) {abc = abc+i};abc", &v);
+  ASSERT_EQ(value_int(&v), 45);
+  value_reset(&v);
+
+  TK_OBJECT_UNREF(obj);
+}
+
 TEST(FExr, while_statement2) {
   value_t v;
   tk_object_t* obj = object_default_create();
@@ -1292,6 +1335,28 @@ TEST(FExr, repeat_times_statement2) {
   TK_OBJECT_UNREF(obj);
 }
 
+TEST(FExr, repeat_statement2) {
+  value_t v;
+  tk_object_t* obj = object_default_create();
+
+  fscript_eval(obj, "abc=0;repeat(a, 0, 100, 1) {abc = abc+1;if(abc > 50) {break}};abc", &v);
+  ASSERT_EQ(value_int(&v), 51);
+  value_reset(&v);
+
+  TK_OBJECT_UNREF(obj);
+}
+
+TEST(FExr, repeat_statement21) {
+  value_t v;
+  tk_object_t* obj = object_default_create();
+
+  fscript_eval(obj, "abc=0;repeat(a, 100, 0, -1) {abc = abc+1;if(abc > 50) {break}};abc", &v);
+  ASSERT_EQ(value_int(&v), 51);
+  value_reset(&v);
+
+  TK_OBJECT_UNREF(obj);
+}
+
 TEST(FExr, while_statement3) {
   value_t v;
   tk_object_t* obj = object_default_create();
@@ -1318,7 +1383,20 @@ TEST(FExr, repeat_times_statement3) {
   value_t v;
   tk_object_t* obj = object_default_create();
 
-  fscript_eval(obj, "a=0;b=0;repeat_times(100) {a=a+1;if((a > 20) && (a<=50)) {continue};b=b+1};b", &v);
+  fscript_eval(obj, "a=0;b=0;repeat_times(100) {a=a+1;if((a > 20) && (a<=50)) {continue};b=b+1};b",
+               &v);
+  ASSERT_EQ(value_int(&v), 70);
+  value_reset(&v);
+
+  TK_OBJECT_UNREF(obj);
+}
+
+TEST(FExr, repeat_statement3) {
+  value_t v;
+  tk_object_t* obj = object_default_create();
+
+  fscript_eval(
+      obj, "a=0;b=0;repeat(aaa, 0, 100, 1) {a=a+1;if((a > 20) && (a<=50)) {continue};b=b+1};b", &v);
   ASSERT_EQ(value_int(&v), 70);
   value_reset(&v);
 
