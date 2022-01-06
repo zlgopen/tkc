@@ -1734,3 +1734,13 @@ TEST(FExr, is_xxx) {
   ASSERT_EQ(value_bool(&v1), FALSE);
   TK_OBJECT_UNREF(obj);
 }
+
+TEST(FExr, random0to1) {
+  value_t v1;
+  tk_object_t* obj = object_default_create();
+
+  fscript_eval(obj, "random0to1()", &v1);
+  ASSERT_EQ(value_double(&v1) <= 1 && value_double(&v1) >= 0, true);
+
+  TK_OBJECT_UNREF(obj);
+}
