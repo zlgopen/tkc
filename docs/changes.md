@@ -1,3 +1,6 @@
+2022/01/06
+  * fscript中增加is\_int/is\_odd/is\_even等函数
+
 2022/01/05
   * fscript公开函数value\_id/value\_func。
   * fscript增加log10/pow10等函数。
