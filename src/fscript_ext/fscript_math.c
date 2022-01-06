@@ -273,6 +273,7 @@ FACTORY_TABLE_ENTRY("is_int", func_is_int)
 FACTORY_TABLE_ENTRY("is_odd", func_is_odd)
 FACTORY_TABLE_ENTRY("is_even", func_is_even)
 FACTORY_TABLE_ENTRY("is_negative", func_is_negative)
+FACTORY_TABLE_ENTRY("is_positive", func_is_positive)
 FACTORY_TABLE_ENTRY("random0to1", func_random0to1)
 
 FACTORY_TABLE_ENTRY("exp", func_exp)

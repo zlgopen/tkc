@@ -36,6 +36,9 @@ static ret_t func_if(fscript_t* fscript, fscript_args_t* args, value_t* result) 
 static ret_t func_while(fscript_t* fscript, fscript_args_t* args, value_t* result) {
   return RET_OK;
 }
+static ret_t func_until(fscript_t* fscript, fscript_args_t* args, value_t* result) {
+  return RET_OK;
+}
 static ret_t func_noop(fscript_t* fscript, fscript_args_t* args, value_t* result) {
   return RET_OK;
 }
@@ -305,7 +308,7 @@ static ret_t fscript_eval_arg(fscript_t* fscript, fscript_func_call_t* iter, uin
       value_copy(d, s); /*func_set accept id/str as first param*/
     } else {
       const char* name = value_str(s);
-      if (fscript->while_count > 0) {
+      if (fscript->loop_count > 0) {
         if (tk_str_eq(name, "break")) {
           fscript->breaked = TRUE;
           s->type = save_type;
@@ -363,16 +366,20 @@ static ret_t fscript_exec_if(fscript_t* fscript, fscript_func_call_t* iter, valu
   return RET_OK;
 }
 
-static ret_t fscript_exec_while(fscript_t* fscript, fscript_func_call_t* iter, value_t* result) {
+static ret_t fscript_exec_while_or_until(fscript_t* fscript, fscript_func_call_t* iter,
+                                         value_t* result, bool_t is_while) {
   value_t condition;
   bool_t done = FALSE;
   return_value_if_fail(iter->args.size > 1, RET_FAIL);
 
-  fscript->while_count++;
+  fscript->loop_count++;
   value_set_int(&condition, 0);
-  while (!done && fscript_eval_arg(fscript, iter, 0, &condition) == RET_OK &&
-         value_bool(&condition)) {
+  while (!done && fscript_eval_arg(fscript, iter, 0, &condition) == RET_OK) {
     uint32_t i = 1;
+    if (is_while ? !value_bool(&condition) : value_bool(&condition)) {
+      break;
+    }
+
     for (i = 1; i < iter->args.size; i++) {
       value_reset(result);
       fscript_eval_arg(fscript, iter, i, result);
@@ -388,9 +395,17 @@ static ret_t fscript_exec_while(fscript_t* fscript, fscript_func_call_t* iter, v
       }
     }
   }
-  fscript->while_count--;
+  fscript->loop_count--;
 
   return RET_OK;
+}
+
+static ret_t fscript_exec_while(fscript_t* fscript, fscript_func_call_t* iter, value_t* result) {
+  return fscript_exec_while_or_until(fscript, iter, result, TRUE);
+}
+
+static ret_t fscript_exec_until(fscript_t* fscript, fscript_func_call_t* iter, value_t* result) {
+  return fscript_exec_while_or_until(fscript, iter, result, FALSE);
 }
 
 static ret_t fscript_exec_core_func(fscript_t* fscript, fscript_func_call_t* iter,
@@ -399,6 +414,8 @@ static ret_t fscript_exec_core_func(fscript_t* fscript, fscript_func_call_t* ite
     return fscript_exec_if(fscript, iter, result);
   } else if (iter->func == func_while) {
     return fscript_exec_while(fscript, iter, result);
+  } else if (iter->func == func_until) {
+    return fscript_exec_until(fscript, iter, result);
   } else if (iter->func == func_function_def) {
     return RET_OK;
   }
@@ -1088,7 +1105,7 @@ static ret_t fexpr_parse_function(fscript_parser_t* parser, value_t* result) {
     if (fscript_parser_expect_token(parser, TOKEN_LBRACKET, "expect \"{\"") == RET_OK) {
       fexpr_parse_if(parser, acall);
     }
-  } else if (acall->func == func_while && acall->args.size == 1) {
+  } else if ((acall->func == func_while || acall->func == func_until) && acall->args.size == 1) {
     if (fscript_parser_expect_token(parser, TOKEN_LBRACKET, "expect \"{\"") == RET_OK) {
       fexpr_parse_while(parser, acall);
     }
@@ -2315,6 +2332,7 @@ static const func_entry_t s_builtin_funcs[] = {{"func", func_function_def, 4},
                                                {"one_of", func_one_of, 3},
                                                {"if", func_if, 3},
                                                {"while", func_while, 10},
+                                               {"until", func_until, 10},
                                                {"int", func_int, 1},
                                                {"i8", func_i8, 1},
                                                {"i16", func_i16, 1},
