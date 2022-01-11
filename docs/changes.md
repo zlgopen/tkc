@@ -1,6 +1,9 @@
+2022/01/11
+  * 修复WITHOUT_FSCRIPT没有生效的问题。
+
 2022/01/10
   * 完善fscript if/elseif/else语句
-
+  
 2022/01/08
   * fscript的log函数改名为logf，避免与flow中的log重名。
   * fscript增加date\_time\_get\_prop/date\_time\_set\_prop等函数。 
