@@ -15,6 +15,7 @@ TEST(FScript, args) {
   fscript_eval(obj, "sum(1,2,3,4,5,6,7,8,9,10,11)", &v);
   ASSERT_EQ(66, value_int(&v));
   value_reset(&v);
+  TK_OBJECT_UNREF(obj);
 }
 
 TEST(FScript, basic0) {
@@ -1728,6 +1729,7 @@ TEST(FScript, convert1) {
   ASSERT_EQ(v.type == VALUE_TYPE_DOUBLE, true);
   ASSERT_EQ(123, value_double(&v));
 
+  TK_OBJECT_UNREF(obj);
   value_reset(&v);
 }
 
