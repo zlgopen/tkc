@@ -309,6 +309,7 @@ static ret_t debugger_fscript_on_destroy(tk_object_t* obj) {
   tk_cond_var_destroy(debugger->cond_var);
   debugger->cond_var = NULL;
 
+  TKMEM_FREE(debugger->code_id);
   str_reset(&(debugger->code));
   str_reset(&(debugger->callstack));
   darray_deinit(&(debugger->break_points));
@@ -325,13 +326,12 @@ static const object_vtable_t s_object_debugger_fscript_vtable = {
 
 debugger_t* debugger_fscript_create(void) {
   debugger_fscript_t* debugger = NULL;
-  debugger = TKMEM_ZALLOC(debugger_fscript_t);
+  debugger = (debugger_fscript_t*)tk_object_create(&s_object_debugger_fscript_vtable);
   return_value_if_fail(debugger != NULL, NULL);
 
   debugger->mutex = tk_mutex_nest_create();
   debugger->cond_var = tk_cond_var_create();
   debugger->debugger.vt = &s_debugger_fscript_vtable;
-  debugger->debugger.object.vt = &s_object_debugger_fscript_vtable;
 
   str_init(&(debugger->code), 100);
   str_init(&(debugger->callstack), 100);

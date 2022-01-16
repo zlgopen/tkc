@@ -96,10 +96,12 @@ TEST(Debugger, event1) {
 
   debugger_client_wait_for_completed(client);
   tk_thread_join(thread);
+  tk_thread_destroy(thread);
 
+  TK_OBJECT_UNREF(obj);
+  TK_OBJECT_UNREF(client);
   debugger_server_tcp_deinit();
   debugger_global_deinit();
-  
   ASSERT_STREQ(str.str, "breaked(0)log(0,\"1\")log(1,\"2\")log(2,\"3\")completed()");
   str_reset(&str);
 }
@@ -137,7 +139,10 @@ TEST(Debugger, event2) {
 
   debugger_client_wait_for_completed(client);
   tk_thread_join(thread);
+  tk_thread_destroy(thread);
 
+  TK_OBJECT_UNREF(obj);
+  TK_OBJECT_UNREF(client);
   debugger_server_tcp_deinit();
   debugger_global_deinit();
   
@@ -172,7 +177,10 @@ TEST(Debugger, basic) {
   ASSERT_EQ(debugger_continue(client), RET_OK);
   ASSERT_EQ(debugger_clear_break_points(client), RET_OK);
   tk_thread_join(thread);
+  tk_thread_destroy(thread);
 
+  TK_OBJECT_UNREF(obj);
+  TK_OBJECT_UNREF(client);
   debugger_server_tcp_deinit();
   debugger_global_deinit();
 }
@@ -205,7 +213,10 @@ TEST(Debugger, basic1) {
   ASSERT_EQ(debugger_clear_break_points(client), RET_OK);
 
   tk_thread_join(thread);
+  tk_thread_destroy(thread);
 
+  TK_OBJECT_UNREF(obj);
+  TK_OBJECT_UNREF(client);
   debugger_server_tcp_deinit();
   debugger_global_deinit();
 }
@@ -239,7 +250,10 @@ TEST(Debugger, local) {
   ASSERT_EQ(debugger_clear_break_points(client), RET_OK);
 
   tk_thread_join(thread);
+  tk_thread_destroy(thread);
 
+  TK_OBJECT_UNREF(obj);
+  TK_OBJECT_UNREF(client);
   debugger_server_tcp_deinit();
   debugger_global_deinit();
 }
@@ -273,7 +287,10 @@ TEST(Debugger, self) {
   ASSERT_EQ(debugger_clear_break_points(client), RET_OK);
 
   tk_thread_join(thread);
+  tk_thread_destroy(thread);
 
+  TK_OBJECT_UNREF(obj);
+  TK_OBJECT_UNREF(client);
   debugger_server_tcp_deinit();
   debugger_global_deinit();
 }
@@ -307,7 +324,10 @@ TEST(Debugger, global) {
   ASSERT_EQ(debugger_clear_break_points(client), RET_OK);
 
   tk_thread_join(thread);
+  tk_thread_destroy(thread);
 
+  TK_OBJECT_UNREF(obj);
+  TK_OBJECT_UNREF(client);
   debugger_server_tcp_deinit();
   debugger_global_deinit();
 }
@@ -339,7 +359,10 @@ TEST(Debugger, callstack) {
   ASSERT_EQ(debugger_clear_break_points(client), RET_OK);
 
   tk_thread_join(thread);
+  tk_thread_destroy(thread);
 
+  TK_OBJECT_UNREF(obj);
+  TK_OBJECT_UNREF(client);
   debugger_server_tcp_deinit();
   debugger_global_deinit();
 }
@@ -376,7 +399,10 @@ TEST(Debugger, code) {
   ASSERT_EQ(debugger_clear_break_points(client), RET_OK);
 
   tk_thread_join(thread);
+  tk_thread_destroy(thread);
 
+  TK_OBJECT_UNREF(obj);
+  TK_OBJECT_UNREF(client);
   debugger_server_tcp_deinit();
   debugger_global_deinit();
 }

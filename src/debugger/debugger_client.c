@@ -390,13 +390,12 @@ static const object_vtable_t s_object_debugger_client_vtable = {
 debugger_t* debugger_client_create(tk_iostream_t* io) {
   debugger_client_t* debugger = NULL;
   return_value_if_fail(io != NULL, NULL);
-  debugger = TKMEM_ZALLOC(debugger_client_t);
+  debugger = (debugger_client_t*)tk_object_create(&s_object_debugger_client_vtable);
   return_value_if_fail(debugger != NULL, NULL);
 
   debugger->io = io;
   TK_OBJECT_REF(debugger->io);
   debugger->debugger.vt = &s_debugger_client_vtable;
-  debugger->debugger.object.vt = &s_object_debugger_client_vtable;
   debugger->capacity = 10 * 1024;
   debugger->buff = TKMEM_ALLOC(debugger->capacity);
 

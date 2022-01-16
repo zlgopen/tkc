@@ -35,9 +35,7 @@ debugger_t* debugger_client_tcp_create(const char* host, uint32_t port) {
   io = tk_iostream_tcp_create(sock);
   if (io != NULL) {
     debugger = debugger_client_create(io);
-    if (debugger == NULL) {
-      TK_OBJECT_UNREF(io);
-    }
+    TK_OBJECT_UNREF(io);
   } else {
     socket_close(sock);
   }

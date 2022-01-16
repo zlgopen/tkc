@@ -57,7 +57,7 @@ static debugger_server_t* debugger_server_create(tk_iostream_t* io) {
   server->io = io;
   server->in = tk_iostream_get_istream(io);
   server->out = tk_iostream_get_ostream(io);
-  darray_init(&(server->debuggers), 5, NULL, NULL);
+  darray_init(&(server->debuggers), 5, (tk_destroy_t)tk_object_unref, NULL);
 
   server->mutex = tk_mutex_nest_create();
   goto_error_if_fail(server->mutex != NULL);
@@ -320,6 +320,7 @@ static ret_t debugger_server_destroy(debugger_server_t* server) {
   darray_deinit(&(server->debuggers));
   tk_thread_destroy(server->thread);
   TK_OBJECT_UNREF(server->io);
+  TKMEM_FREE(server->buff);
   TKMEM_FREE(server);
 
   return RET_OK;

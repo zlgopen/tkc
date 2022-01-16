@@ -1785,6 +1785,7 @@ TEST(FScript, on_error) {
 
   value_reset(&v);
   TK_OBJECT_UNREF(obj);
+  fscript_destroy(fscript);
 }
 
 TEST(FScript, while_return) {
@@ -1942,6 +1943,8 @@ TEST(FExr, str_append) {
 
   fscript_eval(obj, "aa=\"hello \";bb=str_append(aa, \"world\");bb", &v1);
   ASSERT_STREQ(value_str(&v1), "hello world");
+  value_reset(&v1);
+
   TK_OBJECT_UNREF(obj);
 }
 
@@ -1977,21 +1980,31 @@ TEST(FExr, char_at) {
 
   fscript_eval(obj, "char_at(\"hello\", 0)", &v1);
   ASSERT_STREQ(value_str(&v1), "h");
+  value_reset(&v1);
+
   fscript_eval(obj, "char_at(\"hello\", 1)", &v1);
   ASSERT_STREQ(value_str(&v1), "e");
+  value_reset(&v1);
+
   fscript_eval(obj, "char_at(\"hello\", -1)", &v1);
   ASSERT_STREQ(value_str(&v1), "o");
+  value_reset(&v1);
+
   fscript_eval(obj, "char_at(\"hello\", -2)", &v1);
   ASSERT_STREQ(value_str(&v1), "l");
+  value_reset(&v1);
 
   fscript_eval(obj, "char_at_first(\"hello\")", &v1);
   ASSERT_STREQ(value_str(&v1), "h");
+  value_reset(&v1);
 
   fscript_eval(obj, "char_at_last(\"hello\")", &v1);
   ASSERT_STREQ(value_str(&v1), "o");
+  value_reset(&v1);
 
   fscript_eval(obj, "char_at_random(\"hhh\")", &v1);
   ASSERT_STREQ(value_str(&v1), "h");
+  value_reset(&v1);
 
   TK_OBJECT_UNREF(obj);
 }
