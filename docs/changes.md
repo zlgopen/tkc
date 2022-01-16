@@ -1,3 +1,6 @@
+2022/01/16
+  * 完善fscript支持调试器。
+
 2022/01/13
   * 优化tk\_object\_get\_child\_object（感谢雨欣提供补丁）
 
