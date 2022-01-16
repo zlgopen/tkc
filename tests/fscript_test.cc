@@ -1752,10 +1752,12 @@ TEST(FScript, print) {
   str_init(&str, 10);
 
   tk_object_set_prop_pointer(obj, "str", &str);
-  tk_object_set_prop_pointer(obj, STR_FSCRIPT_FUNCTION_PREFIX "print", (void*)my_print);
-  fscript_eval(obj, "print(\"hello\")", &v);
+  fscript_t* fscript = fscript_create(obj, "print(\"hello\")");
+  fscript_set_print_func(fscript, my_print);
+  fscript_exec(fscript, &v);
   ASSERT_STREQ(str.str, "hello");
   str_reset(&str);
+  fscript_destroy(fscript);
 
   value_reset(&v);
   TK_OBJECT_UNREF(obj);
