@@ -21,7 +21,6 @@
 
 #include "debugger/debugger.h"
 
-
 ret_t debugger_lock(debugger_t* debugger) {
   return_value_if_fail(debugger != NULL && debugger->vt != NULL, RET_BAD_PARAMS);
   return_value_if_fail(debugger->vt->lock != NULL, RET_BAD_PARAMS);
@@ -101,7 +100,7 @@ ret_t debugger_continue(debugger_t* debugger) {
 
 tk_object_t* debugger_get_local(debugger_t* debugger, uint32_t frame_index) {
   return_value_if_fail(debugger != NULL && debugger->vt != NULL, NULL);
-  return_value_if_fail(debugger->vt->get_local!= NULL, NULL);
+  return_value_if_fail(debugger->vt->get_local != NULL, NULL);
 
   return debugger->vt->get_local(debugger, frame_index);
 }
@@ -137,14 +136,14 @@ ret_t debugger_clear_break_points(debugger_t* debugger) {
 
 ret_t debugger_set_break_point(debugger_t* debugger, uint32_t line) {
   return_value_if_fail(debugger != NULL && debugger->vt != NULL, RET_BAD_PARAMS);
-  return_value_if_fail(debugger->vt->set_break_point!= NULL, RET_BAD_PARAMS);
+  return_value_if_fail(debugger->vt->set_break_point != NULL, RET_BAD_PARAMS);
 
   return debugger->vt->set_break_point(debugger, line);
 }
 
 ret_t debugger_remove_break_point(debugger_t* debugger, uint32_t line) {
   return_value_if_fail(debugger != NULL && debugger->vt != NULL, RET_BAD_PARAMS);
-  return_value_if_fail(debugger->vt->remove_break_point!= NULL, RET_BAD_PARAMS);
+  return_value_if_fail(debugger->vt->remove_break_point != NULL, RET_BAD_PARAMS);
 
   return debugger->vt->remove_break_point(debugger, line);
 }
@@ -153,7 +152,6 @@ ret_t debugger_init(debugger_t* debugger, const char* lang, const char* code_id)
   return_value_if_fail(debugger != NULL && debugger->vt != NULL, RET_BAD_PARAMS);
   return_value_if_fail(debugger->vt->init != NULL, RET_BAD_PARAMS);
   return_value_if_fail(lang != NULL && code_id != NULL, RET_BAD_PARAMS);
-
 
   return debugger->vt->init(debugger, lang, code_id);
 }
@@ -165,7 +163,6 @@ ret_t debugger_get_code(debugger_t* debugger, binary_data_t* code) {
 
   return debugger->vt->get_code(debugger, code);
 }
-
 
 ret_t debugger_update_code(debugger_t* debugger, const binary_data_t* code) {
   return_value_if_fail(debugger != NULL && debugger->vt != NULL, RET_BAD_PARAMS);
@@ -181,4 +178,3 @@ ret_t debugger_deinit(debugger_t* debugger) {
 
   return debugger->vt->deinit(debugger);
 }
-

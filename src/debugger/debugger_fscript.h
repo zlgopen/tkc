@@ -89,7 +89,8 @@ debugger_fscript_t* debugger_fscript_cast(debugger_t* debugger);
 
 /*fscript hooks*/
 ret_t debugger_fscript_set_var(fscript_t* fscript, const char* name, const value_t* v);
-ret_t debugger_fscript_exec_func(fscript_t* fscript, const char* name, fscript_func_call_t* iter, value_t* result);
+ret_t debugger_fscript_exec_func(fscript_t* fscript, const char* name, fscript_func_call_t* iter,
+                                 value_t* result);
 
 END_C_DECLS
 

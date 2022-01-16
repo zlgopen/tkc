@@ -2092,7 +2092,7 @@ static ret_t func_print(fscript_t* fscript, fscript_args_t* args, value_t* resul
 
   if (fscript->print != NULL) {
     return fscript->print(fscript, args, result);
-  } 
+  }
 
   return RET_OK;
 }

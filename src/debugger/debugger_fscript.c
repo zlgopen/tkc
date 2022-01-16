@@ -103,7 +103,7 @@ static ret_t debugger_fscript_next(debugger_t* debugger) {
       d->next_stop_executed_line = d->executed_lines + 1;
     }
     debugger_fscript_unlock(debugger);
-    
+
     if (ret == RET_OK) {
       tk_cond_var_awake(d->cond_var);
     }
@@ -186,7 +186,6 @@ static ret_t debugger_fscript_get_callstack(debugger_t* debugger, binary_data_t*
   return RET_OK;
 }
 
-
 static ret_t debugger_fscript_clear_break_points(debugger_t* debugger) {
   ret_t ret = RET_FAIL;
   bool_t paused = FALSE;
@@ -201,7 +200,7 @@ static ret_t debugger_fscript_clear_break_points(debugger_t* debugger) {
     paused = d->paused;
     debugger_fscript_unlock(debugger);
   }
-    
+
   if (paused) {
     tk_cond_var_awake(d->cond_var);
   }
@@ -391,7 +390,7 @@ ret_t debugger_fscript_set_fscript(debugger_t* debugger, fscript_t* fscript) {
     d->prev_breaked_line = -1;
     d->next_stop_executed_line = -1;
     str_set(&(d->callstack), "<root>\n");
-    fscript_set_print_func(fscript, debugger_fscript_print_func); 
+    fscript_set_print_func(fscript, debugger_fscript_print_func);
     fscript_set_on_error(fscript, debugger_fscript_on_error, d);
   } else {
     emitter_dispatch_simple_event(EMITTER(debugger), DEBUGGER_RESP_MSG_COMPLETED);
@@ -400,7 +399,6 @@ ret_t debugger_fscript_set_fscript(debugger_t* debugger, fscript_t* fscript) {
   return RET_OK;
 }
 
-
 static ret_t debugger_fscript_before_exec_func(debugger_t* debugger, int32_t line) {
   bool_t paused = FALSE;
   debugger_fscript_t* d = DEBUGGER_FSCRIPT(debugger);
@@ -408,7 +406,7 @@ static ret_t debugger_fscript_before_exec_func(debugger_t* debugger, int32_t lin
   if (debugger_fscript_lock(debugger) == RET_OK) {
     bool_t bp = darray_find_index(&(d->break_points), tk_pointer_from_int(line)) >= 0;
 
-    d->paused = bp || line == d->next_stop_line || d->executed_lines == d->next_stop_executed_line; 
+    d->paused = bp || line == d->next_stop_line || d->executed_lines == d->next_stop_executed_line;
     paused = d->paused && (d->prev_breaked_line != line);
 
     if (paused) {
@@ -442,8 +440,8 @@ static ret_t debugger_fscript_after_exec_func(debugger_t* debugger, int32_t line
   return RET_OK;
 }
 
-ret_t debugger_fscript_exec_func(fscript_t* fscript, const char* name,
-  fscript_func_call_t* iter, value_t* result) {
+ret_t debugger_fscript_exec_func(fscript_t* fscript, const char* name, fscript_func_call_t* iter,
+                                 value_t* result) {
   ret_t ret = RET_FAIL;
   debugger_t* debugger = NULL;
   return_value_if_fail(fscript != NULL, RET_BAD_PARAMS);

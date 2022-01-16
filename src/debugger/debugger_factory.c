@@ -46,7 +46,7 @@ debugger_t* debugger_factory_create_debugger(const char* lang, const char* code_
 
   create = (debugger_fscript_create_t)general_factory_find(s_debugger_factory, lang);
   return_value_if_fail(create != NULL, NULL);
-  
+
   debugger = create();
   return_value_if_fail(debugger != NULL, NULL);
   debugger_init(debugger, lang, code_id);

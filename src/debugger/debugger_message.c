@@ -19,7 +19,7 @@
  *
  */
 
- #include "debugger/debugger_message.h"
+#include "debugger/debugger_message.h"
 
 event_t* debugger_log_event_init(debugger_log_event_t* event, uint32_t line, const char* message) {
   return_value_if_fail(event != NULL, NULL);
@@ -40,7 +40,8 @@ debugger_log_event_t* debugger_log_event_cast(event_t* event) {
   return (debugger_log_event_t*)event;
 }
 
-event_t* debugger_error_event_init(debugger_error_event_t* event, uint32_t line, const char* message) {
+event_t* debugger_error_event_init(debugger_error_event_t* event, uint32_t line,
+                                   const char* message) {
   return_value_if_fail(event != NULL, NULL);
 
   memset(event, 0x00, sizeof(*event));

@@ -408,7 +408,7 @@ typedef ret_t (*fscript_before_exec_t)(fscript_t* fscript);
 typedef ret_t (*fscript_after_exec_t)(fscript_t* fscript);
 typedef ret_t (*fscript_set_var_t)(fscript_t* fscript, const char* name, const value_t* v);
 typedef ret_t (*fscript_exec_func_t)(fscript_t* fscript, const char* name,
-  fscript_func_call_t* iter, value_t* result);
+                                     fscript_func_call_t* iter, value_t* result);
 
 ret_t fscript_set_var_default(fscript_t* fscript, const char* name, const value_t* value);
 ret_t fscript_exec_func_default(fscript_t* fscript, fscript_func_call_t* iter, value_t* result);

@@ -36,7 +36,7 @@ ret_t debugger_server_tcp_init(uint32_t port) {
 
   return RET_OK;
 }
-  
+
 ret_t debugger_server_tcp_start(void) {
   int sock = -1;
   return_value_if_fail(s_server_sock >= 0, RET_BAD_PARAMS);
@@ -65,4 +65,3 @@ ret_t debugger_server_tcp_deinit(void) {
 
   return RET_OK;
 }
-

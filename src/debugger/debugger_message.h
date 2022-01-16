@@ -391,7 +391,8 @@ typedef struct _debugger_error_event_t {
  *
  * @return {event_t*} 返回event对象。
  */
-event_t* debugger_error_event_init(debugger_error_event_t* event, uint32_t line, const char* message);
+event_t* debugger_error_event_init(debugger_error_event_t* event, uint32_t line,
+                                   const char* message);
 
 /**
  * @method debugger_error_event_cast

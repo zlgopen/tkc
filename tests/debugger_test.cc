@@ -12,7 +12,6 @@
 
 #define DEBUGGER_TCP_PORT 8080
 
-
 static void* fscript_thread_entry(void* args) {
   value_t v;
   fscript_t* fscript = (fscript_t*)args;
@@ -22,10 +21,9 @@ static void* fscript_thread_entry(void* args) {
   return NULL;
 }
 
-
 static ret_t on_debugger_client_event(void* ctx, event_t* e) {
   str_t* str = (str_t*)ctx;
-  switch(e->type) {
+  switch (e->type) {
     case DEBUGGER_RESP_MSG_BREAKED: {
       debugger_breaked_event_t* event = debugger_breaked_event_cast(e);
       str_append(str, "breaked");
@@ -57,14 +55,17 @@ static ret_t on_debugger_client_event(void* ctx, event_t* e) {
     case DEBUGGER_RESP_MSG_COMPLETED: {
       str_append(str, "completed()");
     }
-    default:break;
+    default:
+      break;
   }
 
   return RET_OK;
 }
 
 TEST(Debugger, event1) {
-  const char* code = "print(1)\nprint(2)\nprint(3)\n//code_id(\"85e86311e2d595c65b745d8143b6085efe819c354584742f72aeacd3336a0a5e\")";
+  const char* code =
+      "print(1)\nprint(2)\nprint(3)\n//"
+      "code_id(\"85e86311e2d595c65b745d8143b6085efe819c354584742f72aeacd3336a0a5e\")";
   str_t str;
   str_init(&str, 100);
   debugger_global_init();
@@ -87,11 +88,11 @@ TEST(Debugger, event1) {
 
   tk_thread_start(thread);
   sleep_ms(500);
-  
+
   debugger_t* debugger = debugger_server_find_debugger(fscript->code_id);
   ASSERT_EQ(debugger_is_paused(debugger), TRUE);
   ASSERT_EQ(debugger_is_paused(client), TRUE);
-  
+
   ASSERT_EQ(debugger_continue(client), RET_OK);
   ASSERT_EQ(debugger_clear_break_points(client), RET_OK);
 
@@ -109,7 +110,9 @@ TEST(Debugger, event1) {
 
 #if 1
 TEST(Debugger, event2) {
-  const char* code = "print(1)\nprint(2)\nprint(3)\n//code_id(\"85e86311e2d595c65b745d8143b6085efe819c354584742f72aeacd3336a0a5e\")";
+  const char* code =
+      "print(1)\nprint(2)\nprint(3)\n//"
+      "code_id(\"85e86311e2d595c65b745d8143b6085efe819c354584742f72aeacd3336a0a5e\")";
   str_t str;
   str_init(&str, 100);
   debugger_global_init();
@@ -132,10 +135,10 @@ TEST(Debugger, event2) {
 
   tk_thread_start(thread);
   sleep_ms(500);
-  
+
   debugger_t* debugger = debugger_server_find_debugger(fscript->code_id);
   ASSERT_EQ(debugger_is_paused(debugger), TRUE);
-  
+
   ASSERT_EQ(debugger_continue(client), RET_OK);
   ASSERT_EQ(debugger_clear_break_points(client), RET_OK);
 
@@ -147,13 +150,15 @@ TEST(Debugger, event2) {
   TK_OBJECT_UNREF(client);
   debugger_server_tcp_deinit();
   debugger_global_deinit();
-  
+
   ASSERT_STREQ(str.str, "log(0,\"1\")log(1,\"2\")breaked(2)log(2,\"3\")completed()");
   str_reset(&str);
 }
 
 TEST(Debugger, basic) {
-  const char* code = "print(1)\nprint(2)\nprint(3)\n//code_id(\"85e86311e2d595c65b745d8143b6085efe819c354584742f72aeacd3336a0a5e\")";
+  const char* code =
+      "print(1)\nprint(2)\nprint(3)\n//"
+      "code_id(\"85e86311e2d595c65b745d8143b6085efe819c354584742f72aeacd3336a0a5e\")";
 
   debugger_global_init();
 
@@ -171,10 +176,10 @@ TEST(Debugger, basic) {
 
   tk_thread_start(thread);
   sleep_ms(500);
-  
+
   debugger_t* debugger = debugger_server_find_debugger(fscript->code_id);
   ASSERT_EQ(debugger_is_paused(debugger), TRUE);
-  
+
   ASSERT_EQ(debugger_continue(client), RET_OK);
   ASSERT_EQ(debugger_clear_break_points(client), RET_OK);
   tk_thread_join(thread);
@@ -187,7 +192,9 @@ TEST(Debugger, basic) {
 }
 
 TEST(Debugger, basic1) {
-  const char* code = "print(1)\nprint(2)\nprint(3)\n//code_id(\"85e86311e2d595c65b745d8143b6085efe819c354584742f72aeacd3336a0a5e\")";
+  const char* code =
+      "print(1)\nprint(2)\nprint(3)\n//"
+      "code_id(\"85e86311e2d595c65b745d8143b6085efe819c354584742f72aeacd3336a0a5e\")";
 
   debugger_global_init();
 
@@ -223,7 +230,10 @@ TEST(Debugger, basic1) {
 }
 
 TEST(Debugger, local) {
-  const char* code = "var aaa=111\nvar bbb =222;\nvar ccc=\"abc\"\nprint(a);\n//code_id(\"85e86311e2d595c65b745d8143b6085efe819c354584742f72aeacd3336a0a5e\")";
+  const char* code =
+      "var aaa=111\nvar bbb =222;\nvar "
+      "ccc=\"abc\"\nprint(a);\n//"
+      "code_id(\"85e86311e2d595c65b745d8143b6085efe819c354584742f72aeacd3336a0a5e\")";
 
   debugger_global_init();
 
@@ -260,7 +270,10 @@ TEST(Debugger, local) {
 }
 
 TEST(Debugger, self) {
-  const char* code = "aaa=111\nbbb =222;\nccc=\"abc\"\nprint(a);\n//code_id(\"85e86311e2d595c65b745d8143b6085efe819c354584742f72aeacd3336a0a5e\")";
+  const char* code =
+      "aaa=111\nbbb "
+      "=222;\nccc=\"abc\"\nprint(a);\n//"
+      "code_id(\"85e86311e2d595c65b745d8143b6085efe819c354584742f72aeacd3336a0a5e\")";
 
   debugger_global_init();
 
@@ -297,7 +310,10 @@ TEST(Debugger, self) {
 }
 
 TEST(Debugger, global) {
-  const char* code = "global.aaa=111\nglobal.bbb =222;\nglobal.ccc=\"abc\"\nprint(a);\n//code_id(\"85e86311e2d595c65b745d8143b6085efe819c354584742f72aeacd3336a0a5e\")";
+  const char* code =
+      "global.aaa=111\nglobal.bbb "
+      "=222;\nglobal.ccc=\"abc\"\nprint(a);\n//"
+      "code_id(\"85e86311e2d595c65b745d8143b6085efe819c354584742f72aeacd3336a0a5e\")";
 
   debugger_global_init();
 
@@ -334,7 +350,10 @@ TEST(Debugger, global) {
 }
 
 TEST(Debugger, callstack) {
-  const char* code = "global.aaa=111\nglobal.bbb =222;\nglobal.ccc=\"abc\"\nprint(a);\n//code_id(\"85e86311e2d595c65b745d8143b6085efe819c354584742f72aeacd3336a0a5e\")";
+  const char* code =
+      "global.aaa=111\nglobal.bbb "
+      "=222;\nglobal.ccc=\"abc\"\nprint(a);\n//"
+      "code_id(\"85e86311e2d595c65b745d8143b6085efe819c354584742f72aeacd3336a0a5e\")";
 
   debugger_global_init();
 
@@ -369,7 +388,10 @@ TEST(Debugger, callstack) {
 }
 
 TEST(Debugger, code) {
-  const char* code = "global.aaa=111\nglobal.bbb =222;\nglobal.ccc=\"abc\"\nprint(a);\n//code_id(\"85e86311e2d595c65b745d8143b6085efe819c354584742f72aeacd3336a0a5e\")";
+  const char* code =
+      "global.aaa=111\nglobal.bbb "
+      "=222;\nglobal.ccc=\"abc\"\nprint(a);\n//"
+      "code_id(\"85e86311e2d595c65b745d8143b6085efe819c354584742f72aeacd3336a0a5e\")";
 
   debugger_global_init();
 
