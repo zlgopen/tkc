@@ -75,6 +75,7 @@ os.environ['AWTK_CCFLAGS'] = AWTK_CCFLAGS
 os.environ['SDL_UBUNTU_USE_IME'] = str(False)
 os.environ['NATIVE_WINDOW'] = ''
 os.environ['CCFLAGS'] = CCFLAGS
+os.environ['CROSS_COMPILE'] = str(not TOOLS_PREFIX == '')
 
 OS_LIBS = SDL_LIBS + OS_LIBS
 
