@@ -1,3 +1,6 @@
+2022/01/19
+  * 完善fscript调试器(支持step in/step out/step over/reload code)。
+
 2022/01/16
   * 完善fscript支持调试器。
 
