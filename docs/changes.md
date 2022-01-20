@@ -1,3 +1,6 @@
+2022/01/20
+  * 增加fscript的构造函数和析构函数（感谢智明提供补丁）
+
 2022/01/19
   * 完善fscript调试器(支持step in/step out/step over/reload code)。
 
