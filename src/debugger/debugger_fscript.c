@@ -708,7 +708,7 @@ ret_t debugger_fscript_exec_func(fscript_t* fscript, const char* name, fscript_f
     } else {
       if (fscript->first == iter) {
         log_debug("program exec begin\n");
-      } 
+      }
 
       debugger_fscript_before_exec_func(debugger, line);
       ret = fscript_exec_func_default(fscript, iter, result);

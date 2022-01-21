@@ -152,7 +152,7 @@ static ret_t debugger_server_send_object(debugger_server_t* server, debugger_res
     ret = ubjson_writer_write_object(&writer, obj);
     goto_error_if_fail(ret == RET_OK);
   } else {
-    wbuffer_write_string(&wb, "{}"); 
+    wbuffer_write_string(&wb, "{}");
   }
 
   data.data = wb.data;
@@ -206,8 +206,8 @@ static ret_t debugger_server_get_debuggers(debugger_server_t* server, str_t* deb
   if (tk_mutex_nest_lock(server->mutex) == RET_OK) {
     for (i = 0; i < server->debuggers.size; i++) {
       debugger_t* iter = (debugger_t*)darray_get(&(server->debuggers), i);
-      if(tk_object_get_prop(TK_OBJECT(iter), DEBUGGER_PROP_CODE_ID, &v) == RET_OK) {
-        str_append_more(debuggers, value_str_ex(&v, buff, sizeof(buff)-1), "\n", NULL); 
+      if (tk_object_get_prop(TK_OBJECT(iter), DEBUGGER_PROP_CODE_ID, &v) == RET_OK) {
+        str_append_more(debuggers, value_str_ex(&v, buff, sizeof(buff) - 1), "\n", NULL);
       }
     }
     tk_mutex_nest_unlock(server->mutex);
@@ -477,7 +477,7 @@ static ret_t debugger_server_dispatch(debugger_server_t* server) {
           str_t str;
           str_init(&str, 100);
           resp.error = debugger_server_get_debuggers(server, &str);
-          
+
           data.size = str.size + 1;
           data.data = str.str;
           ret = debugger_server_send_data(server, &resp, &data);

@@ -131,7 +131,7 @@ static ret_t debugger_show_code(app_info_t* app, bool_t all) {
   int32_t offset = 0;
   int32_t line = 0;
   binary_data_t code = {0, NULL};
-  if(debugger_get_code(app->debugger, &code) != RET_OK) {
+  if (debugger_get_code(app->debugger, &code) != RET_OK) {
     return RET_FAIL;
   }
 
@@ -139,7 +139,7 @@ static ret_t debugger_show_code(app_info_t* app, bool_t all) {
   while (code_get_line((const char*)(code.data), code.size, offset, &str) == RET_OK) {
     if ((tk_abs((line - app->break_at_line)) < (SHOW_CODE_LINES / 2)) || all) {
       if (line == app->break_at_line) {
-        log_debug(KGRN"%d: =>%s"KNRM, line, str.str);
+        log_debug(KGRN "%d: =>%s" KNRM, line, str.str);
       } else {
         log_debug("%d:   %s", line, str.str);
       }
@@ -241,7 +241,7 @@ static ret_t func_backtrace(app_info_t* app, tokenizer_t* tokenizer) {
 
 static ret_t func_remove_break(app_info_t* app, tokenizer_t* tokenizer) {
   int32_t line = tokenizer_next_int(tokenizer, -1);
-  if(line >= 0) {
+  if (line >= 0) {
     log_debug("remove break at line: %d\n", line);
     return debugger_remove_break_point(app->debugger, line);
   } else {

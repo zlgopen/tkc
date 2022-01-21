@@ -44,7 +44,7 @@ static ret_t run_fscript(const char* code, uint32_t times, bool_t debug) {
       debugger_server_tcp_init(DEBUGGER_TCP_PORT);
       debugger_server_tcp_start();
       sleep_ms(1000);
-       
+
       str_init(&str, 100);
       str_set(&str, code);
       str_append_more(&str, "//code_id(\"", DEBUGGER_DEFAULT_CODE_ID, "\")\n", NULL);
@@ -107,7 +107,7 @@ int main(int argc, char* argv[]) {
     const char* code = argv[1];
     uint32_t times = argc > 2 ? tk_atoi(argv[2]) : 1;
     bool_t debug = argc > 2 ? tk_str_eq(argv[2], "debug") : FALSE;
-    
+
     if (*code == '@') {
       run_fscript_file(code + 1, times, debug);
     } else {

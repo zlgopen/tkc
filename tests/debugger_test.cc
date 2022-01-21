@@ -122,7 +122,9 @@ TEST(Debugger, next) {
   debugger_server_tcp_deinit();
   debugger_global_deinit();
   ASSERT_STREQ(str.str,
-               "breaked(0)breaked(1)log(2,\"0\")breaked(2)breaked(1)log(2,\"1\")breaked(2)breaked(1)log(2,\"2\")log(2,\"3\")log(2,\"4\")log(2,\"5\")log(2,\"6\")log(2,\"7\")log(2,\"8\")log(2,\"9\")log(4,\"10\")completed()");
+               "breaked(0)breaked(1)log(2,\"0\")breaked(2)breaked(1)log(2,\"1\")breaked(2)breaked("
+               "1)log(2,\"2\")log(2,\"3\")log(2,\"4\")log(2,\"5\")log(2,\"6\")log(2,\"7\")log(2,"
+               "\"8\")log(2,\"9\")log(4,\"10\")completed()");
   str_reset(&str);
 }
 
@@ -157,7 +159,8 @@ TEST(Debugger, get_debuggers) {
 
   binary_data_t data = {0, NULL};
   ASSERT_EQ(debugger_get_debuggers(client, &data), RET_OK);
-  ASSERT_STREQ((char*)(data.data), "85e86311e2d595c65b745d8143b6085efe819c354584742f72aeacd3336a0a5e\n");
+  ASSERT_STREQ((char*)(data.data),
+               "85e86311e2d595c65b745d8143b6085efe819c354584742f72aeacd3336a0a5e\n");
   ASSERT_EQ(debugger_get_break_points(client, &data), RET_OK);
   ASSERT_STREQ((char*)(data.data), "1\n2\n3\n");
 
@@ -379,7 +382,9 @@ TEST(Debugger, step_in) {
   TK_OBJECT_UNREF(client);
   debugger_server_tcp_deinit();
   debugger_global_deinit();
-  ASSERT_STREQ(str.str, "breaked(8)breaked(6)breaked(2)breaked(6)breaked(8)log(9,\"600.000000\")completed()");
+  ASSERT_STREQ(
+      str.str,
+      "breaked(8)breaked(6)breaked(2)breaked(6)breaked(8)log(9,\"600.000000\")completed()");
   str_reset(&str);
 }
 
@@ -438,11 +443,12 @@ TEST(Debugger, step_over) {
   TK_OBJECT_UNREF(client);
   debugger_server_tcp_deinit();
   debugger_global_deinit();
-  ASSERT_STREQ(
-      str.str, "breaked(0)breaked(1)breaked(2)log(2,\"0\")log(2,\"1\")log(2,\"2\")log(2,\"3\")log(2,\"4\")log(2,\"5\")log(2,\"6\")log(2,\"7\")log(2,\"8\")log(2,\"9\")breaked(4)log(4,\"10\")completed()");
+  ASSERT_STREQ(str.str,
+               "breaked(0)breaked(1)breaked(2)log(2,\"0\")log(2,\"1\")log(2,\"2\")log(2,\"3\")log("
+               "2,\"4\")log(2,\"5\")log(2,\"6\")log(2,\"7\")log(2,\"8\")log(2,\"9\")breaked(4)log("
+               "4,\"10\")completed()");
   str_reset(&str);
 }
-
 
 TEST(Debugger, event1) {
   const char* code =

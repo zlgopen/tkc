@@ -47,7 +47,7 @@ typedef struct _debugger_fscript_t {
   int32_t prev_breaked_line;
   /*总共执行的行数(包括重复执行)*/
   uint32_t executed_lines;
- 
+
   /*下一次停止的物理行号(用以实现step over)*/
   int32_t next_stop_line;
   /*下一次停止的行号(用以实现step in/next)*/

@@ -1828,7 +1828,8 @@ ret_t fscript_reload(fscript_t* fscript, const char* script) {
   return fscript_load(fscript, obj, script, "expr", FALSE) != NULL ? RET_OK : RET_FAIL;
 }
 
-fscript_t* fscript_init(fscript_t* fscript, tk_object_t* obj, const char* script, const char* first_call_name, bool_t keep_func_name) {
+fscript_t* fscript_init(fscript_t* fscript, tk_object_t* obj, const char* script,
+                        const char* first_call_name, bool_t keep_func_name) {
   return fscript_load(fscript, obj, script, first_call_name, keep_func_name);
 }
 
