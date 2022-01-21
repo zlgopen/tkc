@@ -4,6 +4,7 @@
 #include "tkc/platform.h"
 #include "tkc/time_now.h"
 #include "tkc/fscript.h"
+#include "tkc/socket_helper.h"
 #include "tkc/object_default.h"
 #include "fscript_ext/fscript_ext.h"
 #include "conf_io/app_conf_init_json.h"
@@ -84,7 +85,7 @@ static ret_t run_fscript_file(const char* filename, uint32_t times, bool_t debug
 
 int main(int argc, char* argv[]) {
   platform_prepare();
-
+	tk_socket_init();
   tk_mem_dump();
   fscript_global_init();
   fscript_ext_init();
@@ -122,6 +123,7 @@ int main(int argc, char* argv[]) {
   data_writer_factory_set(NULL);
   data_reader_factory_set(NULL);
   fscript_global_deinit();
+	tk_socket_deinit();
 
   return 0;
 }

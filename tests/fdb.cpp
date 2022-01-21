@@ -426,9 +426,14 @@ static ret_t on_debugger_client_event(void* ctx, event_t* e) {
 }
 
 ret_t aw_flow_shell_run(debugger_t* debugger) {
+  app_info_t app;
   tk_object_t* obj = object_default_create();
-  app_info_t app = {.debugger = debugger, .obj = obj};
   return_value_if_fail(debugger != NULL, RET_BAD_PARAMS);
+
+	app.obj = obj;
+	app.break_at_line = 0xffff;
+	app.debugger = debugger;
+	app.completed = FALSE;
 
   aw_read_line_init();
   register_functions(obj);
