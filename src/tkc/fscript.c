@@ -804,7 +804,7 @@ static ret_t fscript_parser_skip_line_comment(fscript_parser_t* parser) {
     str_append_char(str, c);
   } while (c != '\0' && c != '\r' && c != '\n');
 
-  if (str->size > 64) {
+  if (str->size > sizeof(STR_CODE_ID_START)) {
     const char* end = NULL;
     const char* start = strstr(str->str, STR_CODE_ID_START);
     if (start != NULL) {
