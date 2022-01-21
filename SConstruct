@@ -53,6 +53,7 @@ SConscriptFiles=[
   'src/streams/tools/SConscript',
   'src/compressors/SConscript',
   'src/ubjson/SConscript',
+  'src/debugger/SConscript',
   'tests/SConscript',
   'demos/SConscript',
   ] + awtk.OS_PROJECTS
