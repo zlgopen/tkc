@@ -1,3 +1,6 @@
+2022/01/23
+  * 完善fscript debugger,支持attach/launch两种启动方式。
+
 2022/01/22
   * 完善fscript debugger
 
