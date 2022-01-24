@@ -310,7 +310,7 @@ char* tk_strncpy(char* dst, const char* src, size_t len) {
   return_value_if_fail(dst != NULL && src != NULL, NULL);
 
   if (dst != src) {
-    tk_memcpy(dst, src, len);
+    strncpy(dst, src, len);
     dst[len] = '\0';
   }
 
