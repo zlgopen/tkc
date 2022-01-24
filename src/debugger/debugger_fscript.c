@@ -212,7 +212,8 @@ static ret_t debugger_fscript_next(debugger_t* debugger) {
       d->next_stop_executed_line = d->executed_lines + 1;
       d->next_stop_call_frame_index = d->call_stack_frames.size;
       d->break_type = DEBUGGER_FSCRIPT_BREAK_NEXT;
-      log_debug("next:executed_lines=%d prev_executed_line=%d\n", d->executed_lines, d->prev_executed_line);
+      log_debug("next:executed_lines=%d prev_executed_line=%d\n", d->executed_lines,
+                d->prev_executed_line);
     }
     debugger_fscript_unlock(debugger);
 
@@ -747,8 +748,8 @@ static ret_t debugger_fscript_after_exec_func(debugger_t* debugger, int32_t line
 
   if (debugger_fscript_lock(debugger) == RET_OK) {
     bool_t paused = FALSE;
-    log_debug("prev_executed_line=%d line=%d executed_lines=%d \n", d->prev_executed_line, 
-      line, d->executed_lines);
+    log_debug("prev_executed_line=%d line=%d executed_lines=%d \n", d->prev_executed_line, line,
+              d->executed_lines);
     if (d->prev_executed_line != line) {
       d->executed_lines++;
     }
