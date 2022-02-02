@@ -1,3 +1,6 @@
+2022/02/02
+  * 完善fscript语法错误检查。
+
 2022/01/29
   * 完善fscript debugger
 
