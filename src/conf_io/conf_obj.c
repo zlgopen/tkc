@@ -23,6 +23,7 @@
 #include "tkc/mem.h"
 #include "tkc/utils.h"
 #include "tkc/object.h"
+#include "tkc/named_value.h"
 #include "conf_io/conf_obj.h"
 #include "tkc/data_reader_factory.h"
 #include "tkc/data_writer_factory.h"
@@ -81,6 +82,30 @@ static ret_t conf_obj_clear(tk_object_t* obj, const char* name) {
 
   o->modified = TRUE;
   return conf_doc_clear(o->doc, name);
+}
+
+static ret_t conf_obj_foreach(tk_object_t* obj, tk_visit_t on_prop, void* ctx) {
+  named_value_t nv;
+  ret_t ret = RET_FAIL;
+  conf_node_t* iter = NULL;
+  conf_obj_t* o = CONF_OBJ(obj);
+  return_value_if_fail(o != NULL && o->doc != NULL && o->doc->root != NULL, RET_BAD_PARAMS);
+  iter = conf_node_get_first_child(o->doc->root);
+  return_value_if_fail(iter != NULL, RET_BAD_PARAMS);
+
+  for (; iter != NULL; iter = iter->next) {
+    nv.name = (char*)conf_node_get_name(iter);
+    if (conf_node_get_value(iter, &(nv.value)) == RET_OK) {
+      ret = on_prop(ctx, &nv);
+      if (ret != RET_OK) {
+        break;
+      }
+    } else {
+      log_debug("skip object\n");
+    }
+  }
+
+  return ret;
 }
 
 static ret_t conf_obj_set_prop(tk_object_t* obj, const char* name, const value_t* v) {
@@ -302,6 +327,7 @@ static const object_vtable_t s_conf_obj_vtable = {.type = "conf_obj",
                                                   .remove_prop = conf_obj_remove_prop,
                                                   .get_prop = conf_obj_get_prop,
                                                   .set_prop = conf_obj_set_prop,
+                                                  .foreach_prop = conf_obj_foreach,
                                                   .on_destroy = conf_obj_destroy};
 
 static conf_obj_t* conf_obj_cast(tk_object_t* obj) {

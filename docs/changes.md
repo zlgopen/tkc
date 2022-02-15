@@ -1,3 +1,6 @@
+2022/02/15
+  * conf对象支持foreach\_prop。
+
 2022/02/10
   * 完善API注释(感谢朝泽提供补丁)
   * 完善str\_append\_json\_str。
