@@ -1,3 +1,6 @@
+2022/02/18
+  * 增加函数fscript\_set\_global\_object。
+
 2022/02/15
   * conf对象支持foreach\_prop。
   * conf支持创建子对象。
