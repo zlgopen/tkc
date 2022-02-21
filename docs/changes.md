@@ -1,3 +1,7 @@
+2022/02/21
+  * 修复fscript global对象初始化的问题。
+  * 修复value\_int64/value\_uint64对大数的处理。
+
 2022/02/18
   * 增加函数fscript\_set\_global\_object。
 
