@@ -1,3 +1,6 @@
+2022/03/02
+  * AWorks的 serial\_helper 增加设置超时的接口（感谢林福提供补丁）。
+
 2022/02/24
   * 增加函数str\_format/str\_append\_format。
 
