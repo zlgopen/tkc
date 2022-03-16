@@ -1,3 +1,6 @@
+2022/03/16
+  * 增加通配符匹配函数tk\_wild\_card\_match。
+
 2022/03/10
   * 完善fscript debugger
 
