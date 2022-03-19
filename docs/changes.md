@@ -1,3 +1,6 @@
+2022/03/20
+  * 完善 ubjson\_writer\_write\_object。
+
 2022/03/19
   * 完善fscript函数bit\_not
   * 完善fargs\_get\_data\_and\_size
