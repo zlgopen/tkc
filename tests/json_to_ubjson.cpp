@@ -42,7 +42,7 @@ int main(int argc, char* argv[]) {
   platform_prepare();
 
   if (argc != 3) {
-    log_info("Usage: %s ubjson_filename json_filename\n", argv[0]);
+    log_info("Usage: %s json_filename ubjson_filename\n", argv[0]);
     return -1;
   }
   application_init();
