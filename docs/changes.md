@@ -1,6 +1,7 @@
 2022/03/29
   * 优化fscript局部变量的访问。
   * 更新aworkslp移植代码（感谢文静提供)
+  * 删除mingw的UNICODE宏和msvc统一宏的版本（感谢智明提供补丁）。
 
 2022/03/28
   * 完善fscript。
