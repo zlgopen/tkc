@@ -270,10 +270,7 @@ static ret_t fscript_func_call_destroy(fscript_func_call_t* call) {
   return RET_OK;
 }
 
-#define FUNCTION_DEF_MAGIC 0x12348765
-
 typedef struct _fscript_function_def_t {
-  uint32_t magic;
   char* name;
   darray_t params;
   fscript_func_call_t* body;
@@ -285,7 +282,6 @@ static fscript_function_def_t* fscript_function_def_create(const char* name,
   return_value_if_fail(func != NULL, NULL);
   func->body = body;
   func->name = tk_strdup(name);
-  func->magic = FUNCTION_DEF_MAGIC;
 
   darray_init(&(func->params), 3, default_destroy, NULL);
   return func;
@@ -1748,6 +1744,7 @@ static ret_t func_function(fscript_t* fscript, fscript_args_t* args, value_t* re
 }
 
 static ret_t fscript_parse_function_def(fscript_parser_t* parser, fscript_func_call_t* acall) {
+  value_t v;
   char func_name[TK_NAME_LEN + 1];
   fscript_function_def_t* func_def = NULL;
   fscript_func_call_t* statements = NULL;
@@ -1762,7 +1759,8 @@ static ret_t fscript_parse_function_def(fscript_parser_t* parser, fscript_func_c
   if (parser->funcs_def == NULL) {
     parser->funcs_def = object_default_create();
   }
-  if (tk_object_get_prop_pointer(parser->funcs_def, func_name) != NULL) {
+
+  if (tk_object_get_prop(parser->funcs_def, func_name, &v) == RET_OK) {
     return fscript_parser_set_error(parser, "duplicate function\n");
   }
   statements = fscript_func_call_create(parser, "func", 4);
@@ -1770,7 +1768,8 @@ static ret_t fscript_parse_function_def(fscript_parser_t* parser, fscript_func_c
 
   func_def = fscript_function_def_create(func_name, statements);
   return_value_if_fail(func_def != NULL, RET_OOM);
-  tk_object_set_prop_pointer(parser->funcs_def, func_name, func_def);
+  value_set_func_def(&v, func_def);
+  tk_object_set_prop(parser->funcs_def, func_name, &v);
 
   parser->symbols = darray_create(5, NULL, (tk_compare_t)tk_str_cmp);
   while (TRUE) {
@@ -2780,8 +2779,8 @@ static ret_t fscript_func_call_init_func(fscript_func_call_t* call, tk_object_t*
   if (func == NULL) {
     value_t v;
     if (tk_object_get_prop(obj, func_name, &v) == RET_OK) {
-      fscript_function_def_t* def = (fscript_function_def_t*)value_pointer(&v);
-      if (def->magic == FUNCTION_DEF_MAGIC) {
+      fscript_function_def_t* def = (fscript_function_def_t*)value_func_def(&v);
+      if (def != NULL) {
         func = func_function;
         call->ctx = def;
       }
@@ -2798,7 +2797,7 @@ static ret_t fscript_func_call_init_func(fscript_func_call_t* call, tk_object_t*
     value_t v;
     if (tk_object_get_prop(funcs_def, func_name, &v) == RET_OK) {
       func = func_function;
-      call->ctx = value_pointer(&v);
+      call->ctx = value_func_def(&v);
     }
   }
 

@@ -152,6 +152,11 @@ typedef enum _value_type_t {
    * func。
    */
   VALUE_TYPE_FUNC,
+  /**
+   * @const VALUE_TYPE_FUNC_DEF
+   * func definition。
+   */
+  VALUE_TYPE_FUNC_DEF,
 } value_type_t;
 
 typedef struct _binary_data_t {
@@ -819,16 +824,6 @@ uint32_t value_type_size(value_type_t type);
 const char* value_id(const value_t* v);
 
 /**
- * @method value_func
- * 获取类型为func的值。
- * @annotation ["scriptable"]
- * @param {value_t*} v value对象。
- *
- * @return {void*} 值。
- */
-void* value_func(const value_t* v);
-
-/**
  * @method value_set_id
  * 设置类型为ID的值。
  * @param {value_t*} v     value对象。
@@ -840,6 +835,17 @@ void* value_func(const value_t* v);
 value_t* value_set_id(value_t* v, const char* value, uint32_t len);
 
 /**
+ * @method value_func
+ * 获取类型为func的值。
+ * @annotation ["scriptable"]
+ * @param {value_t*} v value对象。
+ *
+ * @return {void*} 值。
+ */
+void* value_func(const value_t* v);
+
+
+/**
  * @method value_set_func
  * 设置类型为func的值。
  * @param {value_t*} v     value对象。
@@ -848,6 +854,27 @@ value_t* value_set_id(value_t* v, const char* value, uint32_t len);
  * @return {value_t*} value对象本身。
  */
 value_t* value_set_func(value_t* v, void* value);
+
+/**
+ * @method value_func_def
+ * 获取类型为func_def的值。
+ * @annotation ["scriptable"]
+ * @param {value_t*} v value对象。
+ *
+ * @return {void*} 值。
+ */
+void* value_func_def(const value_t* v);
+
+
+/**
+ * @method value_set_func_def
+ * 设置类型为func_def的值。
+ * @param {value_t*} v     value对象。
+ * @param {void*}   value 待设置的值。
+ *
+ * @return {value_t*} value对象本身。
+ */
+value_t* value_set_func_def(value_t* v, void* value);
 
 END_C_DECLS
 
