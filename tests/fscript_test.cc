@@ -2576,6 +2576,39 @@ TEST(FScript, local_unset_vars) {
   TK_OBJECT_UNREF(obj);
 }
 
+TEST(FScript, local_multi_level) {
+  value_t v;
+  tk_object_t* obj = object_default_create();
+
+  fscript_eval(obj, "var obj=object_create();obj.name='hello';obj.age=100;obj.age", &v);
+  ASSERT_EQ(value_int(&v), 100);
+  value_reset(&v);
+
+  TK_OBJECT_UNREF(obj);
+}
+
+TEST(FScript, local_multi_level2) {
+  value_t v;
+  tk_object_t* obj = object_default_create();
+
+  fscript_eval(obj,
+               "\
+var a = object_create();\
+a.age=100;\
+a.name = 'hello';\
+a.wife = object_create();\
+a.wife.name = 'world';\
+a.wife.age = 99;\
+var b = a.age + a.wife.age;\
+b\
+",
+               &v);
+  ASSERT_EQ(value_int(&v), 199);
+  value_reset(&v);
+
+  TK_OBJECT_UNREF(obj);
+}
+
 TEST(FScript, func_call_multi) {
   value_t v;
   tk_object_t* obj = object_default_create();

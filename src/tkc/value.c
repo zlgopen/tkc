@@ -901,6 +901,7 @@ value_t* value_set_id(value_t* v, const char* value, uint32_t len) {
   return_value_if_fail(v != NULL && value != NULL, NULL);
   v->value.id.id = tk_strndup(value, len);
   v->value.id.index = -1;
+  v->value.id.suboffset = 0;
   value_init(v, VALUE_TYPE_ID);
   v->free_handle = TRUE;
 

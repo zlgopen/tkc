@@ -25,6 +25,7 @@
 
 #ifndef WITHOUT_FSCRIPT
 #define value_id_index(v) (v)->value.id.index
+#define value_id_suboffset(v) (v)->value.id.suboffset
 
 static const fscript_hooks_t* s_hooks;
 
@@ -93,17 +94,42 @@ static ret_t fscript_locals_remove(fscript_t* fscript, uint32_t index) {
   return value_reset(&(nv->value));
 }
 
-static ret_t fscript_locals_get(fscript_t* fscript, int32_t index, value_t* v) {
+static ret_t fscript_locals_get(fscript_t* fscript, const value_t* name, value_t* v) {
+  int32_t index = value_id_index(name);
+  int32_t suboffset = value_id_suboffset(name);
   named_value_t* nv = (named_value_t*)(fscript->locals->elms[index]);
-  return value_copy(v, &(nv->value));
+  if (!suboffset) {
+    return value_copy(v, &(nv->value));
+  } else {
+    tk_object_t* obj = value_object(&(nv->value));
+    const char* subname = value_id(name) + suboffset;
+    return_value_if_fail(obj != NULL, RET_BAD_PARAMS);
+
+    return tk_object_get_prop(obj, subname, v);
+  }
 }
 
-static ret_t fscript_locals_set(fscript_t* fscript, uint32_t index, const value_t* v) {
+static ret_t fscript_locals_set_with_index(fscript_t* fscript, uint32_t index, const value_t* v) {
   named_value_t* nv = (named_value_t*)(fscript->locals->elms[index]);
   if (nv->value.free_handle) {
     value_reset(&(nv->value));
   }
   return value_deep_copy(&(nv->value), v);
+}
+
+static ret_t fscript_locals_set(fscript_t* fscript, const value_t* name, value_t* v) {
+  int32_t index = value_id_index(name);
+  int32_t suboffset = value_id_suboffset(name);
+  named_value_t* nv = (named_value_t*)(fscript->locals->elms[index]);
+  if (!suboffset) {
+    return fscript_locals_set_with_index(fscript, index, v);
+  } else {
+    tk_object_t* obj = value_object(&(nv->value));
+    const char* subname = value_id(name) + suboffset;
+    return_value_if_fail(obj != NULL, RET_BAD_PARAMS);
+
+    return tk_object_set_prop(obj, subname, v);
+  }
 }
 
 static ret_t fscript_locals_create(fscript_t* fscript, const char* name, const value_t* v) {
@@ -114,7 +140,7 @@ static ret_t fscript_locals_create(fscript_t* fscript, const char* name, const v
 
   if (index >= 0) {
     fscript_set_error(fscript, RET_FAIL, "<>", "duplicated var name.");
-    return fscript_locals_set(fscript, index, v);
+    return fscript_locals_set_with_index(fscript, index, v);
   }
 
   nv = named_value_create_ex(name, v);
@@ -396,7 +422,7 @@ static ret_t fscript_eval_arg(fscript_t* fscript, fscript_func_call_t* iter, uin
     } else {
       const char* name = value_id(s);
       if (value_id_index(s) >= 0) {
-        return fscript_locals_get(fscript, value_id_index(s), d);
+        return fscript_locals_get(fscript, s, d);
       }
 
       if (fscript->loop_count > 0) {
@@ -506,7 +532,8 @@ static ret_t fscript_exec_repeat(fscript_t* fscript, fscript_func_call_t* iter, 
   int32_t end = 0;
   int32_t delta = 0;
   bool_t done = FALSE;
-  int32_t index = value_id_index(iter->args.args);
+  value_t* var = iter->args.args;
+  int32_t index = value_id_index(var);
   const char* name = value_id(iter->args.args);
   FSCRIPT_FUNC_CHECK(iter->args.size > 4, RET_FAIL);
 
@@ -521,7 +548,7 @@ static ret_t fscript_exec_repeat(fscript_t* fscript, fscript_func_call_t* iter, 
   while ((start != end) && !done) {
     value_set_int(&v, start);
     if (index >= 0) {
-      break_if_fail(fscript_locals_set(fscript, index, &v) == RET_OK);
+      break_if_fail(fscript_locals_set(fscript, var, &v) == RET_OK);
     } else {
       break_if_fail(fscript_set_var(fscript, name, &v) == RET_OK);
     }
@@ -560,8 +587,9 @@ static ret_t fscript_exec_for_in(fscript_t* fscript, fscript_func_call_t* iter, 
   uint32_t n = 0;
   bool_t done = FALSE;
   object_t* obj = NULL;
-  int32_t index = value_id_index(iter->args.args);
-  const char* name = value_id(iter->args.args);
+  value_t* var = iter->args.args;
+  int32_t index = value_id_index(var);
+  const char* name = value_id(var);
 
   FSCRIPT_FUNC_CHECK(iter->args.size > 2, RET_FAIL);
   FSCRIPT_FUNC_CHECK(fscript_eval_arg(fscript, iter, 1, &v) == RET_OK, RET_BAD_PARAMS);
@@ -575,7 +603,7 @@ static ret_t fscript_exec_for_in(fscript_t* fscript, fscript_func_call_t* iter, 
     break_if_fail(tk_object_get_prop(obj, prop, &v) == RET_OK);
 
     if (index >= 0) {
-      fscript_locals_set(fscript, index, &v);
+      fscript_locals_set(fscript, var, &v);
     } else {
       fscript_set_var(fscript, name, &v);
     }
@@ -1235,8 +1263,20 @@ static ret_t token_to_value(fscript_parser_t* parser, token_t* t, value_t* v) {
     } else if (t->token[0] == 'f' && strncmp(t->token, "false", 5) == 0) {
       value_set_bool(v, FALSE);
     } else {
+      const char* name = NULL;
+      const char* p = NULL;
       value_set_id(v, t->token, t->size);
-      value_id_index(v) = darray_find_index(parser->symbols, (void*)value_id(v));
+      name = value_id(v);
+      p = strchr(name, '.');
+      if (p != NULL) {
+        char first_name[TK_NAME_LEN + 1];
+        tk_strncpy_s(first_name, TK_NAME_LEN, name, p - name);
+        value_id_suboffset(v) = p - name + 1;
+        value_id_index(v) = darray_find_index(parser->symbols, (void*)first_name);
+      } else {
+        value_id_suboffset(v) = 0;
+        value_id_index(v) = darray_find_index(parser->symbols, (void*)name);
+      }
     }
   } else {
     return RET_FAIL;
@@ -2171,15 +2211,13 @@ static ret_t func_set_local(fscript_t* fscript, fscript_args_t* args, value_t* r
 }
 
 static ret_t func_get(fscript_t* fscript, fscript_args_t* args, value_t* result) {
-  int32_t index = 0;
   ret_t ret = RET_OK;
   value_t* v = args->args;
   FSCRIPT_FUNC_CHECK(args->size == 1, RET_BAD_PARAMS);
   return_value_if_fail(v->type == VALUE_TYPE_ID, RET_BAD_PARAMS);
 
-  index = value_id_index(v);
-  if (index >= 0) {
-    ret = fscript_locals_get(fscript, index, result);
+  if (value_id_index(v) >= 0) {
+    ret = fscript_locals_get(fscript, v, result);
   } else {
     const char* name = value_id(v);
     ret = fscript_get_var(fscript, name, result);
@@ -2200,7 +2238,7 @@ static ret_t func_set(fscript_t* fscript, fscript_args_t* args, value_t* result)
 
   index = value_id_index(v);
   if (index >= 0) {
-    value_set_bool(result, fscript_locals_set(fscript, index, args->args + 1) == RET_OK);
+    value_set_bool(result, fscript_locals_set(fscript, v, args->args + 1) == RET_OK);
   } else {
     const char* name = value_id(v);
     value_set_bool(result, fscript_set_var(fscript, name, args->args + 1) == RET_OK);

@@ -170,7 +170,8 @@ typedef struct _sized_str_t {
 } sized_str_t;
 
 typedef struct _id_info_t {
-  int32_t index;
+  int32_t suboffset : 16;
+  int32_t index : 16;
   char* id;
 } id_info_t;
 
@@ -844,7 +845,6 @@ value_t* value_set_id(value_t* v, const char* value, uint32_t len);
  */
 void* value_func(const value_t* v);
 
-
 /**
  * @method value_set_func
  * 设置类型为func的值。
@@ -864,7 +864,6 @@ value_t* value_set_func(value_t* v, void* value);
  * @return {void*} 值。
  */
 void* value_func_def(const value_t* v);
-
 
 /**
  * @method value_set_func_def
