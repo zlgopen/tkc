@@ -1,3 +1,8 @@
+2022/03/30
+  * fscript 支持延迟解析函数。
+  * 完善fscript局部变量的访问。
+  * fscript支持通过require函数加载模块。
+
 2022/03/29
   * 优化fscript局部变量的访问。
   * 更新aworkslp移植代码（感谢文静提供)

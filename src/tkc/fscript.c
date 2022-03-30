@@ -94,6 +94,12 @@ static ret_t fscript_locals_remove(fscript_t* fscript, uint32_t index) {
   return value_reset(&(nv->value));
 }
 
+static tk_object_t* fscript_locals_get_object(fscript_t* fscript, const char* name) {
+  named_value_t* nv = (named_value_t*)darray_find(fscript->locals, (void*)name);
+
+  return nv != NULL ? value_object(&(nv->value)) : NULL;
+}
+
 static ret_t fscript_locals_get(fscript_t* fscript, const value_t* name, value_t* v) {
   int32_t index = value_id_index(name);
   int32_t suboffset = value_id_suboffset(name);
@@ -712,11 +718,25 @@ ret_t fscript_exec_func_default(fscript_t* fscript, fscript_func_call_t* iter, v
   fscript->curr = iter;
   result->type = VALUE_TYPE_INVALID;
 
-  if (iter->func == func_pending) {
+  if (iter->func == func_pending && iter->ctx != NULL) {
+    tk_object_t* obj = NULL;
+    void* ctx = iter->ctx;
     char* name = (char*)(iter->ctx);
+    char* p = strchr(name, '.');
     iter->ctx = NULL;
-    fscript_func_call_init_func(iter, fscript->obj, fscript->funcs_def, name, tk_strlen(name));
-    TKMEM_FREE(name);
+
+    if (p != NULL) {
+      *p = '\0';
+      obj = fscript_locals_get_object(fscript, name);
+      name = p + 1;
+    }
+    obj = obj != NULL ? obj : fscript->obj;
+    fscript_func_call_init_func(iter, obj, fscript->funcs_def, name, tk_strlen(name));
+
+    if (iter->func == func_noop) {
+      log_warn("not found func %s\n", name);
+    }
+    TKMEM_FREE(ctx);
   }
 
   if (fscript_exec_core_func(fscript, iter, result) == RET_NOT_FOUND) {
@@ -756,7 +776,7 @@ ret_t fscript_exec(fscript_t* fscript, value_t* result) {
 
 static ret_t on_free_func_def(void* ctx, const void* data) {
   named_value_t* iter = (named_value_t*)(data);
-  fscript_function_def_destroy(value_pointer(&(iter->value)));
+  fscript_function_def_destroy(value_func_def(&(iter->value)));
 
   return RET_OK;
 }
@@ -2266,8 +2286,11 @@ static ret_t func_unset(fscript_t* fscript, fscript_args_t* args, value_t* resul
 }
 
 static ret_t func_expr(fscript_t* fscript, fscript_args_t* args, value_t* result) {
-  FSCRIPT_FUNC_CHECK(args->size >= 1, RET_BAD_PARAMS);
-  value_deep_copy(result, args->args + args->size - 1);
+  if (args->size >= 1) {
+    value_deep_copy(result, args->args + args->size - 1);
+  } else {
+    result->type = VALUE_TYPE_INVALID;
+  }
 
   return RET_OK;
 }
@@ -2810,10 +2833,6 @@ static ret_t fscript_func_call_init_func(fscript_func_call_t* call, tk_object_t*
     }
   }
 
-  if (s_global_funcs != NULL) {
-    func = (fscript_func_t)general_factory_find(s_global_funcs, func_name);
-  }
-
   if (func == NULL) {
     value_t v;
     if (tk_object_get_prop(obj, func_name, &v) == RET_OK) {
@@ -2831,12 +2850,16 @@ static ret_t fscript_func_call_init_func(fscript_func_call_t* call, tk_object_t*
     func = (fscript_func_t)tk_object_get_prop_pointer(obj, full_func_name);
   }
 
-  if (func == NULL) {
+  if (func == NULL && funcs_def != NULL) {
     value_t v;
     if (tk_object_get_prop(funcs_def, func_name, &v) == RET_OK) {
       func = func_function;
       call->ctx = value_func_def(&v);
     }
+  }
+
+  if (func == NULL && s_global_funcs != NULL) {
+    func = (fscript_func_t)general_factory_find(s_global_funcs, func_name);
   }
 
   if (func == NULL) {
@@ -2872,7 +2895,6 @@ static fscript_func_call_t* fscript_func_call_create(fscript_parser_t* parser, c
   if (call->func == func_noop) {
     call->func = func_pending;
     call->ctx = tk_strdup(name);
-    log_warn("not found %s, found it later\n", name);
   }
 
   func_args_init(&(call->args), 2);
