@@ -90,7 +90,7 @@ static url_t* url_parse(url_t* url, const char* surl) {
         break;
       }
       case STATE_SCHEMA: {
-        if (*p == ':' || *p == '/' || *p == '\0') {
+        if (*p == ':' || *p == '/' || *p == '?' || *p == '\0') {
           goto_error_if_fail(str_set_with_len(&str, start, p - start) == RET_OK);
 
           if (strncmp(p, "://", 3) == 0) {
@@ -116,6 +116,13 @@ static url_t* url_parse(url_t* url, const char* surl) {
             goto_error_if_fail(url_set_port(url, NUM_DEFAULT_PORT) == RET_OK);
             goto_error_if_fail(url_set_host(url, str.str) == RET_OK);
             state = STATE_PATH;
+            start = p + 1;
+          } else if (*p == '?') {
+            /*zlg.cn?id=1*/
+            goto_error_if_fail(url_set_schema(url, STR_SCHEMA_DEFAULT) == RET_OK);
+            goto_error_if_fail(url_set_port(url, NUM_DEFAULT_PORT) == RET_OK);
+            goto_error_if_fail(url_set_host(url, str.str) == RET_OK);
+            state = STATE_KEY;
             start = p + 1;
           } else {
             /*zlg.cn*/

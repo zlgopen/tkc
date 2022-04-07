@@ -25,6 +25,14 @@ TEST(URL, noschema) {
   url_destroy(url);
 }
 
+TEST(URL, noschema1) {
+  url_t* url = url_create("element?id=1");
+  ASSERT_STREQ(url->schema, "http");
+  ASSERT_STREQ(url->host, "element");
+  ASSERT_STREQ(url_get_param(url, "id"), "1");
+  url_destroy(url);
+}
+
 TEST(URL, noschema2) {
   url_t* url = url_create("www.zlg.cn:8080");
   ASSERT_STREQ(url->schema, "http");
