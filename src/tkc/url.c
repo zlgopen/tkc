@@ -33,6 +33,7 @@ url_t* url_create(const char* surl) {
   if (surl != NULL) {
     return url_parse(url, surl);
   }
+  str_init(&(url->url), 0);
 
   return url;
 }
@@ -53,12 +54,15 @@ typedef enum _state_t {
 
 static url_t* url_fix(url_t* url) {
   if (url->port == 0) {
-    if (tk_str_eq(url->schema, "http")) {
+    if (tk_str_eq(url->schema, STR_SCHEMA_HTTP)) {
       url->port = 80;
-    } else if (tk_str_eq(url->schema, "https")) {
+      url->fixed_port = TRUE;
+    } else if (tk_str_eq(url->schema, STR_SCHEMA_HTTPS)) {
       url->port = 443;
-    } else if (tk_str_eq(url->schema, "ftp")) {
+      url->fixed_port = TRUE;
+    } else if (tk_str_eq(url->schema, STR_SCHEMA_FTP)) {
       url->port = 21;
+      url->fixed_port = TRUE;
     }
   }
   return url;
@@ -272,6 +276,7 @@ ret_t url_set_port(url_t* url, int32_t port) {
   return_value_if_fail(url != NULL, RET_BAD_PARAMS);
 
   url->port = port;
+  url->fixed_port = FALSE;
 
   return RET_OK;
 }
@@ -305,6 +310,59 @@ const char* url_get_param(url_t* url, const char* name) {
   return tk_object_get_prop_str(url->params, name);
 }
 
+static ret_t url_on_visit_param(void* ctx, const void* data) {
+  named_value_t* nv = (named_value_t*)data;
+  str_t* str = (str_t*)ctx;
+
+  if (str->str[str->size - 1] != '?') {
+    str_append_char(str, '&');
+  }
+  str_append_more(str, nv->name, "=", value_str(&(nv->value)), NULL);
+
+  return RET_OK;
+}
+
+const char* url_to_string(url_t* url) {
+  str_t* str = NULL;
+  return_value_if_fail(url != NULL, NULL);
+  str = &(url->url);
+  str_extend(str, 256);
+
+  str_clear(str);
+  if (url->schema != NULL) {
+    str_append_more(str, url->schema, "://", NULL);
+  }
+  if (url->user_name != NULL) {
+    str_append(str, url->user_name);
+
+    if (url->password != NULL) {
+      str_append_char(str, ':');
+      str_append(str, url->password);
+    }
+    str_append_char(str, '@');
+  }
+
+  if (url->host != NULL) {
+    str_append(str, url->host);
+
+    if (url->port != 0 && !(url->fixed_port)) {
+      str_append_char(str, ':');
+      str_append_int(str, url->port);
+    }
+  }
+
+  if (url->path != NULL) {
+    str_append(str, url->path);
+  }
+
+  if (url->params != NULL) {
+    str_append_char(str, '?');
+    tk_object_foreach_prop(url->params, url_on_visit_param, str);
+  }
+
+  return str->str;
+}
+
 ret_t url_destroy(url_t* url) {
   return_value_if_fail(url != NULL, RET_BAD_PARAMS);
 
@@ -314,6 +372,7 @@ ret_t url_destroy(url_t* url) {
   TKMEM_FREE(url->password);
   TKMEM_FREE(url->path);
   TK_OBJECT_UNREF(url->params);
+  str_reset(&(url->url));
 
   TKMEM_FREE(url);
 

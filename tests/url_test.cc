@@ -300,3 +300,52 @@ TEST(URL, serial) {
 
   url_destroy(url);
 }
+
+TEST(URL, to_string) {
+  url_t* url = NULL;
+  const char* str = NULL;
+  str = "serial:///dev/cu.usbserial-1410";
+  url = url_create(str);
+  ASSERT_STREQ(url_to_string(url), str);
+  url_destroy(url);
+
+  str = "http://www.baidu.com";
+  url = url_create(str);
+  ASSERT_STREQ(url_to_string(url), str);
+  url_destroy(url);
+
+  str = "http://user@www.baidu.com";
+  url = url_create(str);
+  ASSERT_STREQ(url_to_string(url), str);
+  url_destroy(url);
+
+  str = "http://user:123@www.baidu.com";
+  url = url_create(str);
+  ASSERT_STREQ(url_to_string(url), str);
+  url_destroy(url);
+
+  str = "http://user:123@www.baidu.com?name=awtk";
+  url = url_create(str);
+  ASSERT_STREQ(url_to_string(url), str);
+  url_destroy(url);
+
+  str = "http://user:123@www.baidu.com?name=awtk";
+  url = url_create(str);
+  ASSERT_STREQ(url_to_string(url), str);
+  url_destroy(url);
+
+  str = "http://user:123@www.baidu.com?age=100&name=awtk";
+  url = url_create(str);
+  ASSERT_STREQ(url_to_string(url), str);
+  url_destroy(url);
+
+  str = "http://user:123@www.baidu.com:8080?age=100&name=awtk";
+  url = url_create(str);
+  ASSERT_STREQ(url_to_string(url), str);
+  url_destroy(url);
+
+  str = "http://user:123@www.baidu.com:80?age=100&name=awtk";
+  url = url_create(str);
+  ASSERT_STREQ(url_to_string(url), str);
+  url_destroy(url);
+}

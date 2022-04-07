@@ -1,3 +1,6 @@
+2022/04/07
+  * 增加函数url\_to\_string。
+
 2022/04/01
   * 完善URL解析并增加一些新的schema。
   * 完善ubjson writer
