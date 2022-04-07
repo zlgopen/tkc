@@ -54,13 +54,13 @@ typedef enum _state_t {
 
 static url_t* url_fix(url_t* url) {
   if (url->port == 0) {
-    if (tk_str_eq(url->schema, STR_SCHEMA_HTTP)) {
+    if (tk_str_eq(url->schema, "http")) {
       url->port = 80;
       url->fixed_port = TRUE;
-    } else if (tk_str_eq(url->schema, STR_SCHEMA_HTTPS)) {
+    } else if (tk_str_eq(url->schema, "https")) {
       url->port = 443;
       url->fixed_port = TRUE;
-    } else if (tk_str_eq(url->schema, STR_SCHEMA_FTP)) {
+    } else if (tk_str_eq(url->schema, "ftp")) {
       url->port = 21;
       url->fixed_port = TRUE;
     }
