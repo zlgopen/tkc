@@ -1,3 +1,6 @@
+2022/04/09
+  * fscript增加define\_param用于辅助反向生成AWBlock。
+
 2022/04/07
   * 增加函数url\_to\_string。
 
