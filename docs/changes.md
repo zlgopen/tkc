@@ -1,3 +1,7 @@
+2022/04/16
+  * 增加函数tk\_socket\_bind\_ex
+  * 增加函数tk\_iostream\_udp\_create\_client\_ex
+
 2022/04/09
   * fscript增加define\_param用于辅助反向生成AWBlock。
   * 完善fscript语法检查
