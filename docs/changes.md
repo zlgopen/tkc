@@ -2,6 +2,9 @@
   * 增加函数tk\_socket\_bind\_ex
   * 增加函数tk\_iostream\_udp\_create\_client\_ex
 
+2022/04/14
+  * 让 windows 的串口也支持 select 的形式（感谢智明提供补丁）。
+
 2022/04/09
   * fscript增加define\_param用于辅助反向生成AWBlock。
   * 完善fscript语法检查
