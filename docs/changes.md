@@ -1,3 +1,6 @@
+2022/04/18
+  * 增加函数path\_app\_root\_ex
+
 2022/04/16
   * 增加函数tk\_socket\_bind\_ex
   * 增加函数tk\_iostream\_udp\_create\_client\_ex
