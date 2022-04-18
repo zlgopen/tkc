@@ -1,7 +1,10 @@
+2022/04/19
+  * 完善tk\_istream\_read\_line
+
 2022/04/18
   * 增加函数path\_app\_root\_ex
   * awtk修复缺少连接ws2_32类库的问题 （感谢智明提供补丁）。
-
+  
 2022/04/16
   * 增加函数tk\_socket\_bind\_ex
   * 增加函数tk\_iostream\_udp\_create\_client\_ex
