@@ -1,6 +1,7 @@
 2022/04/23
   * 完善 socket\_resolve 防止溢出（感谢叶冬提供补丁）
   * 完善 tk\_socket\_close 支持AWorks（感谢叶冬提供补丁）
+  * 增加 async\_call\_init\_ex2（感谢叶冬提供补丁）
 
 2022/04/22
   * 增加 tk\_eval\_ratio\_or\_px
