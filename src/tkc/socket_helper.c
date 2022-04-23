@@ -62,7 +62,11 @@ ret_t tk_socket_deinit() {
 }
 
 ret_t tk_socket_close(int sock) {
+#ifdef AWORKS
+  closesocket(sock);
+#else
   close(sock);
+#endif
   return RET_OK;
 }
 #endif /*WIN32*/
