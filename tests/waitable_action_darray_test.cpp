@@ -85,7 +85,7 @@ void test() {
   waitable_action_darray_destroy(q);
 
   log_debug("exec_times=%u \n", exec_times);
-  ENSURE(exec_times == 4*NR);
+  ENSURE(exec_times == 4 * NR);
 }
 void test_basic() {
   qaction_t* a = qaction_create(qaction_exec_dummy, NULL, 0);
