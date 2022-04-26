@@ -1,6 +1,9 @@
 2022/04/26
   * 完善 stream serial 的文档（感谢智明提供补丁）。
 
+2022/04/24
+  * 增加 weak 机制以及在 g2d 和 raw 中增加 weak （感谢智明提供补丁）。
+
 2022/04/23
   * 完善 socket\_resolve 防止溢出（感谢叶冬提供补丁）
   * 完善 tk\_socket\_close 支持 AWorks（感谢叶冬提供补丁）
