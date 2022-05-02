@@ -1,3 +1,6 @@
+2022/05/02
+  * 增加 tk\_object\_copy\_props。
+
 2022/04/26
   * 完善 stream serial 的文档（感谢智明提供补丁）。
 
