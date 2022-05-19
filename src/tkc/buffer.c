@@ -174,6 +174,7 @@ ret_t wbuffer_write_binary(wbuffer_t* wbuffer, const void* data, uint32_t size) 
 
   memcpy(wbuffer->data + wbuffer->cursor, data, size);
   wbuffer->cursor += size;
+  wbuffer->data[wbuffer->cursor] = '\0';
 
   return RET_OK;
 }
