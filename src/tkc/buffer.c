@@ -55,6 +55,7 @@ ret_t wbuffer_extend_capacity(wbuffer_t* wbuffer, uint32_t capacity) {
   if (data != NULL) {
     wbuffer->data = data;
     wbuffer->capacity = capacity;
+    memset(data + wbuffer->cursor, 0x00, capacity - wbuffer->cursor);
 
     return RET_OK;
   }
@@ -174,7 +175,6 @@ ret_t wbuffer_write_binary(wbuffer_t* wbuffer, const void* data, uint32_t size) 
 
   memcpy(wbuffer->data + wbuffer->cursor, data, size);
   wbuffer->cursor += size;
-  wbuffer->data[wbuffer->cursor] = '\0';
 
   return RET_OK;
 }
