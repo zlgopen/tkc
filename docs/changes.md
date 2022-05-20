@@ -1,3 +1,6 @@
+2022/05/20
+  * 增加EMITTER\_ENABLE/EMITTER\_DISABLE
+
 2022/05/19
   * 完善func\_json\_save\_ex（感谢国文提供补丁）。
   * 增加函数tk_memdup
