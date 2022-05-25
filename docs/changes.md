@@ -1,3 +1,7 @@
+2022/05/26
+  * 增加函数tokenizer\_next\_str，用于解析带引号的字符串。
+  * 完善func\_call\_parser，支持带引号的参数。
+
 2022/05/25
   * 完善编辑脚本（感谢朝泽提供补丁）
     * scons -c时不执行app_helper的prepare()
