@@ -203,7 +203,7 @@ TEST(Tokenizer, str) {
   ASSERT_STREQ(tokenizer_next_str(t), "e=123");
   
   ASSERT_STREQ(tokenizer_next(t), "d");
-  ASSERT_STREQ(tokenizer_next(t), "123");
+  ASSERT_STREQ(tokenizer_next(t), "'123");
 
   tokenizer_deinit(t);
 }
