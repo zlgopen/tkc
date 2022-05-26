@@ -1,3 +1,6 @@
+2022/05/27
+  * 增加函数tk\_replace\_char
+
 2022/05/26
   * 增加函数tokenizer\_next\_str，用于解析带引号的字符串。
   * 完善func\_call\_parser，支持带引号的参数。
