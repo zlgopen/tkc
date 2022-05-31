@@ -4,6 +4,9 @@
 
 2022/05/27
   * 增加函数tk\_replace\_char
+  * typed\_array支持bool类型(感谢兆坤提供补丁)。
+  * 去除debugger警告log (感谢兆坤提供补丁)。
+  * 增加debugger\_client分发其他消息处理(感谢兆坤提供补丁)。
 
 2022/05/26
   * 增加函数tokenizer\_next\_str，用于解析带引号的字符串。
