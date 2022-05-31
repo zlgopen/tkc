@@ -1,3 +1,7 @@
+2022/05/31
+  * 增加函数str\_encode\_xml\_entity/str\_encode\_xml\_entity\_with\_len。
+  * 增加conf\_xml用于读写xml文件。  
+
 2022/05/27
   * 增加函数tk\_replace\_char
 
