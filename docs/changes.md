@@ -1,3 +1,6 @@
+2022/06/03
+  * 增加函数conf\_doc\_node\_dup
+
 2022/05/31
   * 增加函数str\_encode\_xml\_entity/str\_encode\_xml\_entity\_with\_len。
   * 增加conf\_xml用于读写xml文件。  
