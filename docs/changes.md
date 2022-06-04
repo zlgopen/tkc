@@ -1,5 +1,8 @@
+2022/06/04
+  * 增加函数 conf\_doc\_set\_node\_prop 
+
 2022/06/03
-  * 增加函数conf\_doc\_node\_dup
+  * 增加函数 conf\_doc\_node\_dup
 
 2022/05/31
   * 增加函数str\_encode\_xml\_entity/str\_encode\_xml\_entity\_with\_len。
