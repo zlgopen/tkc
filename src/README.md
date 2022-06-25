@@ -30,10 +30,10 @@
 
 ## 使用方法
 
-应用程序只需包含awtk.h即可。
+应用程序只需包含tkc.h即可。
 
 ```
-#include "awtk.h"
+#include "tkc.h"
 ```
 
 
