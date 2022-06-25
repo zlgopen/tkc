@@ -1,3 +1,6 @@
+2022/06/25
+  * 完善 platform_prepare
+
 2022/06/20
   * 增加 log\_if\_fail。
 
