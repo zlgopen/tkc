@@ -602,14 +602,16 @@ static ret_t fs_copy_item(fs_t* fs, fs_item_t* item, const char* src, const char
     return_value_if_fail(fs_create_dir_r(fs, dst) == RET_OK, RET_IO);
   }
 
-  log_debug("%s ==> %s\n", subsrc, subdst);
   if (item->is_dir) {
-    return fs_copy_dir(fs, subsrc, subdst);
+    log_debug("%s ==> %s\n", subsrc, subdst);
+    return fs_copy_dir_ex(fs, subsrc, subdst, overwrite);
   } else {
     if (file_exist(subdst) && !overwrite) {
+      log_debug("%s ==> %s(skipped)\n", subsrc, subdst);
       return RET_OK;
     }
 
+    log_debug("%s ==> %s\n", subsrc, subdst);
     return fs_copy_file(fs, subsrc, subdst);
   }
 }
