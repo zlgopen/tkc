@@ -592,7 +592,7 @@ ret_t fs_copy_file(fs_t* fs, const char* src, const char* dst) {
   return ret;
 }
 
-static ret_t fs_copy_item(fs_t* fs, fs_item_t* item, const char* src, const char* dst) {
+static ret_t fs_copy_item(fs_t* fs, fs_item_t* item, const char* src, const char* dst, bool_t overwrite) {
   char subsrc[MAX_PATH + 1];
   char subdst[MAX_PATH + 1];
   path_build(subsrc, MAX_PATH, src, item->name, NULL);
@@ -606,11 +606,19 @@ static ret_t fs_copy_item(fs_t* fs, fs_item_t* item, const char* src, const char
   if (item->is_dir) {
     return fs_copy_dir(fs, subsrc, subdst);
   } else {
+    if (file_exist(subdst) && !overwrite) {
+      return RET_OK;
+    }
+
     return fs_copy_file(fs, subsrc, subdst);
   }
 }
 
 ret_t fs_copy_dir(fs_t* fs, const char* src, const char* dst) {
+  return fs_copy_dir_ex(fs, src, dst, TRUE);
+}
+
+ret_t fs_copy_dir_ex(fs_t* fs, const char* src, const char* dst, bool_t overwrite) {
   fs_item_t item;
   ret_t ret = RET_OK;
   fs_dir_t* dir = NULL;
@@ -631,7 +639,7 @@ ret_t fs_copy_dir(fs_t* fs, const char* src, const char* dst) {
     if (tk_str_eq(item.name, ".") || tk_str_eq(item.name, "..")) {
       continue;
     } else {
-      ret = fs_copy_item(fs, &item, src, dst);
+      ret = fs_copy_item(fs, &item, src, dst, overwrite);
     }
 
     if (ret != RET_OK) {

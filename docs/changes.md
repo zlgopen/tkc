@@ -1,11 +1,14 @@
+2022/06/27
+  * 增加 fs\_copy\_dir\_ex
+
 2022/06/25
-  * 完善 platform_prepare
+  * 完善 platform\_prepare
 
 2022/06/20
   * 增加 log\_if\_fail。
 
 2022/06/17
-  * 完善str_unescape
+  * 完善str\_unescape
 
 2022/06/12
   * conf doc 支持向数组中追加数据。 
