@@ -88,11 +88,6 @@ typedef enum _value_type_t {
    */
   VALUE_TYPE_POINTER,
   /**
-   * @const VALUE_TYPE_POINTER_REF
-   * void*类型。
-   */
-  VALUE_TYPE_POINTER_REF,
-  /**
    * @const VALUE_TYPE_FLOAT
    * float_t类型。
    */
@@ -162,6 +157,11 @@ typedef enum _value_type_t {
    * func definition。
    */
   VALUE_TYPE_FUNC_DEF,
+  /**
+   * @const VALUE_TYPE_POINTER_REF
+   * void*类型。
+   */
+  VALUE_TYPE_POINTER_REF,
 } value_type_t;
 
 typedef struct _binary_data_t {
