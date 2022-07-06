@@ -1,6 +1,8 @@
 2022/07/06
   * fscript支持ret\_t中的常量。
   * 增加函数path\_prepend\_app\_root
+  * 增加函数tk\_object\_set\_prop\_pointer\_ex
+  * 增加函数value\_set\_pointer\_ex
 
 2022/06/30
   * 增加函数 fscript\_get\_code\_id
