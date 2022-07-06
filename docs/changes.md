@@ -1,5 +1,6 @@
 2022/07/06
   * fscript支持ret\_t中的常量。
+  * 增加函数path\_prepend\_app\_root
 
 2022/06/30
   * 增加函数 fscript\_get\_code\_id
