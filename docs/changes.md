@@ -1,6 +1,7 @@
 2022/07/07
   * 将tk\_is\_ui\_thread移动到utils.c中。
   * 完善str\_set\_with\_len。
+  * 修复打印ubjson的时候出现二进制断言的问题(感谢智明提供补丁)
 
 2022/07/06
   * fscript支持ret\_t中的常量。
