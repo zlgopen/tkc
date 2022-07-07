@@ -1,5 +1,6 @@
 2022/07/07
   * 将tk\_is\_ui\_thread移动到utils.c中。
+  * 完善str\_set\_with\_len。
 
 2022/07/06
   * fscript支持ret\_t中的常量。
