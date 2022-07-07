@@ -1,3 +1,6 @@
+2022/07/07
+  * 将tk\_is\_ui\_thread移动到utils.c中。
+
 2022/07/06
   * fscript支持ret\_t中的常量。
   * 增加函数path\_prepend\_app\_root
