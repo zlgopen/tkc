@@ -1,3 +1,8 @@
+2022/07/08
+  * 完善serial helper
+  * 增加函数 tk\_iostream\_serial\_wait\_for\_data
+
+
 2022/07/07
   * 将tk\_is\_ui\_thread移动到utils.c中。
   * 完善str\_set\_with\_len。
