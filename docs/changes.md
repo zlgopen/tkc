@@ -1,3 +1,6 @@
+2022/07/13
+  * tk\_atoi/tk\_atol/tk\_atoul等函数视'#'开头的字符串为十六进制。
+
 2022/07/08
   * 完善serial helper
   * 增加函数 tk\_iostream\_serial\_wait\_for\_data
