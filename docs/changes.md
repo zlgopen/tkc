@@ -1,3 +1,6 @@
+2022/07/17
+  * 增加 darray\_remove\_range (感谢智明提供补丁)
+
 2022/07/13
   * tk\_atoi/tk\_atol/tk\_atoul等函数视'#'开头的字符串为十六进制。
 
