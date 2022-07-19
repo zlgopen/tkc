@@ -1,5 +1,6 @@
 2022/07/19 
   * fscript支持实例的hooks(感谢智明提供补丁)
+  * 修复 darray\_remove\_range 编译警告(感谢智明提供补丁)
 
 2022/07/17
   * 增加 darray\_remove\_range (感谢智明提供补丁)
