@@ -108,6 +108,17 @@ bool_t socket_last_io_has_error(void);
 ret_t tk_socket_wait_for_data(int sock, uint32_t timeout_ms);
 
 /**
+ * @method tk_socket_wait_for_connected
+ * @annotation ["static"]
+ * 等待connect完成。
+ *
+ * @param {int} sock socket句柄。
+ * @param {uint32_t} timeout_ms 等待时间(ms)。
+ * @return {ret_t} 返回RET_OK表示成功，否则表示失败。
+ */
+ret_t tk_socket_wait_for_connected(int sock, uint32_t timeout_ms);
+
+/**
  * @method tk_socket_set_blocking
  * @annotation ["static"]
  * 设置为阻塞或非阻塞模式。
@@ -167,6 +178,18 @@ int tk_tcp_accept(int sock);
  * @return {int} 返回sock句柄。
  */
 int tk_tcp_connect(const char* host, int port);
+
+/**
+ * @method tk_tcp_connect_ex
+ * @annotation ["static"]
+ * 连接到指定服务器。
+ * @param {const char*} host 主机名或IP地址。
+ * @param {int} port 端口号。
+ * @param {uint32_t} timeout 超时时间(ms)，为0时由调用者等待。
+ *
+ * @return {int} 返回sock句柄。
+ */
+int tk_tcp_connect_ex(const char* host, int port, uint32_t timeout);
 
 /**
  * @class udp_t
