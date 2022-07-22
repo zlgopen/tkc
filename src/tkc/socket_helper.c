@@ -192,7 +192,8 @@ int tk_tcp_connect_ex(const char* host, int port, uint32_t timeout) {
     return sock;
   }
 
-  if (errno != EINPROGRESS) {
+  log_debug("errno=%d\n", errno);
+  if (errno != EINPROGRESS && errno != 0 && errno != EAGAIN) {
     log_debug("connect error\n");
     tk_socket_close(sock);
     return -1;
@@ -265,8 +266,9 @@ ret_t tk_socket_wait_for_connected(int sock, uint32_t timeout_ms) {
   struct timeval tv = {0, 0};
 
   FD_ZERO(&fdsr);
-  FD_SET(sock, &fdsr);
-
+  FD_ZERO(&fdsw);
+  FD_ZERO(&fdse);
+  
   tv.tv_sec = timeout_ms / 1000;
   tv.tv_usec = (timeout_ms % 1000) * 1000;
 
