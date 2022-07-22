@@ -19,8 +19,6 @@
  *
  */
 
-#include <fcntl.h>
-
 #ifndef WIN32_LEAN_AND_MEAN
 #define WIN32_LEAN_AND_MEAN 1
 #endif /*WIN32_LEAN_AND_MEAN*/
@@ -171,11 +169,6 @@ struct sockaddr* socket_resolve(const char* host, int port, struct sockaddr_in* 
 }
 
 int tk_tcp_connect(const char* host, int port) {
-  return tk_tcp_connect_ex(host, port, 10000);
-}
-
-int tk_tcp_connect_ex(const char* host, int port, uint32_t timeout) {
-  int ret = 0;
   int sock = 0;
   struct sockaddr_in s_in;
   struct sockaddr* addr = socket_resolve(host, port, &s_in);
@@ -186,24 +179,10 @@ int tk_tcp_connect_ex(const char* host, int port, uint32_t timeout) {
     return -1;
   }
 
-  tk_socket_set_blocking(sock, FALSE);
-  ret = connect(sock, addr, sizeof(s_in));
-  if (ret == 0) {
-    return sock;
-  }
-
-  log_debug("errno=%d\n", errno);
-  if (errno != EINPROGRESS && errno != 0 && errno != EAGAIN) {
+  if (connect(sock, addr, sizeof(s_in)) < 0) {
     log_debug("connect error\n");
     tk_socket_close(sock);
     return -1;
-  }
-
-  if (timeout > 0) {
-    if (tk_socket_wait_for_connected(sock, timeout) != RET_OK) {
-      tk_socket_close(sock);
-      return -1;
-    }
   }
 
   return sock;
@@ -256,39 +235,6 @@ ret_t tk_socket_set_blocking(int sock, bool_t blocking) {
   flags = blocking ? (flags & ~O_NONBLOCK) : (flags | O_NONBLOCK);
   return (fcntl(sock, F_SETFL, flags) == 0) ? RET_OK : RET_FAIL;
 #endif
-}
-
-ret_t tk_socket_wait_for_connected(int sock, uint32_t timeout_ms) {
-  fd_set fdsr;
-  fd_set fdsw;
-  fd_set fdse;
-  int ret = 0;
-  struct timeval tv = {0, 0};
-
-  FD_ZERO(&fdsr);
-  FD_ZERO(&fdsw);
-  FD_ZERO(&fdse);
-  
-  tv.tv_sec = timeout_ms / 1000;
-  tv.tv_usec = (timeout_ms % 1000) * 1000;
-
-  FD_SET(sock, &fdsr);
-  FD_SET(sock, &fdsw);
-  FD_SET(sock, &fdse);
-  ret = select(sock + 1, &fdsr, &fdsw, &fdse, &tv);
-
-  if (ret > 0) {
-    if (FD_ISSET(sock, &fdse)) {
-      log_debug("connect failed\n");
-      return RET_FAIL;
-    } else {
-      log_debug("connect ok\n");
-      return RET_OK;
-    }
-  } else {
-    log_debug("connect timeout\n");
-    return RET_TIMEOUT;
-  }
 }
 
 ret_t tk_socket_wait_for_data(int sock, uint32_t timeout_ms) {
