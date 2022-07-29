@@ -1,3 +1,7 @@
+2022/07/29
+  * 增加函数object\_array\_remove\_value
+  * 更新fs\_aworks.c(感谢文浩提供补丁)
+
 2022/07/22
   * debugger增加restart函数(感谢智明提供补丁)
   * 完善debugger，调试结束后从列表中移除调试器。
