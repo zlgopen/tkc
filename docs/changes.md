@@ -1,3 +1,6 @@
+2022/08/01
+  * 增加fscript\_find\_func。
+
 2022/07/29
   * 增加函数object\_array\_remove\_value
   * 更新fs\_aworks.c(感谢文浩提供补丁)
