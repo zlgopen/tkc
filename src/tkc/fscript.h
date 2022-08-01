@@ -514,7 +514,6 @@ ret_t fscript_ensure_locals(fscript_t* fscript);
  * @method fscript_find_func
  * 查找函数。
  * @param {fscript_t*} fscript 脚本引擎对象。
- * @param {fscript_t*} fscript 脚本引擎对象。
  * @param {const char*} name 函数名。
  * @param {uint32_t} size 函数名长度。
  *
