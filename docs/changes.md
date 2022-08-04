@@ -1,3 +1,8 @@
+2022/08/03
+  * fix memory leak
+  * improve fscript get/unset
+
+
 2022/08/02
   * 增加fscript_clean。
 
