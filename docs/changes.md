@@ -1,7 +1,9 @@
+2022/08/13
+  * 修复编译警告(感谢雨欣提供补丁)
+
 2022/08/03
   * fix memory leak
   * improve fscript get/unset
-
 
 2022/08/02
   * 增加fscript_clean。
