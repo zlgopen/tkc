@@ -494,7 +494,7 @@ tk_object_t* conf_sub_obj_create(tk_object_t* conf, const char* path) {
   o->conf = conf_obj;
   o->root = root;
   o->real_root = conf_obj->doc->root;
-  TK_OBJECT_REF(conf);
+  TK_OBJECT_REF(o->conf);
 
   return obj;
 }
