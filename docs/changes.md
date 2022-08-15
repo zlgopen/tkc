@@ -1,5 +1,6 @@
 2022/08/15
-  * 完善conf_xml。
+  * 完善conf\_xml。
+  * 完善conf\_obj\_create\_sub\_object
 
 2022/08/13
   * 修复编译警告(感谢雨欣提供补丁)
