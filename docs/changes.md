@@ -1,3 +1,6 @@
+2022/08/17
+  * 完善conf\_xml，支持通过@text访问文本内容。
+
 2022/08/15
   * 完善conf\_xml。
   * 完善conf\_obj\_create\_sub\_object
