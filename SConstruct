@@ -21,6 +21,7 @@ if awtk.TOOLS_PREFIX == '' :
   awtk.OS_PROJECTS += ['src/hal/tools/network_shell/SConscript']
 else :
   DefaultEnvironment(
+    ENV = os.environ,
     CC = awtk.CC,
     CXX= awtk.CXX,
     LD = awtk.LD,

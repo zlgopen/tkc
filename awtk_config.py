@@ -20,6 +20,7 @@ from awtk_config_common import OS_FLAGS, OS_LIBS, OS_LIBPATH, OS_CPPPATH, OS_LIN
 # OS_PROJECTS = []
 # # OS_FLAGS += ' -Wall -Os -fno-strict-aliasing '
 # OS_FLAGS +=' -g -Wall -Os -mfloat-abi=hard -fno-strict-aliasing '
+# os.environ['LD_LIBRARY_PATH'] = ''
 ###################################################################
 
 
