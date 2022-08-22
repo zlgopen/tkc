@@ -1,3 +1,6 @@
+2022/08/22
+  * 完善 data\_reader\_factory\_create\_reader处理Windows的盘符(感谢ufbycd提供补丁)。
+
 2022/08/17
   * 完善conf\_xml，支持通过@text访问文本内容。
   * 修复编译警告(感谢智明提供补丁)
