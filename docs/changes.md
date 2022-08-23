@@ -1,3 +1,7 @@
+2022/08/23
+  * 完善 fscript\_locals\_get
+  * 完善 fscripts 示例。
+
 2022/08/22
   * 完善 data\_reader\_factory\_create\_reader处理Windows的盘符(感谢ufbycd提供补丁)。
 
