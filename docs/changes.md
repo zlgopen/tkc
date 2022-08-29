@@ -1,3 +1,6 @@
+2022/08/28
+  * 修复fscript调用type\_array\_get时，传参有误导致程序崩溃的问题(感谢雨欣提供补丁)
+
 2022/08/23
   * 完善 fscript\_locals\_get
   * 完善 fscripts 示例。
