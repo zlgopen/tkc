@@ -104,55 +104,25 @@ static ret_t func_bit_get(fscript_t* fscript, fscript_args_t* args, value_t* res
 
 static ret_t func_bit_and(fscript_t* fscript, fscript_args_t* args, value_t* result) {
   FSCRIPT_FUNC_CHECK(args->size == 2, RET_BAD_PARAMS);
-  value_set_uint32(result, value_uint32(args->args) & value_uint32(args->args + 1));
-
-  return RET_OK;
+  return value_bit_and(args->args, args->args + 1, result);
 }
 
 static ret_t func_bit_or(fscript_t* fscript, fscript_args_t* args, value_t* result) {
   FSCRIPT_FUNC_CHECK(args->size == 2, RET_BAD_PARAMS);
-  value_set_uint32(result, value_uint32(args->args) | value_uint32(args->args + 1));
 
-  return RET_OK;
+  return value_bit_or(args->args, args->args + 1, result);
 }
 
 static ret_t func_bit_nor(fscript_t* fscript, fscript_args_t* args, value_t* result) {
   FSCRIPT_FUNC_CHECK(args->size == 2, RET_BAD_PARAMS);
-  value_set_uint32(result, value_uint32(args->args) ^ value_uint32(args->args + 1));
 
-  return RET_OK;
+  return value_bit_nor(args->args, args->args + 1, result);
 }
 
 static ret_t func_bit_not(fscript_t* fscript, fscript_args_t* args, value_t* result) {
   FSCRIPT_FUNC_CHECK(args->size == 1, RET_BAD_PARAMS);
-  switch (args->args->type) {
-    case VALUE_TYPE_INT8:
-    case VALUE_TYPE_UINT8: {
-      value_set_uint8(result, ~value_uint8(args->args));
-      break;
-    }
-    case VALUE_TYPE_INT16:
-    case VALUE_TYPE_UINT16: {
-      value_set_uint16(result, ~value_uint16(args->args));
-      break;
-    }
-    case VALUE_TYPE_INT32:
-    case VALUE_TYPE_UINT32: {
-      value_set_uint32(result, ~value_uint32(args->args));
-      break;
-    }
-    case VALUE_TYPE_INT64:
-    case VALUE_TYPE_UINT64: {
-      value_set_uint64(result, ~value_uint64(args->args));
-      break;
-    }
-    default: {
-      value_set_uint32(result, ~value_uint32(args->args));
-      break;
-    }
-  }
 
-  return RET_OK;
+  return value_bit_not(args->args, result);
 }
 
 FACTORY_TABLE_BEGIN(s_ext_bits)

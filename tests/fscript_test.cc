@@ -429,6 +429,29 @@ TEST(FScript, bit_and) {
   TK_OBJECT_UNREF(obj);
 }
 
+TEST(FScript, bit_nor) {
+  value_t v;
+  tk_object_t* obj = object_default_create();
+
+  fscript_eval(obj, "^(1, 1)", &v);
+  ASSERT_EQ(value_int(&v), 0);
+  value_reset(&v);
+  
+  fscript_eval(obj, "^(1, 0)", &v);
+  ASSERT_EQ(value_int(&v), 1);
+  value_reset(&v);
+
+  fscript_eval(obj, "^(0, 1)", &v);
+  ASSERT_EQ(value_int(&v), 1);
+  value_reset(&v);
+
+  fscript_eval(obj, "^(1, 2)", &v);
+  ASSERT_EQ(value_int(&v), 3);
+  value_reset(&v);
+
+  TK_OBJECT_UNREF(obj);
+}
+
 TEST(FScript, bit_or) {
   value_t v;
   tk_object_t* obj = object_default_create();

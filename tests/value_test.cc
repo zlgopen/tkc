@@ -893,4 +893,141 @@ TEST(value, bits) {
   v = r;
   ASSERT_EQ(value_get_bit(&v, &r, 1), RET_OK);
   ASSERT_EQ(value_bool(&r), TRUE);
+
+  value_set_int8(&v, 0xf1);
+  ASSERT_EQ(value_bit_not(&v, &r), RET_OK);
+  ASSERT_EQ(value_int8(&r), ~value_int8(&v));
+
 }
+
+TEST(value, bit_and_or_nor) {
+  value_t v1;
+  value_t v2;
+  value_t r;
+
+  value_set_int8(&v1, 0xf0);
+  value_set_int8(&v2, 0x0f);
+  ASSERT_EQ(value_bit_and(&v1, &v2, &r), RET_OK);
+  ASSERT_EQ(r.type, VALUE_TYPE_INT8);
+  ASSERT_EQ(value_int8(&r), 0);
+
+  ASSERT_EQ(value_bit_or(&v1, &v2, &r), RET_OK);
+  ASSERT_EQ(r.type, VALUE_TYPE_INT8);
+  ASSERT_EQ(value_int8(&r), (int8_t)0xff);
+
+  ASSERT_EQ(value_bit_nor(&v1, &v2, &r), RET_OK);
+  ASSERT_EQ(r.type, VALUE_TYPE_INT8);
+  ASSERT_EQ(value_int8(&r), (int8_t)0xff);
+  
+  value_set_uint8(&v1, 0xf0);
+  value_set_uint8(&v2, 0x0f);
+  ASSERT_EQ(value_bit_and(&v1, &v2, &r), RET_OK);
+  ASSERT_EQ(r.type, VALUE_TYPE_UINT8);
+  ASSERT_EQ(value_uint8(&r), 0);
+
+  ASSERT_EQ(value_bit_or(&v1, &v2, &r), RET_OK);
+  ASSERT_EQ(r.type, VALUE_TYPE_UINT8);
+  ASSERT_EQ(value_uint8(&r), (uint8_t)0xff);
+
+  ASSERT_EQ(value_bit_nor(&v1, &v2, &r), RET_OK);
+  ASSERT_EQ(r.type, VALUE_TYPE_UINT8);
+  ASSERT_EQ(value_uint8(&r), (uint8_t)0xff);
+
+
+  value_set_int16(&v1, 0xf0);
+  value_set_int16(&v2, 0x0f);
+  ASSERT_EQ(value_bit_and(&v1, &v2, &r), RET_OK);
+  ASSERT_EQ(r.type, VALUE_TYPE_INT16);
+  ASSERT_EQ(value_int16(&r), 0);
+
+  ASSERT_EQ(value_bit_or(&v1, &v2, &r), RET_OK);
+  ASSERT_EQ(r.type, VALUE_TYPE_INT16);
+  ASSERT_EQ(value_int16(&r), (int16_t)0xff);
+
+  ASSERT_EQ(value_bit_nor(&v1, &v2, &r), RET_OK);
+  ASSERT_EQ(r.type, VALUE_TYPE_INT16);
+  ASSERT_EQ(value_int16(&r), (int16_t)0xff);
+  
+  value_set_uint16(&v1, 0xf0);
+  value_set_uint16(&v2, 0x0f);
+  ASSERT_EQ(value_bit_and(&v1, &v2, &r), RET_OK);
+  ASSERT_EQ(r.type, VALUE_TYPE_UINT16);
+  ASSERT_EQ(value_uint16(&r), 0);
+
+  ASSERT_EQ(value_bit_or(&v1, &v2, &r), RET_OK);
+  ASSERT_EQ(r.type, VALUE_TYPE_UINT16);
+  ASSERT_EQ(value_uint16(&r), (uint16_t)0xff);
+
+  ASSERT_EQ(value_bit_nor(&v1, &v2, &r), RET_OK);
+  ASSERT_EQ(r.type, VALUE_TYPE_UINT16);
+  ASSERT_EQ(value_uint16(&r), (uint16_t)0xff);
+
+  value_set_int32(&v1, 0xf0);
+  value_set_int32(&v2, 0x0f);
+  ASSERT_EQ(value_bit_and(&v1, &v2, &r), RET_OK);
+  ASSERT_EQ(r.type, VALUE_TYPE_INT32);
+  ASSERT_EQ(value_int32(&r), 0);
+
+  ASSERT_EQ(value_bit_or(&v1, &v2, &r), RET_OK);
+  ASSERT_EQ(r.type, VALUE_TYPE_INT32);
+  ASSERT_EQ(value_int32(&r), (int32_t)0xff);
+
+  ASSERT_EQ(value_bit_nor(&v1, &v2, &r), RET_OK);
+  ASSERT_EQ(r.type, VALUE_TYPE_INT32);
+  ASSERT_EQ(value_int32(&r), (int32_t)0xff);
+  
+  value_set_uint32(&v1, 0xf0);
+  value_set_uint32(&v2, 0x0f);
+  ASSERT_EQ(value_bit_and(&v1, &v2, &r), RET_OK);
+  ASSERT_EQ(r.type, VALUE_TYPE_UINT32);
+  ASSERT_EQ(value_uint32(&r), 0);
+
+  ASSERT_EQ(value_bit_or(&v1, &v2, &r), RET_OK);
+  ASSERT_EQ(r.type, VALUE_TYPE_UINT32);
+  ASSERT_EQ(value_uint32(&r), (uint32_t)0xff);
+
+  ASSERT_EQ(value_bit_nor(&v1, &v2, &r), RET_OK);
+  ASSERT_EQ(r.type, VALUE_TYPE_UINT32);
+  ASSERT_EQ(value_uint32(&r), (uint32_t)0xff);
+
+  value_set_int64(&v1, 0xf0);
+  value_set_int64(&v2, 0x0f);
+  ASSERT_EQ(value_bit_and(&v1, &v2, &r), RET_OK);
+  ASSERT_EQ(r.type, VALUE_TYPE_INT64);
+  ASSERT_EQ(value_int64(&r), 0);
+
+  ASSERT_EQ(value_bit_or(&v1, &v2, &r), RET_OK);
+  ASSERT_EQ(r.type, VALUE_TYPE_INT64);
+  ASSERT_EQ(value_int64(&r), (int64_t)0xff);
+
+  ASSERT_EQ(value_bit_nor(&v1, &v2, &r), RET_OK);
+  ASSERT_EQ(r.type, VALUE_TYPE_INT64);
+  ASSERT_EQ(value_int64(&r), (int64_t)0xff);
+  
+  value_set_uint64(&v1, 0xf0);
+  value_set_uint64(&v2, 0x0f);
+  ASSERT_EQ(value_bit_and(&v1, &v2, &r), RET_OK);
+  ASSERT_EQ(r.type, VALUE_TYPE_UINT64);
+  ASSERT_EQ(value_uint64(&r), 0);
+
+  ASSERT_EQ(value_bit_or(&v1, &v2, &r), RET_OK);
+  ASSERT_EQ(r.type, VALUE_TYPE_UINT64);
+  ASSERT_EQ(value_uint64(&r), (uint64_t)0xff);
+
+  ASSERT_EQ(value_bit_nor(&v1, &v2, &r), RET_OK);
+  ASSERT_EQ(r.type, VALUE_TYPE_UINT64);
+  ASSERT_EQ(value_uint64(&r), (uint64_t)0xff);
+  
+  value_set_int32(&v1, 0xf0);
+  value_set_int64(&v2, 0x0f);
+  ASSERT_EQ(value_bit_and(&v1, &v2, &r), RET_OK);
+  ASSERT_EQ(r.type, VALUE_TYPE_INT64);
+  ASSERT_EQ(value_int64(&r), 0);
+  
+  value_set_uint8(&v1, 0xf0);
+  value_set_uint32(&v2, 0x0f);
+  ASSERT_EQ(value_bit_and(&v1, &v2, &r), RET_OK);
+  ASSERT_EQ(r.type, VALUE_TYPE_UINT32);
+  ASSERT_EQ(value_uint64(&r), 0);
+}
+
