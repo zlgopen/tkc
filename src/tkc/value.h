@@ -970,6 +970,40 @@ ret_t value_lshift_r(value_t* v, value_t* result, uint32_t n);
  */
 ret_t value_rshift_r(value_t* v, value_t* result, uint32_t n);
 
+/**
+ * @method value_toggle_bit
+ * 将v指定的位数取反，并将结果放入result对象。 
+ * @param {value_t*} v value对象。
+ * @param {value_t*} result 返回结果的value对象。
+ * @param {uint32_t} n 位数。
+ *
+ * @return {ret_t} 返回RET_OK表示成功，否则表示失败。
+ */
+ret_t value_toggle_bit(value_t* v, value_t* result, uint32_t n);
+
+/**
+ * @method value_get_bit
+ * 将v指定的位数取出，并放入result对象。 
+ * @param {value_t*} v value对象。
+ * @param {value_t*} result 返回结果的value对象。
+ * @param {uint32_t} n 位数。
+ *
+ * @return {ret_t} 返回RET_OK表示成功，否则表示失败。
+ */
+ret_t value_get_bit(value_t* v, value_t* result, uint32_t n);
+
+/**
+ * @method value_set_bit
+ * 将v指定的位数设置为bit，并放入result对象。 
+ * @param {value_t*} v value对象。
+ * @param {value_t*} result 返回结果的value对象。
+ * @param {uint32_t} n 位数。
+ * @param {bool_t} bit 值。
+ *
+ * @return {ret_t} 返回RET_OK表示成功，否则表示失败。
+ */
+ret_t value_set_bit(value_t* v, value_t* result, uint32_t n, bool_t bit);
+
 END_C_DECLS
 
 #endif /*TK_VALUE_H*/

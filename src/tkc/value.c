@@ -993,7 +993,7 @@ value_t* value_set_bitmap(value_t* v, void* bitmap) {
 
   return value_init(v, VALUE_TYPE_BITMAP);
 }
-/*operations*/ 
+/*operations*/
 
 ret_t value_lshift(value_t* v, value_t* result, uint32_t n) {
   ret_t ret = RET_OK;
@@ -1200,6 +1200,199 @@ ret_t value_rshift_r(value_t* v, value_t* result, uint32_t n) {
       uint64_t vv = value_uint64(v);
       n = n % 64;
       value_set_uint64(result, (vv << (64 - n)) | (vv >> n));
+      break;
+    }
+    default: {
+      ret = RET_BAD_PARAMS;
+      break;
+    }
+  }
+
+  return ret;
+}
+
+ret_t value_get_bit(value_t* v, value_t* result, uint32_t n) {
+  ret_t ret = RET_OK;
+  return_value_if_fail(v != NULL && result != NULL, RET_BAD_PARAMS);
+
+  switch (v->type) {
+    case VALUE_TYPE_INT8: {
+      int8_t vv = value_int8(v);
+      bool_t bit = TK_TEST_BIT(vv, n);
+      value_set_bool(result, bit);
+      break;
+    }
+    case VALUE_TYPE_UINT8: {
+      uint8_t vv = value_uint8(v);
+      bool_t bit = TK_TEST_BIT(vv, n);
+      value_set_bool(result, bit);
+      break;
+    }
+    case VALUE_TYPE_INT16: {
+      int16_t vv = value_int16(v);
+      bool_t bit = TK_TEST_BIT(vv, n);
+      value_set_bool(result, bit);
+      break;
+    }
+    case VALUE_TYPE_UINT16: {
+      uint16_t vv = value_uint16(v);
+      bool_t bit = TK_TEST_BIT(vv, n);
+      value_set_bool(result, bit);
+      break;
+    }
+    case VALUE_TYPE_INT32: {
+      int32_t vv = value_int32(v);
+      bool_t bit = TK_TEST_BIT(vv, n);
+      value_set_bool(result, bit);
+      break;
+    }
+    case VALUE_TYPE_UINT32: {
+      uint32_t vv = value_uint32(v);
+      bool_t bit = TK_TEST_BIT(vv, n);
+      value_set_bool(result, bit);
+      break;
+    }
+    case VALUE_TYPE_INT64: {
+      int64_t vv = value_int64(v);
+      bool_t bit = TK_TEST_BIT(vv, n);
+      value_set_bool(result, bit);
+      break;
+    }
+    case VALUE_TYPE_UINT64: {
+      uint64_t vv = value_uint64(v);
+      bool_t bit = TK_TEST_BIT(vv, n);
+      value_set_bool(result, bit);
+      break;
+    }
+    default: {
+      ret = RET_BAD_PARAMS;
+      break;
+    }
+  }
+
+  return ret;
+}
+
+#define TK_SET_OR_CLEAR_BIT(v, n, b) \
+  if (b) {                           \
+    TK_SET_BIT(v, n);                \
+  } else {                           \
+    TK_CLEAR_BIT(v, n);              \
+  }
+
+ret_t value_set_bit(value_t* v, value_t* result, uint32_t n, bool_t bit) {
+  ret_t ret = RET_OK;
+  return_value_if_fail(v != NULL && result != NULL, RET_BAD_PARAMS);
+
+  switch (v->type) {
+    case VALUE_TYPE_INT8: {
+      int8_t vv = value_int8(v);
+      TK_SET_OR_CLEAR_BIT(vv, n, bit);
+      value_set_int8(result, vv);
+      break;
+    }
+    case VALUE_TYPE_UINT8: {
+      uint8_t vv = value_uint8(v);
+      TK_SET_OR_CLEAR_BIT(vv, n, bit);
+      value_set_uint8(result, vv);
+      break;
+    }
+    case VALUE_TYPE_INT16: {
+      int16_t vv = value_int16(v);
+      TK_SET_OR_CLEAR_BIT(vv, n, bit);
+      value_set_int16(result, vv);
+      break;
+    }
+    case VALUE_TYPE_UINT16: {
+      uint16_t vv = value_uint16(v);
+      TK_SET_OR_CLEAR_BIT(vv, n, bit);
+      value_set_uint16(result, vv);
+      break;
+    }
+    case VALUE_TYPE_INT32: {
+      int32_t vv = value_int32(v);
+      TK_SET_OR_CLEAR_BIT(vv, n, bit);
+      value_set_int32(result, vv);
+      break;
+    }
+    case VALUE_TYPE_UINT32: {
+      uint32_t vv = value_uint32(v);
+      TK_SET_OR_CLEAR_BIT(vv, n, bit);
+      value_set_uint32(result, vv);
+      break;
+    }
+    case VALUE_TYPE_INT64: {
+      int64_t vv = value_int64(v);
+      TK_SET_OR_CLEAR_BIT(vv, n, bit);
+      value_set_int64(result, vv);
+      break;
+    }
+    case VALUE_TYPE_UINT64: {
+      uint64_t vv = value_uint64(v);
+      TK_SET_OR_CLEAR_BIT(vv, n, bit);
+      value_set_uint64(result, vv);
+      break;
+    }
+    default: {
+      ret = RET_BAD_PARAMS;
+      break;
+    }
+  }
+
+  return ret;
+}
+
+ret_t value_toggle_bit(value_t* v, value_t* result, uint32_t n) {
+  ret_t ret = RET_OK;
+  return_value_if_fail(v != NULL && result != NULL, RET_BAD_PARAMS);
+
+  switch (v->type) {
+    case VALUE_TYPE_INT8: {
+      int8_t vv = value_int8(v);
+      TK_TOGGLE_BIT(vv, n);
+      value_set_int8(result, vv);
+      break;
+    }
+    case VALUE_TYPE_UINT8: {
+      uint8_t vv = value_uint8(v);
+      TK_TOGGLE_BIT(vv, n);
+      value_set_uint8(result, vv);
+      break;
+    }
+    case VALUE_TYPE_INT16: {
+      int16_t vv = value_int16(v);
+      TK_TOGGLE_BIT(vv, n);
+      value_set_int16(result, vv);
+      break;
+    }
+    case VALUE_TYPE_UINT16: {
+      uint16_t vv = value_uint16(v);
+      TK_TOGGLE_BIT(vv, n);
+      value_set_uint16(result, vv);
+      break;
+    }
+    case VALUE_TYPE_INT32: {
+      int32_t vv = value_int32(v);
+      TK_TOGGLE_BIT(vv, n);
+      value_set_int32(result, vv);
+      break;
+    }
+    case VALUE_TYPE_UINT32: {
+      uint32_t vv = value_uint32(v);
+      TK_TOGGLE_BIT(vv, n);
+      value_set_uint32(result, vv);
+      break;
+    }
+    case VALUE_TYPE_INT64: {
+      int64_t vv = value_int64(v);
+      TK_TOGGLE_BIT(vv, n);
+      value_set_int64(result, vv);
+      break;
+    }
+    case VALUE_TYPE_UINT64: {
+      uint64_t vv = value_uint64(v);
+      TK_TOGGLE_BIT(vv, n);
+      value_set_uint64(result, vv);
       break;
     }
     default: {
