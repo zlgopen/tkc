@@ -23,6 +23,20 @@ from awtk_config_common import OS_FLAGS, OS_LIBS, OS_LIBPATH, OS_CPPPATH, OS_LIN
 # os.environ['LD_LIBRARY_PATH'] = ''
 ###################################################################
 
+if OS_NAME == 'Windows':
+    WIN32_AWTK_RES = 'win32_res/awtk.res'
+    if TARGET_ARCH == 'x86':
+        WIN32_AWTK_RES = 'win32_res/awtk_x86.res'
+
+    if not os.path.exists(WIN32_AWTK_RES):
+        if TARGET_ARCH == 'x86':
+            WIN32_AWTK_RES = os.path.join(TK_ROOT, 'win32_res/awtk_x86.res')
+        else:
+            WIN32_AWTK_RES = os.path.join(TK_ROOT, 'win32_res/awtk.res')
+    
+    if os.path.exists(WIN32_AWTK_RES):
+        OS_LINKFLAGS += '\"' + WIN32_AWTK_RES + '\" '
+
 
 AWTK_STATIC_LIBS = TKC_STATIC_LIBS
 
