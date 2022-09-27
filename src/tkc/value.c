@@ -1572,7 +1572,7 @@ ret_t value_bit_and(value_t* v, value_t* other, value_t* result) {
   return ret;
 }
 
-ret_t value_bit_nor(value_t* v, value_t* other, value_t* result) {
+ret_t value_bit_xor(value_t* v, value_t* other, value_t* result) {
   ret_t ret = RET_OK;
   uint32_t type = 0;
   return_value_if_fail(result != NULL, RET_BAD_PARAMS);
