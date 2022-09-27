@@ -1409,6 +1409,11 @@ ret_t value_bit_not(value_t* v, value_t* result) {
   return_value_if_fail(v != NULL && result != NULL, RET_BAD_PARAMS);
 
   switch (v->type) {
+    case VALUE_TYPE_BOOL: {
+      bool_t vv = value_bool(v);
+      value_set_bool(result, !vv);
+      break;
+    }
     case VALUE_TYPE_INT8: {
       int8_t vv = value_int8(v);
       value_set_int8(result, ~vv);
@@ -1466,6 +1471,11 @@ ret_t value_bit_or(value_t* v, value_t* other, value_t* result) {
 
   type = tk_max_int((int)(v->type), (int)(other->type));
   switch (type) {
+    case VALUE_TYPE_BOOL: {
+      bool_t vv = value_bool(v) | value_bool(other);
+      value_set_bool(result, vv);
+      break;
+    }
     case VALUE_TYPE_INT8: {
       int8_t vv = value_int8(v) | value_int8(other);
       value_set_int8(result, vv);
@@ -1523,6 +1533,11 @@ ret_t value_bit_and(value_t* v, value_t* other, value_t* result) {
 
   type = tk_max_int((int)(v->type), (int)(other->type));
   switch (type) {
+    case VALUE_TYPE_BOOL: {
+      bool_t vv = value_bool(v) & value_bool(other);
+      value_set_bool(result, vv);
+      break;
+    }
     case VALUE_TYPE_INT8: {
       int8_t vv = value_int8(v) & value_int8(other);
       value_set_int8(result, vv);
@@ -1580,6 +1595,11 @@ ret_t value_bit_xor(value_t* v, value_t* other, value_t* result) {
 
   type = tk_max_int((int)(v->type), (int)(other->type));
   switch (type) {
+    case VALUE_TYPE_BOOL: {
+      bool_t vv = value_bool(v) ^ value_bool(other);
+      value_set_bool(result, vv);
+      break;
+    }
     case VALUE_TYPE_INT8: {
       int8_t vv = value_int8(v) ^ value_int8(other);
       value_set_int8(result, vv);
