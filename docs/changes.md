@@ -1,6 +1,9 @@
 2022/10/11
   * 完善tk\_istream\_read\_line超时处理(感谢忠吉提供补丁)
 
+2022/10/09
+  * 增加tk_strnlen和wcsncmp函数让stm32项目编译通过(感谢智明提供补丁)
+
 2022/09/27
   * 把windows下加载res资 源的逻辑移动在awtk_config.py文件中(感谢智明提供补丁) 
 
