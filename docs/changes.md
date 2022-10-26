@@ -1,5 +1,5 @@
 2022/10/26
-  * 增加函数value_abs
+  * 增加函数value\_abs/value\_add/value\_sub/value\_mul/value\_div
 
 2022/10/20
   * 增加tk\_object\_to\_json函数。
