@@ -1,3 +1,6 @@
+2022/10/31
+  * 修复 awtk 导出 def 时缺少部分的 get\_widget\_vtable 函数的问题(感谢智明提供补丁)
+
 2022/10/27
   * 增加函数value\_mod/value_\_expt
 
