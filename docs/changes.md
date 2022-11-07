@@ -1,3 +1,6 @@
+2022/11/07
+  * 增加函数value\_min/value\_max。
+
 2022/11/03
   * 导出conf\_node\_count\_children函数(感谢智明提供补丁)
 
