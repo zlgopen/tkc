@@ -1,3 +1,6 @@
+2022/11/09
+  * 在Windows下将wcscasecmp定义为wcsicmp(感谢雨欣提供补丁)
+
 2022/11/07
   * 增加函数value\_min/value\_max。
 
