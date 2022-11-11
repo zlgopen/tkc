@@ -1,3 +1,6 @@
+2022/11/11
+  * 完善fscript解析。
+
 2022/11/09
   * 在Windows下将wcscasecmp定义为wcsicmp(感谢雨欣提供补丁)
 
