@@ -571,6 +571,19 @@ value_t* value_dup_str_with_len(value_t* v, const char* value, uint32_t len);
 value_t* value_set_wstr(value_t* v, const wchar_t* value);
 
 /**
+ * @method value_dup_wstr
+ * 设置类型为宽字符串的值(并拷贝宽字符串)。
+ *
+ * @alias value_dup_wstr
+ * @annotation ["scriptable"]
+ * @param {value_t*} v     value对象。
+ * @param {const wchar_t*}   value 待设置的值。
+ *
+ * @return {value_t*} value对象本身。
+ */
+value_t* value_dup_wstr(value_t* v, const wchar_t* value);
+
+/**
  * @method value_str
  * 获取类型为字符串的值。
  * @annotation ["scriptable"]
