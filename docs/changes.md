@@ -1,6 +1,7 @@
 
 2023/01/04
   * 修复了fs\_create\_dir\_r函数中tokenizer没有释放就return的问题(感谢泽武提供补丁)
+  * 善了 awtk 的编译脚本，在 win 平台上，默认指定 scons 使用 msvc 编译器，除非用户自己指定 TOOLS_NAME='mingw'，避免按照 scons 内部的顺序来查找编译器(感谢雨欣提供补丁)
 
 2023/01/03
   * 增加函数value\_dup\_wstr(感谢雨欣提供补丁)
