@@ -1,5 +1,8 @@
 # 最新动态
 
+2023/04/12
+  * 增加函数file\_read\_as\_unix\_text。
+
 2023/04/06
   * 增加函数str\_attach/wstr\_attach/wstr\_append\_int。
 
