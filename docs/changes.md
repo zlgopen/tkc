@@ -2,6 +2,8 @@
 
 2023/04/12
   * 增加函数file\_read\_as\_unix\_text。
+  * 增加函数str\_attach\_with\_size。
+  * 优化str\_replace。
 
 2023/04/06
   * 增加函数str\_attach/wstr\_attach/wstr\_append\_int。
