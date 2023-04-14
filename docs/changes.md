@@ -1,5 +1,8 @@
 # 最新动态
 
+2023/04/14
+  * 优化XML写入(感谢陈聪提供补丁)
+
 2023/04/12
   * 增加函数file\_read\_as\_unix\_text。
   * 增加函数str\_attach\_with\_size。
