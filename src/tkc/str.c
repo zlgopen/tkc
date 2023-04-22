@@ -341,26 +341,6 @@ static char str_escape_char(char c) {
       c = 'v';
       break;
     }
-    case '\'': {
-      c = '\'';
-      break;
-    }
-    case '\"': {
-      c = '\"';
-      break;
-    }
-    case '\\': {
-      c = '\\';
-      break;
-    }
-    case '0': {
-      c = '\0';
-      break;
-    }
-    case '\?': {
-      c = '?';
-      break;
-    }
     default: {
       break;
     }

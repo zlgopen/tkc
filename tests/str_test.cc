@@ -914,6 +914,10 @@ TEST(Str, cstr) {
   str_clear(s);
   ASSERT_EQ(str_append_c_str(s, "abc\r\nd\t"), RET_OK);
   ASSERT_STREQ(s->str, "\"abc\\r\\nd\\t\"");
+  
+  str_clear(s);
+  ASSERT_EQ(str_append_c_str(s, "T#10s"), RET_OK);
+  ASSERT_STREQ(s->str, "\"T#10s\"");
 
   str_reset(s);
 }
