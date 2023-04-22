@@ -1,5 +1,8 @@
 # 最新动态
 
+2023/04/22
+  * 增加函数str\_append\_unescape/str\_append\_escape/str\_append\_c\_str。
+
 2023/04/21
   * 完善action thread pool(感谢俊杰提供补丁)
   * 完善文档注释(感谢俊杰提供补丁)
