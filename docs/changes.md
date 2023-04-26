@@ -1,4 +1,6 @@
 # 最新动态
+2023/04/26
+  * 修复object\_date\_time\_test.cc中的错误(感谢[szsam](https://github.com/szsam)提供补丁)
 
 2023/04/22
   * 增加函数str\_append\_unescape/str\_append\_escape/str\_append\_c\_str。
