@@ -1,4 +1,7 @@
 # 最新动态
+2023/05/04
+  * 完善tk\_object\_to\_json对不同数据类型和数组的处理。
+
 2023/04/26
   * 修复object\_date\_time\_test.cc中的错误(感谢[szsam](https://github.com/szsam)提供补丁)
 
