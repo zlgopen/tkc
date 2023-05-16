@@ -1,5 +1,9 @@
 # 最新动态
 
+2023/05/16
+  * 增加函数rect\_diff(感谢智明提供补丁)
+  * 增加函数slist\_is\_empty(感谢智明提供补丁)
+
 2023/05/13
   * 扩展debugger接口支持VSCode DAP协议。
   * 增加函数value\_type\_name。
