@@ -1,4 +1,9 @@
 # 最新动态
+
+2023/05/13
+  * 扩展debugger接口支持VSCode DAP协议。
+  * 增加函数value\_type\_name。
+
 2023/05/04
   * 完善tk\_object\_to\_json对不同数据类型和数组的处理。
 
