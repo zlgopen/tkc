@@ -2,6 +2,7 @@
 
 2023/05/19
   * 增加了debugger的get和set调试状态的重载函数指针(感谢智明提供补丁)
+  * 让data\_writer\_factory与data\_reader\_factory逻辑一致(感谢兆坤提供补丁)
 
 2023/05/16
   * 增加函数rect\_diff(感谢智明提供补丁)
