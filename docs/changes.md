@@ -1,4 +1,8 @@
 # 最新动态
+2023/05/26
+  * 增加函数ubjson\_writer\_write\_kv\_array\_begin。
+  * 增加函数conf\_node\_get\_child\_value。
+  * 增加函数conf\_node\_get\_child\_value\_by\_index。
 
 2023/05/19
   * 增加了debugger的get和set调试状态的重载函数指针(感谢智明提供补丁)
