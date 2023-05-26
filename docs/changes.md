@@ -3,6 +3,7 @@
   * 增加函数ubjson\_writer\_write\_kv\_array\_begin。
   * 增加函数conf\_node\_get\_child\_value。
   * 增加函数conf\_node\_get\_child\_value\_by\_index。
+  * 修复fs\_file\_read\_line函数在读取到空行时文件指针异常的问题(感谢泽武提供补丁)
 
 2023/05/19
   * 增加了debugger的get和set调试状态的重载函数指针(感谢智明提供补丁)
