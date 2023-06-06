@@ -1,5 +1,8 @@
 # 最新动态
 
+2023/06/06
+  * object\_array\_clean\_invalid\_props在没有清理非法属性时，不分发ITEMS\_CHANGED事件。
+
 2023/05/31
   * 增加tk\_lltoa等函数(感谢智明提供补丁) 
 
