@@ -1,5 +1,8 @@
 # 最新动态
 
+2023/06/09
+  * 修复子项目打包时python版本不一致导致的protocol:4/5问题(感谢高源提供补丁);
+
 2023/06/06
   * object\_array\_clean\_invalid\_props在没有清理非法属性时，不分发ITEMS\_CHANGED事件。
   * UBJSON扩展支持WSTRING。
