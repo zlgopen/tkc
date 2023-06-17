@@ -1,4 +1,6 @@
 # 最新动态
+2023/06/17
+  * 增加函数event\_source\_manager\_set\_min\_sleep\_time。
 
 2023/06/09
   * 修复子项目打包时python版本不一致导致的protocol:4/5问题(感谢高源提供补丁);
