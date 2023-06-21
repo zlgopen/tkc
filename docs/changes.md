@@ -1,4 +1,8 @@
 # 最新动态
+
+2023/06/21
+  * 修复action\_thread quit时间过长问题(感谢兆坤提供补丁)。
+
 2023/06/17
   * 增加函数event\_source\_manager\_set\_min\_sleep\_time。
 
