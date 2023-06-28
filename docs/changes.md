@@ -1,4 +1,8 @@
 # 最新动态
+2023/06/28
+  * 感谢朝泽提供以下补丁：
+    * 修正 timegm 在 windows 下不识别的问题；
+    * 修正 '\e' 在 windows 下为不可识别的字符转义序列的问题；
 
 2023/06/26
   * 完善date\_time\_to\_time/date\_time\_from\_time：
