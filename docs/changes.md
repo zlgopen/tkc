@@ -1,4 +1,10 @@
 # 最新动态
+2023/06/30
+  * 增加函数conf\_ini\_load\_from\_buff/conf\_ini\_save\_to\_buff
+  * 增加函数conf\_json\_load\_from\_buff/conf\_json\_save\_to\_buff
+  * 增加函数conf\_xml\_load\_from\_buff/conf\_xml\_save\_to\_buff
+  * 增加函数conf\_ubjson\_load\_from\_buff/conf\_ubjson\_save\_to\_buff
+
 2023/06/28
   * 感谢朝泽提供以下补丁：
     * 修正 timegm 在 windows 下不识别的问题；
