@@ -1,4 +1,8 @@
 # 最新动态
+
+2023/07/04
+  * 完善conf\_node\_get\_child\_value。
+
 2023/07/03
   * 新增str\_append\_uint32(感谢陈聪提供补丁)
   * 修复json写uint32的问(感谢陈聪提供补丁)
