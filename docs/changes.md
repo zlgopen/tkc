@@ -1,6 +1,7 @@
 # 最新动态
 2023/07/03
   * 新增str\_append\_uint32(感谢陈聪提供补丁)
+  * 修复json写uint32的问(感谢陈聪提供补丁)
 
 2023/06/30
   * 增加函数conf\_ini\_load\_from\_buff/conf\_ini\_save\_to\_buff
