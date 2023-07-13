@@ -1,5 +1,8 @@
 # 最新动态
 
+2023/07/13
+  * 完善conf\_doc\_create分配内存失败的处理(感谢林福提供补丁)。
+
 2023/07/05
   * 完善serial helper的文档(感谢俊杰提供补丁)。
   * 完善ubjson\_writer\_write\_kv\_value。
