@@ -35,3 +35,5 @@ dllexports/awtk.def
 dllexports/tkc.def
 tools/idl_gen/tkc.json
 t.*
+foo.*
+

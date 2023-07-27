@@ -49,6 +49,7 @@ SConscriptFiles=[
   'src/csv/SConscript',
   'src/charset/SConscript',
   'src/xml/SConscript',
+  'src/romfs/SConscript',
   'src/conf_io/SConscript',
   'src/hal/SConscript',
   'src/fscript_ext/SConscript',
