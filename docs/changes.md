@@ -1,5 +1,8 @@
 # 最新动态
 
+2023/08/01
+  * 将tyeps\_def.h中WASM相关的代码移到wasm\_helper.h中。
+
 2023/07/27
   * 增加ROMFS。
 
