@@ -1,5 +1,8 @@
 # 最新动态
 
+2023/08/08
+  * 完善str\_replace(感谢陈聪提供补丁)
+
 2023/08/01
   * 将tyeps\_def.h中WASM相关的代码移到wasm\_helper.h中。
 
