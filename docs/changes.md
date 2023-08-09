@@ -1,5 +1,8 @@
 # 最新动态
 
+2023/08/09
+  * 增加函数bits\_stream\_set/bits\_stream\_get
+
 2023/08/08
   * 完善str\_replace(感谢陈聪提供补丁)
 
