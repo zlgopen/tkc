@@ -2,6 +2,7 @@
 
 2023/08/10
   * 完善 event\_source\_manager\_default 让调用者有机会知道 select 是否失败(感谢林福提供补丁)。
+  * 完善conf json支持按指定的方式缩进(感谢林福提供补丁)。
 
 2023/08/09
   * 增加函数bits\_stream\_set/bits\_stream\_get
