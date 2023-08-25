@@ -1,4 +1,6 @@
 # 最新动态
+2023/08/25
+  * 完善wasm helper
 
 2023/08/24
   * 完善wasm helper
