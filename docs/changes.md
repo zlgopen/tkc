@@ -2,6 +2,7 @@
 
 2023/08/28
   * 增加函数tk\_socket\_get\_client\_ip/tk\_socket\_get\_self\_ip/tk\_socket\_get\_client\_ip\_str/tk\_socket\_get\_self\_ip\_str
+  * tcp\_send/tcp\_recv增加命令行参数。
 
 2023/08/25
   * 完善wasm helper
