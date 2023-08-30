@@ -55,6 +55,10 @@ if OS_NAME == 'Windows':
     if os.path.exists(WIN32_AWTK_RES):
         OS_LINKFLAGS += '\"' + WIN32_AWTK_RES + '\" '
 
+BUILD_DEBUG_FLAG = ''
+BUILD_DEBUG_LINKFLAGS = ''
+AWTK_STATIC_LIBS = TKC_STATIC_LIBS
+
 if OS_DEBUG :
     BUILD_DEBUG_FLAG = ' -g -O0 '
 else :
@@ -69,10 +73,6 @@ if OS_NAME == 'Windows' and TOOLS_PREFIX == '':
         
         if complie_helper.get_value('PDB') :
             BUILD_DEBUG_LINKFLAGS = ' /DEBUG '
-
-BUILD_DEBUG_FLAG = ''
-BUILD_DEBUG_LINKFLAGS = ''
-AWTK_STATIC_LIBS = TKC_STATIC_LIBS
 
 COMMON_CCFLAGS = ' -DTK_ROOT=\"\\\"'+TK_ROOT+'\\\"\" '
 COMMON_CCFLAGS = COMMON_CCFLAGS+' -DTKC_ONLY=1 '
