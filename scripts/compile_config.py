@@ -11,6 +11,9 @@ COMPILE_CONFIG = None
 global APP_ROOT
 APP_ROOT = ''
 
+global WIN32_RES
+WIN32_RES = ''
+
 def get_curr_config() :
   global COMPILE_CONFIG
   return COMPILE_CONFIG
@@ -18,6 +21,10 @@ def get_curr_config() :
 def set_curr_config(complie_config) :
   global COMPILE_CONFIG
   COMPILE_CONFIG = complie_config
+
+def set_app_win32_res(dir_path) :
+  global WIN32_RES
+  WIN32_RES = dir_path
 
 def set_curr_app_root(app_root) :
   global APP_ROOT
@@ -28,12 +35,14 @@ def get_curr_app_root() :
   return APP_ROOT
 
 def get_curr_config_for_awtk() :
+  global WIN32_RES
   global COMPILE_CONFIG
   if COMPILE_CONFIG != None :
     return COMPILE_CONFIG
   else :
     COMPILE_CONFIG = complie_helper()
     COMPILE_CONFIG.try_load_default_config()
+    COMPILE_CONFIG.set_value('WIN32_RES', WIN32_RES)
     return COMPILE_CONFIG;
 
 class complie_helper :
@@ -42,20 +51,25 @@ class complie_helper :
   COMPILE_CMD_INFO = {
     'help' : { 'name': 'HELP', 'help_info' : 'show all usage'},
     'userdefine' : { 'name' : 'DEFINE_FILE', 'help_info' : 'set user config define file, DEFINE_FILE=XXXXX'},
-    'save_flie' : { 'name' : 'EXPORT_DEFINE_FILE', 'help_info' : 'current config define export to file, EXPORT_DEFINE_FILE=./awtk_config_define.py'},
+    'save_file' : { 'name' : 'EXPORT_DEFINE_FILE', 'help_info' : 'current config define export to file, EXPORT_DEFINE_FILE=./awtk_config_define.py'},
   }
 
   config = {
     'OUTPUT_DIR' : { 'value' : '', 'desc' : ['compiled export directory '], 'help_info' : 'set awtk compiled export directory, default value is \'\', \'\' is system\'s value'},
+    'TOOLS_NAME' : { 'value' : '', 'desc' : ['value is mingw or \'\''], 'help_info' : 'set awtk compile\'s name, default value is \'\', \'\' is system\'s value'},
+    'INPUT_ENGINE' : { 'value' : '', 'desc' : ['value is null/spinyin/t9/t9ext/pinyin'], 'help_info' : 'set awtk use input engine, default value is \'\', \'\' is system\'s value' },
+    'VGCANVAS' : { 'value' : '', 'desc' : ['value is NANOVG/NANOVG_PLUS/CAIRO'], 'help_info' : 'set awtk use render vgcanvas type, default value is \'\', \'\' is system\'s value' },
+    'NANOVG_BACKEND' : { 'value' : '', 'desc' : ['if NANOVG_BACKEND is valid, VGCANVAS must be NANOVG or \'\'', 'if VGCANVAS is NANOVG_PLUS, NANOVG_BACKEND must be GLES2/GLES3/GL3 or \'\'', 'NANOVG_BACKEND is GLES2/GLES3/GL3/AGG/AGGE'], 'help_info' : 'set awtk\'s nanovg use render model, default value is \'\', \'\' is system\'s value'},
+    'LCD_COLOR_FORMAT' : { 'value' : '', 'desc' : ['if NANOVG_BACKEND is GLES2/GLES3/GL3, LCD_COLOR_FORMAT must be bgra8888 or \'\'', 'if NANOVG_BACKEND is AGG/AGGE, LCD_COLOR_FORMAT must be bgr565/bgra8888/mono or \'\'', 'NANOVG_BACKEND is bgr565/bgra8888/mono'], 'help_info' : 'set awtk\'s lcd color format, default value is \'\', \'\' is system\'s value'},
     'DEBUG' : { 'value' : True, 'desc' : ['awtk\'s compile is debug'], 'help_info' : 'awtk\'s compile is debug, value is true or false, default value is true' },
     'PDB' : { 'value' : True, 'desc' : ['export pdb file'], 'help_info' : 'export pdb file, value is true or false' },
+    'SDL_UBUNTU_USE_IME' : { 'value' : False, 'desc' : ['ubuntu use chinese input engine'], 'help_info' : 'ubuntu use ime, this sopt is ubuntu use chinese input engine, value is true or false, default value is false' },
+    'NATIVE_WINDOW_BORDERLESS' : { 'value' : False, 'desc' : ['pc desktop program no borerless'], 'help_info' : 'pc desktop program no borerless, value is true or false, default value is false' },
+    'NATIVE_WINDOW_NOT_RESIZABLE' : { 'value' : False, 'desc' : ['pc desktop program do not resize program'], 'help_info' : 'pc desktop program do not resize program\'s size, value is true or false, default value is false' },
     'BUILD_TESTS' : { 'value' : True, 'desc' : ['build awtk\'s gtest demo'], 'help_info' : 'build awtk\'s gtest demo, value is true or false, default value is true' },
     'BUILD_DEMOS' : { 'value' : True, 'desc' : ['build awtk\'s demo examples'], 'help_info' : 'build awtk\'s demo examples, value is true or false, default value is true' },
-    'TOOLS_PREFIX' : { 'value' : None, 'desc' : ['compile tools prefix path'], 'help_info' : 'set compile tools prefix path, value allow set \'\''},
-    'OS_FLAGS' : { 'value' : '', 'desc' : ['compile flags'], 'help_info' : 'set compile\'s flags, so care of system and compile tools'},
-    'OS_LIBS' : { 'value' : [], 'desc' : ['compile libs'], 'help_info' : 'set compile\'s libs, so care of system and compile tools, use \',\' split muliple libraries '},
-    'OS_LIBPATH' : { 'value' : [], 'desc' : ['compile lib paths'], 'help_info' : 'set compile\'s lib paths, so care of system and compile tools, use \',\' split muliple librarie\'s paths '},
-    'OS_CPPPATH' : { 'value' : [], 'desc' : ['compile include paths'], 'help_info' : 'set compile\'s include paths, so care of system and compile tools, use \',\' split muliple include path '},
+    'BUILD_TOOLS' : { 'value' : True, 'desc' : ['build awtk\'s tools'], 'help_info' : 'build awtk\'s tools, value is true or false, default value is true' },
+    'WIN32_RES' : { 'value' : '', 'save_file' : False, 'desc' : ['app\'s win32 res path'], 'help_info' : 'app\'s win32 res path, WIN32_RES=XXXXX, value\'s default=\'awtk/win32_res/awtk.res\' ' },
   }
 
   def try_load_default_config(self) :
@@ -98,7 +112,7 @@ class complie_helper :
         self.set_value(userdefine_key, value)
       elif not find_compile_cmd_info_by_name(userdefine_key):
         print('awtk\'s default compiler list does not support {0} , so skip {0} !!!!!!'.format(key))
-      elif key.upper() == self.COMPILE_CMD_INFO['save_flie']['name'] :
+      elif key.upper() == self.COMPILE_CMD_INFO['save_file']['name'] :
         EXPORT_USERDEFINE_FILE = ARGUMENTS[key]
 
     if EXPORT_USERDEFINE_FILE != None :
@@ -139,7 +153,7 @@ class complie_helper :
           save_data += ('# ' + desc)
           save_data += '\n'
         if isinstance(self.config[key]['value'], str) :
-          save_data += (key + ' = \'' + self.config[key]['value'] + '\'')
+          save_data += (key + ' = r\'' + self.config[key]['value'] + '\'')
         else :
           save_data += (key + ' = ' + str(self.config[key]['value']))
         save_data += '\n\n'
