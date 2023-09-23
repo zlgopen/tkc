@@ -310,4 +310,35 @@ const char* tk_socket_get_self_ip_str(int sockfd, char* ip, int len) {
   return NULL;
 }
 
+int tk_udp_socket(void) {
+  return (int)socket(AF_INET, SOCK_DGRAM, 0);
+}
+
+int32_t tk_socket_send(int sock, const void* buffer, uint32_t size, int flags) {
+  return send(sock, buffer, size, flags);
+}
+
+int32_t tk_socket_sendto(int sock, const void* buffer, uint32_t size, int flags, 
+  const struct sockaddr *dest_addr, uint32_t dest_len) {
+  return_value_if_fail(buffer != NULL, 0);
+  return_value_if_fail(dest_addr != NULL, 0);
+  return sendto(sock, buffer, size, flags, dest_addr, (socklen_t)dest_len);
+}
+
+int32_t tk_socket_recv(int sock, void* buffer, uint32_t size, int flags) {
+  return recv(sock, buffer, sock, flags);
+}
+
+int32_t tk_socket_recvfrom(int sock, void* buffer, uint32_t size, int flags,
+  struct sockaddr *dest_addr, uint32_t* dest_len) {
+  return_value_if_fail(buffer != NULL, 0);
+  return_value_if_fail(dest_addr != NULL && dest_len != NULL, 0);
+
+  socklen_t len = *dest_len;
+  int32_t ret = recvfrom(sock, buffer, size, flags, dest_addr, &len);
+  *dest_len = len;
+
+  return ret;
+}
+
 #endif /*WITH_SOCKET*/
