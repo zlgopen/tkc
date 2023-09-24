@@ -1,11 +1,12 @@
 # 最新动态
 2023/09/24
   * 增加tk\_iostream\_tcp\_create\_client
+  * 增加函数hash\_table\_size
 
 2023/09/23
-  * 完善socket_helper
-  * 完善serial_helper
-  * 将serial_helper.c/.h移动到tkc目录。
+  * 完善socket\_helper
+  * 完善serial\_helper
+  * 将serial\_helper.c/.h移动到tkc目录。
 
 2023/09/21
   * 完善serial\_open的注释(感谢俊杰提供补丁)
