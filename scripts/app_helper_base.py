@@ -19,7 +19,7 @@ COMPILE_CONFIG = {
   'LINUX_FB' : { 'value' : False, 'desc' : ['use linux\'s building'], 'help_info' : 'use linux\'s compile tools prefix building, value is true or false'},
   'MVVM_ROOT' : { 'value' : '', 'desc' : ['awtk\'s mvvm root'], 'help_info' : 'set link awtk\'s mvvm root, MVVM_ROOT=XXXXX'},
   'WITH_MVVM' : { 'value' : False, 'desc' : ['use mvvm'], 'help_info' : 'use mvvm\'s lib, value is true or false'},
-  'WITH_JERRYSCRIPT' : { 'value' : False, 'desc' : ['use mvvm\'s js'], 'help_info' : 'use mvvm js\'s lib, value is true or false'},
+  'WITH_JERRYSCRIPT' : { 'value' : True, 'desc' : ['use mvvm\'s js'], 'help_info' : 'use mvvm js\'s lib, value is true or false'},
   'WITH_IOTJS' : { 'value' : False, 'desc' : ['use mvvm\'s iotjs'], 'help_info' : 'use mvvm iotjs\'s lib, value is true or false'},
   'AWFLOW_ROOT' : { 'value' : '', 'desc' : ['awtk\'s awflow root'], 'help_info' : 'set link awtk\'s awflow root, AWFLOW_ROOT=XXXXX'},
   'WITH_AWFLOW' : { 'value' : False, 'desc' : ['use awflow'], 'help_info' : 'use awflow\'s lib, value is true or false'},
@@ -28,7 +28,7 @@ COMPILE_CONFIG = {
   'BUILD_DIR' : { 'value' : None, 'desc' : ['build dir, compile temp file dir'], 'help_info' : 'set build dir, save compile temp file dir or *.obj/.*o dir, BUILD_DIR=XXXXX'},
 #   'APP_BIN_DIR' : { 'value' : None, 'desc' : ['build bin dir'], 'help_info' : 'set build bin dir, APP_BIN_DIR=XXXXX'},
 #   'APP_LIB_DIR' : { 'value' : None, 'desc' : ['build lib dir'], 'help_info' : 'set build lib dir, APP_LIB_DIR=XXXXX'},
-  'DEBUG' : { 'value' : True, 'desc' : ['awtk\'s compile is debug'], 'help_info' : 'awtk\'s compile is debug, value is true or false' },
+  'DEBUG' : { 'value' : None, 'desc' : ['awtk\'s compile is debug'], 'help_info' : 'awtk\'s compile is debug, value is true or false' },
   'PDB' : { 'value' : True, 'desc' : ['export pdb file'], 'help_info' : 'export pdb file, value is true or false' },
   'FLAGS' : { 'value' : '', 'desc' : ['compile flags'], 'help_info' : 'set compile\'s flags, so care of system and compile tools'},
   'LIBS' : { 'value' : [], 'desc' : ['compile libs'], 'help_info' : 'set compile\'s libs, so care of system and compile tools, use \',\' split muliple libraries '},
@@ -273,7 +273,7 @@ class AppHelperBase:
         self.AWTK_CFLAGS = self.awtk.CFLAGS
         self.AWTK_CCFLAGS = self.awtk.CCFLAGS
         self.APP_ROOT = APP_ROOT
-        self.BUILD_DIR = self.complie_helper.get_value('BUILD_DIR', '')
+        self.BUILD_DIR = self.complie_helper.get_value('BUILD_DIR')
         self.BIN_DIR = os.path.join(self.BUILD_DIR, 'bin')
         self.LIB_DIR = os.path.join(self.BUILD_DIR, 'lib')
         self.APP_BIN_DIR = os.path.join(APP_ROOT, self.BIN_DIR)
@@ -288,7 +288,10 @@ class AppHelperBase:
         self.WITH_IOTJS = False
         self.MVVM_ROOT = None
         self.AWFLOW_ROOT = None
-        self.DEBUG = self.complie_helper.get_value('DEBUG', False)
+        if self.LINUX_FB and 'DEBUG' not in ARGUMENTS :
+            self.DEBUG = False
+        else :
+            self.DEBUG = self.complie_helper.get_value('DEBUG')
 
         self.parseArgs(self.awtk, ARGUMENTS)
         self.APP_CPPPATH = [self.APP_SRC, self.APP_RES] + self.complie_helper.get_value('CPPPATH', [])
@@ -310,7 +313,7 @@ class AppHelperBase:
         self.WITH_IOTJS = self.complie_helper.get_value('WITH_IOTJS', False)
 
         WITH_MVVM = self.complie_helper.get_value('WITH_MVVM', False)
-        MVVM_ROOT = self.complie_helper.get_value('MVVM_ROOT', '')
+        MVVM_ROOT = self.complie_helper.get_value('MVVM_ROOT')
         if WITH_MVVM or os.path.exists(MVVM_ROOT):
             os.environ['WITH_MVVM'] = 'true'
             if not os.path.exists(MVVM_ROOT):
@@ -319,7 +322,7 @@ class AppHelperBase:
             print("MVVM_ROOT: " + self.MVVM_ROOT)
 
         WITH_AWFLOW = self.complie_helper.get_value('WITH_AWFLOW', False)
-        AWFLOW_ROOT = self.complie_helper.get_value('AWFLOW_ROOT', '')
+        AWFLOW_ROOT = self.complie_helper.get_value('AWFLOW_ROOT')
         print(WITH_AWFLOW)
         if WITH_AWFLOW or os.path.exists(AWFLOW_ROOT):
             os.environ['WITH_AWFLOW'] = 'true'
@@ -459,7 +462,7 @@ class AppHelperBase:
             APP_RES_ROOT = config.get_res_res_root()
             LCD_ORIENTATION = config.get_res_lcd_orientation(APP_THEME)
 
-        LCD = self.complie_helper.get_value('LCD', '')
+        LCD = self.complie_helper.get_value('LCD')
         if len(LCD) > 0:
             wh = LCD.split('_')
             if len(wh) >= 1:
@@ -467,13 +470,13 @@ class AppHelperBase:
             if len(wh) >= 2:
                 LCD_HEIGHT = wh[1]
 
-        FONT = self.complie_helper.get_value('FONT', '')
+        FONT = self.complie_helper.get_value('FONT')
         if len(FONT) > 0:
             APP_DEFAULT_FONT = FONT
 
         APP_THEME = self.complie_helper.get_value('THEME', APP_THEME)
 
-        LANGUAGE = self.complie_helper.get_value('LANGUAGE', '')
+        LANGUAGE = self.complie_helper.get_value('LANGUAGE')
         if len(LANGUAGE) > 0:
             lan = LANGUAGE.split('_')
             if len(lan) >= 1:
@@ -503,9 +506,9 @@ class AppHelperBase:
         APP_CCFLAGS = APP_CCFLAGS + ' -DAPP_ROOT=\"\\\"' + \
             self.APP_ROOT + '\\\"\" '
 
-        self.APP_CFLAGS = self.complie_helper.get_value('FLAGS', '')
-        self.APP_CCFLAGS = APP_CCFLAGS + self.complie_helper.get_value('FLAGS', '')
-        self.APP_CXXFLAGS = self.APP_CCFLAGS + self.complie_helper.get_value('FLAGS', '')
+        self.APP_CFLAGS = self.complie_helper.get_value('FLAGS')
+        self.APP_CCFLAGS = APP_CCFLAGS + self.complie_helper.get_value('FLAGS')
+        self.APP_CXXFLAGS = self.APP_CCFLAGS + self.complie_helper.get_value('FLAGS')
 
         if PLATFORM == 'Linux':
             self.APP_LINKFLAGS += ' -Wl,-rpath=' + self.APP_BIN_DIR + ' '
@@ -569,12 +572,12 @@ class AppHelperBase:
         if hasattr(awtk, 'OS_DEBUG') :
             OS_DEBUG = awtk.OS_DEBUG
         else :
-            OS_DEBUG = True
+            OS_DEBUG = self.DEBUG
         if hasattr(awtk, 'BUILD_DEBUG_FLAG') :
             BUILD_DEBUG_FLAG = awtk.BUILD_DEBUG_FLAG
         else :
             if hasattr(awtk, 'CC') :
-                BUILD_DEBUG_FLAG = ' -g -O0 '
+                BUILD_DEBUG_FLAG = ' '
             else :
                 BUILD_DEBUG_FLAG = '  /MDd -D_DEBUG -DDEBUG /DEBUG /Od '
         DEBUG = self.complie_helper.get_value('DEBUG', OS_DEBUG)
@@ -686,7 +689,7 @@ class AppHelperBase:
             else :
                 CCFLAGS += BUILD_DEBUG_FLAG
                 CFLAGS += BUILD_DEBUG_FLAG
-                
+
             env = DefaultEnvironment(
                 ENV = os.environ,
                 CC=awtk.CC,
