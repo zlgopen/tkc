@@ -1,4 +1,9 @@
 # 最新动态
+2023/10/04
+  * 增加RET\_EXCEED\_RANGE
+
+2023/10/03
+  * 增加RET\_INVALID\_ADDR
 
 2023/10/02
   * 增加函数tkc\_crc16\_modbus
