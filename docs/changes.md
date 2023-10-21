@@ -1,5 +1,8 @@
 # 最新动态
 
+2023/10/20
+  * 完善conf\_node\_set\_value
+
 2023/10/19
   * 增加函数fs\_stat\_info\_create/fs\_stat\_info\_destroy
   * 增加函数fs\_item\_create/fs\_item\_destroy
