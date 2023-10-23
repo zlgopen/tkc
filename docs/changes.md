@@ -1,7 +1,9 @@
 # 最新动态
+
 2023/10/23
   * 增加函数wbuffer\_create/wbuffer\_destroy/rbuffer\_create/rbuffer\_destroy
   * 增加杀死子进程的函数和设置子程序工作目录函数(感谢智明提供补丁)
+  * 修复子进程断开信号不正常的问题(感谢智明提供补丁)
 
 2023/10/20
   * 完善conf\_node\_set\_value
