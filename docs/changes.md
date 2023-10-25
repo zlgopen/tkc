@@ -1,4 +1,6 @@
 # 最新动态
+2023/10/25
+  * 增加函数tk\_iostream\_serial\_create\_ex
 
 2023/10/24
   * 完善stream。
