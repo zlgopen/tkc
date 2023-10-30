@@ -1003,9 +1003,9 @@ ret_t tk_wstr_select_word(const wchar_t* str, uint32_t len, uint32_t index, int3
       } else if (tk_isspace(str[i])) {
         break;
       } else if (!tk_isspace(str[i + 1]) && wcs_chr(no_start_symbols, str[i + 1]) == NULL &&
-          (tk_isalpha(str[i]) && !tk_isalpha(str[i + 1])) || !tk_isalpha(str[i]) && tk_isalpha(str[i + 1])) {
+          ((tk_isalpha(str[i]) && !tk_isalpha(str[i + 1])) || (!tk_isalpha(str[i]) && tk_isalpha(str[i + 1])))) {
         break;
-      } else if ((tk_isdigit(str[i]) && !tk_isdigit(str[i + 1])) || !tk_isdigit(str[i]) && tk_isdigit(str[i + 1])) {
+      } else if ((tk_isdigit(str[i]) && !tk_isdigit(str[i + 1])) || (!tk_isdigit(str[i]) && tk_isdigit(str[i + 1]))) {
         break;
       }
     }
@@ -1037,10 +1037,10 @@ ret_t tk_wstr_select_word(const wchar_t* str, uint32_t len, uint32_t index, int3
       } else if (tk_isspace(str[i - 1])) {
         *right = i - 1;
         break;
-      } else if ((tk_isalpha(str[i]) && !tk_isalpha(str[i - 1])) || !tk_isalpha(str[i]) && tk_isalpha(str[i - 1])) {
+      } else if ((tk_isalpha(str[i]) && !tk_isalpha(str[i - 1])) || (!tk_isalpha(str[i]) && tk_isalpha(str[i - 1]))) {
         *right = i;
         break;
-      } else if ((tk_isdigit(str[i]) && !tk_isdigit(str[i - 1])) || !tk_isdigit(str[i]) && tk_isdigit(str[i - 1])) {
+      } else if ((tk_isdigit(str[i]) && !tk_isdigit(str[i - 1])) || (!tk_isdigit(str[i]) && tk_isdigit(str[i - 1]))) {
         *right = i;
         break;
       }
