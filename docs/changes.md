@@ -1,6 +1,6 @@
 # 最新动态
 
-2023/10/28
+2023/10/30
   * 修复conf\_doc\_dup\_node复制数组的问题(感谢俊杰提供补丁)。
   * 增加debugger\_get\_curr\_frame\_index函数(感谢智明提供补丁)
   * 修复tk\_wstr\_select\_word编译警告(感谢颖健提供补丁)
