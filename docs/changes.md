@@ -1,5 +1,8 @@
 # 最新动态
 
+2023/11/23
+  * 修正awtk的scons参数args的统一处理，以及删掉一些重复写的编译参数。对scons参数为none时才设置为默认值，对参数值为空字符串及空数组时直接替换进去不做特殊处理。(感谢陈谭和智明提供补丁)
+
 2023/11/17
   * 增加函数action\_darray\_thread\_set\_idle\_interval((感谢林福提供补丁)
   * 修复Windows下打开串口失败tk\_iostream\_serial\_create崩溃的问题。
