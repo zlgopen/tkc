@@ -39,6 +39,7 @@ static ret_t tk_ignore_sig_pipe(void) {
 #endif/*LINUX*/
 
 #ifdef WIN32
+#include <ws2tcpip.h>
 #pragma comment(lib, "ws2_32")
 ret_t tk_socket_init() {
   int iResult;
@@ -353,4 +354,12 @@ int32_t tk_socket_recvfrom(int sock, void* buffer, uint32_t size, int flags,
   return ret;
 }
 
+#else
+ret_t tk_socket_init(void) {
+  return RET_OK;
+}
+
+ret_t tk_socket_deinit(void) {
+  return RET_OK;
+}
 #endif /*WITH_SOCKET*/
