@@ -35,9 +35,12 @@
 #include "tkc/wstr.h"
 #include "tkc/thread.h"
 #include "tkc/time_now.h"
+#include "tkc/serial_helper.h"
+
+#ifdef TK_IS_PC
 #include "tkc/socket_pair.h"
 #include "tkc/socket_helper.h"
-#include "tkc/serial_helper.h"
+#endif/*TK_IS_PC*/
 
 #ifdef WIN32
 #define prefix L"\\\\.\\"
