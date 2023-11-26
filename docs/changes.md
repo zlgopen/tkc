@@ -1,4 +1,7 @@
 # 最新动态
+2023/11/26
+  * 增加函数 wbuffer\_write\_value/rbuffer\_read\_value
+  * 完善 ubjson\_writer
 
 2023/11/24
   * 修改 debugger 的 dispatch_messages 函数和调试下一步等按钮会修改 debugger 状态(感谢智明提供补丁)
