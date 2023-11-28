@@ -1,4 +1,8 @@
 # 最新动态
+
+2023/11/28
+  * 完善log hook
+
 2023/11/26
   * 增加函数 wbuffer\_write\_value/rbuffer\_read\_value
   * 完善 ubjson\_writer
