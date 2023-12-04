@@ -1,4 +1,7 @@
 # 最新动态
+  
+2023/12/04
+  * 增加函数tk_levelize。fscript增加levelize函数。
 
 2023/12/01
   * conf_json 支持块注释/**/和行注释//
