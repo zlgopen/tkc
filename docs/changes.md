@@ -2,6 +2,7 @@
   
 2023/12/04
   * 增加函数tk_levelize。fscript增加levelize函数。
+  * 修改debugger\_lldb\_stop等待超时的问题以及修复continue显示问题 (感谢智明提供补丁)
 
 2023/12/01
   * conf_json 支持块注释/**/和行注释//
