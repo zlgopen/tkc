@@ -1,5 +1,8 @@
 # 最新动态
 
+2023/12/06
+  * fscript 增加 date\_time\_format
+
 2023/12/05
   * 完善fscript部分数学函数。
   
