@@ -1,5 +1,8 @@
 # 最新动态
 
+2023/12/15
+  * 完善csv file object
+
 2023/12/13
   * fscript 增加函数sha256。
 
