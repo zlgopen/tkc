@@ -1,7 +1,8 @@
 # 最新动态
 
 2023/12/27
-  * 增加函数tk\_islower/tk\_isupper
+  * 增加函数tk\_islower/tk\_isupper(感谢兆坤提供补丁)
+  * 增加函数slist\_find\_ex(感谢兆坤提供补丁)
 
 2023/12/26
   * 完善API注释错误（感谢俊杰发现问题)
