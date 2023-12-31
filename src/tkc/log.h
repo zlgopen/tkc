@@ -153,7 +153,7 @@ int32_t log_dummy(const char* fmt, ...);
  */
 ret_t log_notify(log_level_t level, const char* format, ...);
 
-typedef ret_t (*tk_log_hook_t)(void* ctx, log_level_t level, const char* msg);
+typedef ret_t (*tk_log_hook_t)(void* ctx, log_level_t level, const char * format, va_list ap);
 
 /**
  * @method log_set_hook
