@@ -2,6 +2,7 @@
 
 2023/12/30
   * 完善log hook方便支持多线程。
+  * 为了避免冲突将tkc中的log\_level\_t改为tk\_log\_level\_t 
 
 2023/12/27
   * 增加函数tk\_islower/tk\_isupper(感谢兆坤提供补丁)

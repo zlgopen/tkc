@@ -16,15 +16,15 @@
 #include "tkc/mem.h"
 #include "tkc/utils.h"
 
-static log_level_t s_log_level = LOG_LEVEL_DEBUG;
+static tk_log_level_t s_log_level = LOG_LEVEL_DEBUG;
 
-ret_t log_set_log_level(log_level_t log_level) {
+ret_t log_set_log_level(tk_log_level_t log_level) {
   s_log_level = log_level;
 
   return RET_OK;
 }
 
-log_level_t log_get_log_level(void) {
+tk_log_level_t log_get_log_level(void) {
   return s_log_level;
 }
 
@@ -37,7 +37,7 @@ int32_t log_dummy(const char* fmt, ...) {
 static void* s_log_hook_ctx = NULL;
 static tk_log_hook_t s_log_hook = NULL;
 
-ret_t log_notify(log_level_t level, const char* format, ...) {
+ret_t log_notify(tk_log_level_t level, const char* format, ...) {
   va_list va;
 
   if (s_log_hook != NULL) {
@@ -56,7 +56,7 @@ ret_t log_set_hook(tk_log_hook_t log, void* ctx) {
   return RET_OK;
 }
 #else
-ret_t log_notify(log_level_t level, const char* format, ...) {
+ret_t log_notify(tk_log_level_t level, const char* format, ...) {
   return RET_OK;
 }
 ret_t log_set_hook(tk_log_hook_t log, void* ctx) {
