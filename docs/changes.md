@@ -1,5 +1,8 @@
 # 最新动态
 
+2024/01/02
+  * 增加函数 tokenizer\_next\_str\_until
+
 2023/12/30
   * 完善log hook方便支持多线程。
   * 为了避免冲突将tkc中的log\_level\_t改为tk\_log\_level\_t 
