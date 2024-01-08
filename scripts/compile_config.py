@@ -1,8 +1,10 @@
 ﻿import os
 import io
 import sys
+import json
 import shutil
 import importlib
+import collections
 from distutils.util import strtobool
 
 global COMPILE_CONFIG
@@ -41,26 +43,54 @@ def get_curr_config_for_awtk() :
     return COMPILE_CONFIG
   else :
     COMPILE_CONFIG = complie_helper()
-    COMPILE_CONFIG.try_load_default_config()
+    if not COMPILE_CONFIG.load_last_complie_argv() :
+      print('========================= Error ================================')
+      print('Please Recompile AWTK !!!!!')
+      sys.exit('Not found last complie argv config file !!!!!')
     COMPILE_CONFIG.set_value('WIN32_RES', WIN32_RES)
     return COMPILE_CONFIG;
 
+def json_obj_load_file(file_path) :
+  obj = None;
+  if os.path.exists(file_path) :
+    try :
+      with io.open(file_path, 'r', encoding='utf-8') as file :
+        obj = json.load(file);
+    except Exception as e :
+        print(e)
+  return obj;
+
+def json_obj_save_file(obj, file_path) :
+  dir = os.path.dirname(file_path);
+  if os.path.exists(dir) :
+    try :
+      with io.open(file_path, 'w', encoding='utf-8') as file :
+        if sys.version_info >= (3, 0):
+          json.dump(obj, file, indent=4, ensure_ascii=False)
+        else :
+          file.write(json.dumps(obj, indent=4, ensure_ascii=False).decode('utf-8'))
+    except Exception as e :
+        print(e)
+  else :
+    print(dir + ' is not exists')
+
 class complie_helper :
   DEFAULT_CONFIG_FILE = './awtk_config_define.py'
+  LAST_COMLIP_ARGV_FILE = './bin/last_complie_argv.json'
 
-  COMPILE_CMD_INFO = {
+  COMPILE_CMD_INFO = collections.OrderedDict({
     'help' : { 'name': 'HELP', 'help_info' : 'show all usage'},
     'userdefine' : { 'name' : 'DEFINE_FILE', 'help_info' : 'set user config define file, DEFINE_FILE=XXXXX'},
     'save_file' : { 'name' : 'EXPORT_DEFINE_FILE', 'help_info' : 'current config define export to file, EXPORT_DEFINE_FILE=./awtk_config_define.py'},
-  }
+  })
 
-  config = {
-    'OUTPUT_DIR' : { 'value' : '', 'desc' : ['compiled export directory '], 'help_info' : 'set awtk compiled export directory, default value is \'\', \'\' is system\'s value'},
-    'TOOLS_NAME' : { 'value' : '', 'desc' : ['value is mingw or \'\''], 'help_info' : 'set awtk compile\'s name, default value is \'\', \'\' is system\'s value'},
-    'INPUT_ENGINE' : { 'value' : '', 'desc' : ['value is null/spinyin/t9/t9ext/pinyin'], 'help_info' : 'set awtk use input engine, default value is \'\', \'\' is system\'s value' },
-    'VGCANVAS' : { 'value' : '', 'desc' : ['value is NANOVG/NANOVG_PLUS/CAIRO'], 'help_info' : 'set awtk use render vgcanvas type, default value is \'\', \'\' is system\'s value' },
-    'NANOVG_BACKEND' : { 'value' : '', 'desc' : ['if NANOVG_BACKEND is valid, VGCANVAS must be NANOVG or \'\'', 'if VGCANVAS is NANOVG_PLUS, NANOVG_BACKEND must be GLES2/GLES3/GL3 or \'\'', 'NANOVG_BACKEND is GLES2/GLES3/GL3/AGG/AGGE'], 'help_info' : 'set awtk\'s nanovg use render model, default value is \'\', \'\' is system\'s value'},
-    'LCD_COLOR_FORMAT' : { 'value' : '', 'desc' : ['if NANOVG_BACKEND is GLES2/GLES3/GL3, LCD_COLOR_FORMAT must be bgra8888 or \'\'', 'if NANOVG_BACKEND is AGG/AGGE, LCD_COLOR_FORMAT must be bgr565/bgra8888/mono or \'\'', 'NANOVG_BACKEND is bgr565/bgra8888/mono'], 'help_info' : 'set awtk\'s lcd color format, default value is \'\', \'\' is system\'s value'},
+  config = collections.OrderedDict({
+    'OUTPUT_DIR' : { 'value' : None, 'desc' : ['compiled export directory '], 'help_info' : 'set awtk compiled export directory, default value is \'\', \'\' is system\'s value'},
+    'TOOLS_NAME' : { 'value' : None, 'str_enum' : ['mingw'], 'desc' : ['value is \'mingw\' or None'], 'help_info' : 'set awtk compile\'s name, default value is None, None is system\'s value'},
+    'INPUT_ENGINE' : { 'value' : None, 'str_enum' : ['null', 'spinyin', 't9', 't9ext', 'pinyin'], 'desc' : ['value is null/spinyin/t9/t9ext/pinyin'], 'help_info' : 'set awtk use input engine, default value is None, None is system\'s value' },
+    'VGCANVAS' : { 'value' : None, 'str_enum' : ['NANOVG', 'NANOVG_PLUS', 'CAIRO'], 'desc' : ['value is NANOVG/NANOVG_PLUS/CAIRO'], 'help_info' : 'set awtk use render vgcanvas type, default value is None, None is system\'s value' },
+    'NANOVG_BACKEND' : { 'value' : None, 'str_enum' : ['GLES2', 'GLES3', 'GL3', 'AGG', 'AGGE'], 'desc' : ['if NANOVG_BACKEND is valid, VGCANVAS must be NANOVG or \'\'', 'if VGCANVAS is NANOVG_PLUS, NANOVG_BACKEND must be GLES2/GLES3/GL3 or None', 'NANOVG_BACKEND is GLES2/GLES3/GL3/AGG/AGGE'], 'help_info' : 'set awtk\'s nanovg use render model, default value is None, None is system\'s value'},
+    'LCD_COLOR_FORMAT' : { 'value' : None, 'str_enum' : ['bgr565', 'bgra8888', 'mono'], 'desc' : ['if NANOVG_BACKEND is GLES2/GLES3/GL3, LCD_COLOR_FORMAT must be bgra8888 or \'\'', 'if NANOVG_BACKEND is AGG/AGGE, LCD_COLOR_FORMAT must be bgr565/bgra8888/mono or None', 'NANOVG_BACKEND is bgr565/bgra8888/mono'], 'help_info' : 'set awtk\'s lcd color format, default value is None, None is system\'s value'},
     'DEBUG' : { 'value' : True, 'desc' : ['awtk\'s compile is debug'], 'help_info' : 'awtk\'s compile is debug, value is true or false, default value is true' },
     'PDB' : { 'value' : True, 'desc' : ['export pdb file'], 'help_info' : 'export pdb file, value is true or false' },
     'SDL_UBUNTU_USE_IME' : { 'value' : False, 'desc' : ['ubuntu use chinese input engine'], 'help_info' : 'ubuntu use ime, this sopt is ubuntu use chinese input engine, value is true or false, default value is false' },
@@ -69,8 +99,8 @@ class complie_helper :
     'BUILD_TESTS' : { 'value' : True, 'desc' : ['build awtk\'s gtest demo'], 'help_info' : 'build awtk\'s gtest demo, value is true or false, default value is true' },
     'BUILD_DEMOS' : { 'value' : True, 'desc' : ['build awtk\'s demo examples'], 'help_info' : 'build awtk\'s demo examples, value is true or false, default value is true' },
     'BUILD_TOOLS' : { 'value' : True, 'desc' : ['build awtk\'s tools'], 'help_info' : 'build awtk\'s tools, value is true or false, default value is true' },
-    'WIN32_RES' : { 'value' : '', 'save_file' : False, 'desc' : ['app\'s win32 res path'], 'help_info' : 'app\'s win32 res path, WIN32_RES=XXXXX, value\'s default=\'awtk/win32_res/awtk.res\' ' },
-  }
+    'WIN32_RES' : { 'value' : None, 'save_file' : False, 'desc' : ['app\'s win32 res path'], 'help_info' : 'app\'s win32 res path, WIN32_RES=XXXXX, value\'s default=\'awtk/win32_res/awtk.res\' ' },
+  })
 
   def try_load_default_config(self) :
     if os.path.exists(self.DEFAULT_CONFIG_FILE) :
@@ -88,6 +118,22 @@ class complie_helper :
           break;
         else :
           sys.exit('userdefine sopt is not found :' + file)
+
+  def check_config_legality(self) :
+    for key in self.config :
+      check = False
+      if not 'str_enum' in self.config[key] :
+        continue
+      if self.config[key]['value'] != '' and self.config[key]['value'] != None:
+        for str_enum in self.config[key]['str_enum'] :
+          if str_enum == self.config[key]['value'] :
+            check = True
+            break
+        if not check :
+          if self.config[key]['value'] == None:
+            sys.exit(key + ' \'s value is None, is not legality !')
+          else :
+            sys.exit(key + ' \'s value is ' + self.config[key]['value'] + ', is not legality !')
 
   def scons_user_sopt(self, ARGUMENTS) :
     EXPORT_USERDEFINE_FILE = None
@@ -119,6 +165,8 @@ class complie_helper :
       self.save_config(EXPORT_USERDEFINE_FILE)
       sys.exit()
 
+    self.check_config_legality()
+
 
   def show_usage(self) :
     print('=========================================================')
@@ -144,8 +192,9 @@ class complie_helper :
     dir = os.path.dirname(file);
     if os.path.exists(dir) :
       save_data = ''
-      save_data += '# user set default configuration item'
-      save_data += '\n\n'
+      save_data += '# user set default configuration item \n'
+      save_data += '# if value is None, so value is default value \n'
+      save_data += '\n'
       for key in self.config :
         if 'save_file' in self.config[key] and not self.config[key]['save_file'] :
           continue
@@ -184,13 +233,10 @@ class complie_helper :
   def has_key(self, name) :
     return name in self.config
 
-  def get_value(self, name, default_value = '') :
-    if name in self.config :
-      if self.config[name]['value'] != '' and self.config[name]['value'] != None :
-        return self.config[name]['value']
-    return default_value
+  def get_value(self, name, default_value = None) :
+    return self.get_unique_value(name, default_value)
 
-  def get_unique_value(self, name, default_value = '') :
+  def get_unique_value(self, name, default_value) :
     if name in self.config and self.config[name]['value'] != None :
       return self.config[name]['value']
     return default_value
@@ -207,6 +253,15 @@ class complie_helper :
         self.config[name]['value'] = value
       else :
         self.config[name]['value'] = type(self.config[name]['value'])(value)
+
+  def save_last_complie_argv(self) :
+    json_obj_save_file(self.config, self.LAST_COMLIP_ARGV_FILE);
+  
+  def load_last_complie_argv(self) :
+    if os.path.exists(self.LAST_COMLIP_ARGV_FILE) :
+      self.config = collections.OrderedDict(json_obj_load_file(self.LAST_COMLIP_ARGV_FILE));
+      return True
+    return False
 
   def output_compile_data(self, awtk_root) :
     output_dir = self.config['OUTPUT_DIR']['value']
