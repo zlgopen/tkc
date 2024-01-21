@@ -699,6 +699,33 @@ int32_t tk_pointer_to_int(const void* p);
 void* tk_pointer_from_int(int32_t v);
 
 /**
+ * @method tk_pointer_to_long
+ *
+ * 将指针转换成long。
+ * 
+ *>与tk_pointer_from_long配套使用，也就是pointer本身必须就是整数，而不是指针，否则pointer会被截断。
+ * 
+ * 
+ * @param {const void*} p 指针。
+ * 
+ * @return {uint64_t} 返回对应的long数据。
+ */
+uint64_t tk_pointer_to_long(const void* p);
+
+/**
+ * @method tk_pointer_from_long
+ *
+ * 将long转换成指针。
+ * 
+ * > 常用于将long类型的数据作为回调函数的ctx。
+ * 
+ * @param {uint64_t} v 整数。
+ * 
+ * @return {void*} 返回对应的指针。
+ */
+void* tk_pointer_from_long(uint64_t v);
+
+/**
  * @method tk_str_toupper
  *
  * 将小写字母转换为大写字母。
@@ -1105,6 +1132,14 @@ uint32_t tk_count_char(const char* str, char c);
  * @return {ret_t} 返回RET_OK表示成功，否则表示失败。
  */
 ret_t tk_date_time_format(uint64_t time, const char* format, str_t* result);
+
+/**
+ * @method tk_bits_to_bytes
+ * 将bits转换成bytes。
+ * @param {uint32_t} bits bits。
+ * @return {uint32_t} 返回bytes。
+ */
+uint32_t tk_bits_to_bytes(uint32_t bits);
 
 #define TK_STRDUP(str) ((str) != NULL) ? tk_strdup(str) : NULL
 #define TK_STRNDUP(str, len) ((str) != NULL) ? tk_strndup(str, len) : NULL

@@ -1,5 +1,8 @@
 # 最新动态
 
+2024/01/21
+  * add tk\_pointer\_to\_long/tk\_pointer\_from\_long/tk\_bits\_to\_bytes
+
 2024/01/15
   * 修复mingw编译app的时候报错的问题(感谢智明提供补丁) 
 
