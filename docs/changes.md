@@ -1,4 +1,6 @@
 # 最新动态
+2024/01/23
+  * 修复pthread无法修改优先级和栈大小的问题(感谢智明提供补丁)
 
 2024/01/21
   * add tk\_pointer\_to\_long/tk\_pointer\_from\_long/tk\_bits\_to\_bytes
