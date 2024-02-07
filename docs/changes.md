@@ -1,4 +1,8 @@
 # 最新动态
+
+2024/02/07
+  * 增加函数tk\_bits\_data\_to\_bytes\_data/tk\_bits\_data\_from\_bytes\_data
+
 2024/01/23
   * 修复pthread无法修改优先级和栈大小的问题(感谢智明提供补丁)
 
