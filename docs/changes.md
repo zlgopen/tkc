@@ -1,4 +1,6 @@
 # 最新动态
+2024/02/19
+  * 增加函数str\_append\_json\_pair（感谢林福提供补丁)
 
 2024/02/07
   * 增加函数tk\_bits\_data\_to\_bytes\_data/tk\_bits\_data\_from\_bytes\_data
