@@ -25,7 +25,6 @@
 #include "tkc/path.h"
 #include "tkc/buffer.h"
 
-
 ret_t zip_file_extract(const char* zipfile, const char* dst_dir, const char* password) {
   mz_zip_archive zip;
   mz_uint i = 0;
