@@ -1,5 +1,8 @@
 # 最新动态
 
+2024/03/04
+  * 增加zip_file。
+
 2024/02/23
   * 增加了tk\_tcp\_connect\_ex函数，给tk\_stream\_factory\_create\_iostream函数增加了设置连接超时的timeout参数支持，主要是让awtk-hmi的modbus主站可以设置超时参数，比如url":"tcp://localhost:502?timeout=3000(感谢陈谭提供补丁)
   * xml\_file\_expand 函数去除 property 标签作用域下的屏蔽(感谢高源提供补丁)
