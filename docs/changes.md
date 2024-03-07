@@ -1,4 +1,8 @@
 # 最新动态
+
+2024/03/07
+  * debuger支持load config，用于让lldb加载init命令。
+
 2024/03/06
   * 增加函数tk\_tcp\_is\_port\_in\_use
 
