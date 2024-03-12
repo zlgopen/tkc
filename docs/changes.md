@@ -2,6 +2,7 @@
 
 2024/03/12
   * 完善函数 tk\_buffer\_set\_value/tk\_buffer\_get\_value
+  * 增加函数 tk\_size\_of\_basic\_type
 
 2024/03/10
   * 增加函数tk\_basic\_type\_from\_name
