@@ -2,6 +2,7 @@
 
 2024/03/16
   * 完善debugger_lldb修改请求超时时间。
+  * 完善debugger_lldb支持targetCreateCommands
 
 2024/03/15
   * 修改内存泄露。
