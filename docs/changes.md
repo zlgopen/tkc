@@ -1,5 +1,8 @@
 # 最新动态
 
+2024/03/16
+  * 完善debugger_lldb修改请求超时时间。
+
 2024/03/15
   * 修改内存泄露。
   * 增加函数tk\_distance/tk\_value\_to\_angle/tk\_angle
