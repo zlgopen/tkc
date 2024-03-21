@@ -1,5 +1,8 @@
 # 最新动态
 
+2024/03/21
+  * 完善tk\_buffer_set_value/tk_buffer_get_value
+
 2024/03/20
   * 增加函数tk\_object\_set\_prop\_str\_with\_format
 
