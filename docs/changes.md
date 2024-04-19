@@ -1,4 +1,7 @@
 # 最新动态
+2024/04/19
+  * 增加函数str\_shrink/wstr\_shrink。
+
 2024/04/09
   * conf doc extend type\ 支持数组类型(感谢兆坤提供补丁)
 
