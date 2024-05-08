@@ -3,6 +3,7 @@
 2024/05/8
   * 完善value_uint32(感谢华健提供补丁)
   * 完善fscript iformat(感谢华健提供补丁)
+  * 完善debugger_lldb(感谢智明提供补丁)
 
 2024/04/19
   * 增加函数str\_shrink/wstr\_shrink。
