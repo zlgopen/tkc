@@ -1,4 +1,8 @@
 # 最新动态
+2024/05/28
+  * event\_source\_manager支持微秒级的sleep。
+  * 增加sleep\_us(目前只支持linux)
+
 2024/05/24
   * 增加函数tk\_int\_is\_in\_array
 
