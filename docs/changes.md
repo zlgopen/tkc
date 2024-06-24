@@ -1,4 +1,6 @@
 # 最新动态
+2024/06/24
+  * fscript支持注册自定义事件(感谢雨欣提供补丁)
 
 2024/06/19
   * 增加函数tk\_str\_case\_start\_with/tk\_str\_case\_end\_with
