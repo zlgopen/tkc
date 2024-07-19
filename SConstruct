@@ -11,7 +11,7 @@ import awtk_config as awtk
 
 awtk.scons_db_check_and_remove()
 
-APP_TOOLS = None
+APP_TOOLS = ['default']
 if awtk.TOOLS_NAME != '' :
   APP_TOOLS = [awtk.TOOLS_NAME]
 
