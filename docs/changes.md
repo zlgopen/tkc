@@ -1,6 +1,7 @@
 # 最新动态
 2024/07/23
   * 优化conf_json_parse_array接口效率(感谢雨欣提供补丁)
+  * 修复部分linux设备获取串口配置不正常的问题(感谢智明提供补丁) 
 
 2024/07/22
   * 修改app_helper优先使用compile config设定的APP_ROOT(感谢朝泽提供补丁)
