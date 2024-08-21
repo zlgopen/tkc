@@ -2,6 +2,7 @@
 
 2024/08/21
   * darray去除告警信息(感谢兆坤提供补丁)
+  * 保持object_default_remove_prop\ 与\ set_prop\ get_prop\ 逻辑一致(感谢兆坤提供补丁)
 
 2024/08/15
   * 修改debugger_lldb_get_callstack_ex增加tid的参数并且增加fdb的测试例子(感谢智明提供补丁)
