@@ -1384,7 +1384,7 @@ TEST(value, expt) {
 }
 
 TEST(value, min) {
-  int32_t i = 0;
+  uint32_t i = 0;
   value_t v[10];
   value_t o;
 
@@ -1431,7 +1431,7 @@ TEST(value, min) {
   ASSERT_EQ(value_uint32(&o), 1u);
 
   for (i = 0; i < ARRAY_SIZE(v); i++) {
-    value_set_int64(v + i, i * ((i % 2 == 0) ? -1 : 1));
+    value_set_int64(v + i, (int)i * ((i % 2 == 0) ? -1 : 1));
   }
   ASSERT_EQ(value_min(v, ARRAY_SIZE(v), &o), RET_OK);
   ASSERT_EQ(o.type, VALUE_TYPE_INT64);
@@ -1461,7 +1461,7 @@ TEST(value, min) {
 }
 
 TEST(value, max) {
-  int32_t i = 0;
+  uint32_t i = 0;
   value_t v[10];
   value_t o;
 
@@ -1508,7 +1508,7 @@ TEST(value, max) {
   ASSERT_EQ(value_uint32(&o), 10u);
 
   for (i = 0; i < ARRAY_SIZE(v); i++) {
-    value_set_int64(v + i, i * ((i % 2 == 0) ? -1 : 1));
+    value_set_int64(v + i, (int)i * ((i % 2 == 0) ? -1 : 1));
   }
   ASSERT_EQ(value_max(v, ARRAY_SIZE(v), &o), RET_OK);
   ASSERT_EQ(o.type, VALUE_TYPE_INT64);
@@ -1537,7 +1537,7 @@ TEST(value, max) {
   ASSERT_STREQ(value_str(&o), "c");
 }
 
-TEST(ValueTest, dup_wstr) {
+TEST(value, dup_wstr) {
   value_t v;
   const wchar_t* wstr = L"hello";
 
