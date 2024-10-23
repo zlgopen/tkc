@@ -1144,50 +1144,6 @@ static ret_t escape_json_str(str_t* str, const char* p) {
   return RET_OK;
 }
 
-static ret_t to_json_on_prop(void* ctx, const void* data) {
-  named_value_t* nv = (named_value_t*)data;
-  to_json_ctx_t* info = (to_json_ctx_t*)ctx;
-
-  if (info->index > 0) {
-    str_append_char(info->str, ',');
-  }
-
-  if (!tk_object_is_collection(info->obj)) {
-    str_append_more(info->str, "\"", nv->name, "\":", NULL);
-  }
-
-  switch (nv->value.type) {
-    case VALUE_TYPE_OBJECT: {
-      str_t str;
-      str_init(&str, 100);
-      tk_object_to_json(value_object(&(nv->value)), &str, 2, 0, FALSE);
-      str_append(info->str, str.str);
-      str_reset(&str);
-      break;
-    }
-    case VALUE_TYPE_STRING: {
-      escape_json_str(info->str, value_str(&(nv->value)));
-      break;
-    }
-    case VALUE_TYPE_WSTRING: {
-      str_t str;
-      str_init(&str, 100);
-      str_from_wstr(&str, value_wstr(&(nv->value)));
-      escape_json_str(info->str, str.str);
-      str_reset(&str);
-      break;
-    }
-    default: {
-      char buff[32];
-      str_append(info->str, value_str_ex(&(nv->value), buff, sizeof(buff) - 1));
-      break;
-    }
-  }
-
-  info->index++;
-  return RET_OK;
-}
-
 #ifdef WITH_DATA_READER_WRITER
 ret_t data_url_copy(const char* dst_url, const char* src_url) {
   ret_t ret = RET_OK;
