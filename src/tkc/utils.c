@@ -1122,28 +1122,6 @@ ret_t image_region_parse(uint32_t img_w, uint32_t img_h, const char* region, rec
   return RET_FAIL;
 }
 
-typedef struct _to_json_ctx_t {
-  tk_object_t* obj;
-  str_t* str;
-  uint32_t index;
-} to_json_ctx_t;
-
-static ret_t escape_json_str(str_t* str, const char* p) {
-  str_append_char(str, '\"');
-  if (p != NULL) {
-    while (*p) {
-      if (*p == '\"' || *p == '\\') {
-        str_append_char(str, '\\');
-      }
-      str_append_char(str, *p);
-      p++;
-    }
-  }
-  str_append_char(str, '\"');
-
-  return RET_OK;
-}
-
 #ifdef WITH_DATA_READER_WRITER
 ret_t data_url_copy(const char* dst_url, const char* src_url) {
   ret_t ret = RET_OK;
