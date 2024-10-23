@@ -1,7 +1,8 @@
 # 最新动态
 
-2024/10/22
+2024/10/23
   * 增加tk_sha256_hash_from_str(感谢兆坤提供补丁)
+  * 修改object_to_json和tk_object_to_json重复的问题。
 
 2024/10/21
   * 完善object to json(感谢兆坤提供补丁)
