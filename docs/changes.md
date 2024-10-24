@@ -1,5 +1,8 @@
 # 最新动态
 
+2024/10/24
+  * tk_swap防止临时变量重名(感谢兆坤提供补丁)
+
 2024/10/23
   * 增加tk_sha256_hash_from_str(感谢兆坤提供补丁)
   * 修改object_to_json和tk_object_to_json重复的问题。
