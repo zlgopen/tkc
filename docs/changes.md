@@ -1,5 +1,8 @@
 # 最新动态
 
+2024/11/04
+  * 完善\ object_array\ 和\ named_value(感谢兆坤提供补丁)
+
 2024/10/30
   * 完善object\ compare(感谢兆坤提供补丁) 
 
