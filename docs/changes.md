@@ -2,6 +2,7 @@
 
 2024/11/06
   * object hash 增加 keep_props_order 属性(感谢兆坤提供补丁)
+  * 完善 named_value_hash(感谢兆坤提供补丁)
 
 2024/11/04
   * 完善 object_array 和 named_value(感谢兆坤提供补丁)
