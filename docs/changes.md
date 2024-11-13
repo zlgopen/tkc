@@ -1,5 +1,8 @@
 # 最新动态
 
+2024/11/13
+  * 增加\ TK_STRINGIZE(感谢兆坤提供补丁)
+
 2024/11/08
   * 完善object_array 和 tk_str_indexable(感谢兆坤提供补丁)
 
