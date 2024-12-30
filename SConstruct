@@ -3,10 +3,10 @@ import sys
 import atexit
 sys.path.insert(0, './scripts')
 import compile_config
-complie_helper = compile_config.complie_helper()
-complie_helper.try_load_default_config()
-complie_helper.scons_user_sopt(ARGUMENTS)
-compile_config.set_curr_config(complie_helper)
+compile_helper = compile_config.compile_helper()
+compile_helper.try_load_default_config()
+compile_helper.scons_user_sopt(ARGUMENTS)
+compile_config.set_curr_config(compile_helper)
 import awtk_config as awtk
 
 awtk.scons_db_check_and_remove()
@@ -68,10 +68,10 @@ SConscriptFiles=[
   'src/debugger/SConscript',
   ]
 
-if complie_helper.get_value('BUILD_DEMOS', True) :
+if compile_helper.get_value('BUILD_DEMOS', True) :
   SConscriptFiles += ['demos/SConscript']
 
-if complie_helper.get_value('BUILD_TESTS', True) :
+if compile_helper.get_value('BUILD_TESTS', True) :
   SConscriptFiles += ['tests/SConscript']
 
 SConscriptFiles += awtk.OS_PROJECTS
@@ -83,6 +83,6 @@ os.environ['LIB_DIR'] = awtk.TK_LIB_DIR;
 SConscript(SConscriptFiles)
 
 def compile_end() :
-  complie_helper.output_compile_data(awtk.TK_ROOT)
+  compile_helper.output_compile_data(awtk.TK_ROOT)
 
 atexit.register(compile_end)

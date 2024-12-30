@@ -6,7 +6,7 @@ import os.path
 
 sys.path.insert(0, os.path.join(os.path.abspath(os.path.dirname(__file__)), 'scripts'))
 import compile_config
-complie_helper = compile_config.get_curr_config_for_awtk()
+compile_helper = compile_config.get_curr_config_for_awtk()
 
 from awtk_config_common import OS_NAME, TARGET_ARCH, TOOLS_PREFIX, TK_SRC, TK_BIN_DIR, TK_LIB_DIR, TK_3RD_ROOT, TK_TOOLS_ROOT, OS_DEBUG, TK_DEMO_ROOT, GTEST_ROOT, TKC_STATIC_LIBS, TOOLS_NAME, NANOVG_BACKEND, NATIVE_WINDOW, TK_ROOT
 from awtk_config_common import joinPath, toWholeArchive, genIdlAndDefEx, setEnvSpawn,genDllLinkFlags,copySharedLib,cleanSharedLib,scons_db_check_and_remove
@@ -26,19 +26,19 @@ from awtk_config_common import OS_FLAGS, OS_LIBS, OS_LIBPATH, OS_CPPPATH, OS_LIN
 # os.environ['LD_LIBRARY_PATH'] = ''
 ###################################################################
 
-TOOLS_PREFIX = complie_helper.get_unique_value('TOOLS_PREFIX', TOOLS_PREFIX)
+TOOLS_PREFIX = compile_helper.get_unique_value('TOOLS_PREFIX', TOOLS_PREFIX)
 
 if TOOLS_PREFIX != '' :
     OS_PROJECTS.remove('3rd/SDL/SConscript')
-    OS_FLAGS = complie_helper.get_value('OS_FLAGS', '')
-    OS_LIBS = complie_helper.get_value('OS_LIBS', [])
-    OS_LIBPATH += complie_helper.get_value('OS_LIBPATH', [])
-    OS_CPPPATH += complie_helper.get_value('OS_CPPPATH', [])
+    OS_FLAGS = compile_helper.get_value('OS_FLAGS', '')
+    OS_LIBS = compile_helper.get_value('OS_LIBS', [])
+    OS_LIBPATH += compile_helper.get_value('OS_LIBPATH', [])
+    OS_CPPPATH += compile_helper.get_value('OS_CPPPATH', [])
 else :
-    OS_FLAGS += complie_helper.get_value('OS_FLAGS', '')
-    OS_LIBS += complie_helper.get_value('OS_LIBS', [])
-    OS_LIBPATH += complie_helper.get_value('OS_LIBPATH', [])
-    OS_CPPPATH += complie_helper.get_value('OS_CPPPATH', [])
+    OS_FLAGS += compile_helper.get_value('OS_FLAGS', '')
+    OS_LIBS += compile_helper.get_value('OS_LIBS', [])
+    OS_LIBPATH += compile_helper.get_value('OS_LIBPATH', [])
+    OS_CPPPATH += compile_helper.get_value('OS_CPPPATH', [])
 
 if OS_NAME == 'Windows':
     WIN32_AWTK_RES = 'win32_res/awtk.res'
@@ -71,7 +71,7 @@ if OS_NAME == 'Windows' and TOOLS_PREFIX == '':
         else :
             BUILD_DEBUG_FLAG = ' -DNDEBUG /MD /O2 /Oi  '
         
-        if complie_helper.get_value('PDB') :
+        if compile_helper.get_value('PDB') :
             BUILD_DEBUG_LINKFLAGS = ' /DEBUG '
 
 COMMON_CCFLAGS = ' -DTK_ROOT=\"\\\"'+TK_ROOT+'\\\"\" '
