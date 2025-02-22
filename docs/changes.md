@@ -1,5 +1,8 @@
 # 最新动态
 
+2025/02/22
+  * 增加函数 waitable_ring_buffer_is_empty
+
 2025/02/18
   * 增加函数 tk_cond_var_clear
 
