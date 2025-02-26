@@ -1,5 +1,8 @@
 # 最新动态
 
+2025/02/26
+  * 修复conf_node的node_type不正确的问题(感谢福明提供补丁)
+
 2025/02/22
   * 增加函数 waitable_ring_buffer_is_empty
 
