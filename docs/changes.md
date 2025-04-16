@@ -2,6 +2,7 @@
 
 2025/04/16
   * 完善tk_swap(感谢兆坤提供补丁)。
+  * 完善xml对pi的解析(感谢朝泽提供补丁)
 
 2025/04/15
   * 增加mem_allocator_fixed_block，dlist/slist/tree使用该内存分配器管理内存(感谢兆坤提供补丁)。
