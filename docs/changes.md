@@ -1,5 +1,8 @@
 # 最新动态
 
+2025/04/29
+  * 完善 mem_allocator_fixed_block(感谢兆坤提供补丁)。
+
 2025/04/28
   * mem_allocator_fixed_block 隔离管理链表与用户内存 (感谢兆坤提供补丁)。
 
