@@ -171,6 +171,7 @@ static ret_t mem_allocator_fixed_block_pool_init(mem_allocator_fixed_block_t* al
                                                  mem_allocator_fixed_block_pool_t* pool) {
   uint32_t i = 0;
   return_value_if_fail(allocator != NULL && pool != NULL, RET_BAD_PARAMS);
+  return_value_if_fail(pool->num > 0, RET_BAD_PARAMS);
 
   pool->used_list = NULL;
   pool->unused_list = &pool->list;
