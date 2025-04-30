@@ -2,6 +2,7 @@
 
 2025/04/30
   * 完善 mem_allocator_fixed_block(感谢兆坤提供补丁)。
+  * 完善fscript对 % 的处理(感谢福明发现问题)
 
 2025/04/29
   * 完善 mem_allocator_fixed_block(感谢兆坤提供补丁)。
