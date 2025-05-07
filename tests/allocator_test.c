@@ -13,24 +13,24 @@ static void allocator_test_simple(void) {
 
   assert(simple.info.buffer == buff);
   assert(simple.info.size == sizeof(buff));
-  addr1 = mem_allocator_alloc(allocator, 10, __FUNCTION__, __LINE__);
+  addr1 = MEM_ALLOCATOR_ALLOC(allocator, 10);
   assert(addr1 != NULL);
   assert(simple.info.used_block_nr == 1);
 
-  addr2 = mem_allocator_alloc(allocator, 10, __FUNCTION__, __LINE__);
+  addr2 = MEM_ALLOCATOR_ALLOC(allocator, 10);
   assert(addr2 != NULL);
   assert(simple.info.used_block_nr == 2);
 
-  addr1 = mem_allocator_realloc(allocator, addr1, 12, __FUNCTION__, __LINE__);
+  addr1 = MEM_ALLOCATOR_REALLOC(allocator, addr1, 12);
   assert(simple.info.used_block_nr == 2);
 
-  addr2 = mem_allocator_realloc(allocator, addr2, 12, __FUNCTION__, __LINE__);
+  addr2 = MEM_ALLOCATOR_REALLOC(allocator, addr2, 12);
   assert(simple.info.used_block_nr == 2);
 
-  mem_allocator_free(allocator, addr1);
+  MEM_ALLOCATOR_FREE(allocator, addr1);
   assert(simple.info.used_block_nr == 1);
 
-  mem_allocator_free(allocator, addr2);
+  MEM_ALLOCATOR_FREE(allocator, addr2);
   assert(simple.info.used_block_nr == 0);
   assert(simple.info.used_bytes == 0);
   assert(simple.info.used_max_block_nr == 2);
@@ -45,17 +45,17 @@ void allocator_test_basic_ex(mem_allocator_t* allocator) {
   void* addrs[100];
 
   for (i = 0; i < ARRAY_SIZE(addrs); i++) {
-    addr = mem_allocator_alloc(allocator, i + 1, __FUNCTION__, __LINE__);
+    addr = MEM_ALLOCATOR_ALLOC(allocator, i + 1);
     assert(addr != NULL);
-    addr = mem_allocator_realloc(allocator, addr, i + 1, __FUNCTION__, __LINE__);
+    addr = MEM_ALLOCATOR_REALLOC(allocator, addr, i + 1);
     assert(addr != NULL);
-    addr = mem_allocator_realloc(allocator, addr, i + 5, __FUNCTION__, __LINE__);
+    addr = MEM_ALLOCATOR_REALLOC(allocator, addr, i + 5);
     assert(addr != NULL);
     addrs[i] = addr;
   }
 
   for (i = 0; i < ARRAY_SIZE(addrs); i++) {
-    mem_allocator_free(allocator, addrs[i]);
+    MEM_ALLOCATOR_FREE(allocator, addrs[i]);
   }
 }
 
@@ -86,17 +86,17 @@ void allocator_test_rand_ex(mem_allocator_t* allocator) {
   for (k = 0; k < 1000; k++) {
     for (i = 0; i < ARRAY_SIZE(addrs); i++) {
       uint32_t size = random() % 100;
-      addr = mem_allocator_alloc(allocator, size, __FUNCTION__, __LINE__);
+      addr = MEM_ALLOCATOR_ALLOC(allocator, size);
       assert(addr != NULL);
-      addr = mem_allocator_realloc(allocator, addr, size, __FUNCTION__, __LINE__);
+      addr = MEM_ALLOCATOR_REALLOC(allocator, addr, size);
       assert(addr != NULL);
-      addr = mem_allocator_realloc(allocator, addr, size + 10, __FUNCTION__, __LINE__);
+      addr = MEM_ALLOCATOR_REALLOC(allocator, addr, size + 10);
       assert(addr != NULL);
       addrs[i] = addr;
     }
 
     for (i = 0; i < ARRAY_SIZE(addrs); i++) {
-      mem_allocator_free(allocator, addrs[i]);
+      MEM_ALLOCATOR_FREE(allocator, addrs[i]);
     }
   }
 }
@@ -140,56 +140,56 @@ void allocator_test_composite1() {
                                                             sizeof(mem2), mem3, sizeof(mem3), NULL);
 
   /*mem1*/
-  addr = mem_allocator_alloc(allocator, 16, __FUNCTION__, __LINE__);
+  addr = MEM_ALLOCATOR_ALLOC(allocator, 16);
   assert(addr >= mem1);
   assert(addr < (mem1 + sizeof(mem1)));
   assert(mem_allocator_composite_is_valid_addr(allocator, addr));
 
-  mem_allocator_free(allocator, addr);
-  addr = mem_allocator_alloc(allocator, 16, __FUNCTION__, __LINE__);
+  MEM_ALLOCATOR_FREE(allocator, addr);
+  addr = MEM_ALLOCATOR_ALLOC(allocator, 16);
   assert(addr >= mem1);
   assert(addr < (mem1 + sizeof(mem1)));
   assert(mem_allocator_composite_is_valid_addr(allocator, addr));
 
-  addr = mem_allocator_realloc(allocator, addr, 16, __FUNCTION__, __LINE__);
+  addr = MEM_ALLOCATOR_REALLOC(allocator, addr, 16);
   assert(addr >= mem1);
   assert(addr < (mem1 + sizeof(mem1)));
   assert(mem_allocator_composite_is_valid_addr(allocator, addr));
 
-  addr = mem_allocator_realloc(allocator, addr, 16 + 2, __FUNCTION__, __LINE__);
+  addr = MEM_ALLOCATOR_REALLOC(allocator, addr, 16 + 2);
   assert(addr >= mem1);
   assert(addr < (mem1 + sizeof(mem1)));
   assert(mem_allocator_composite_is_valid_addr(allocator, addr));
 
   /*mem2*/
-  addr = mem_allocator_alloc(allocator, 36, __FUNCTION__, __LINE__);
+  addr = MEM_ALLOCATOR_ALLOC(allocator, 36);
   assert(addr >= mem2);
   assert(addr < (mem2 + sizeof(mem2)));
   assert(mem_allocator_composite_is_valid_addr(allocator, addr));
 
-  mem_allocator_free(allocator, addr);
-  addr = mem_allocator_alloc(allocator, 36, __FUNCTION__, __LINE__);
+  MEM_ALLOCATOR_FREE(allocator, addr);
+  addr = MEM_ALLOCATOR_ALLOC(allocator, 36);
   assert(addr >= mem2);
   assert(addr < (mem2 + sizeof(mem2)));
   assert(mem_allocator_composite_is_valid_addr(allocator, addr));
 
-  addr = mem_allocator_realloc(allocator, addr, 30, __FUNCTION__, __LINE__);
+  addr = MEM_ALLOCATOR_REALLOC(allocator, addr, 30);
   assert(addr >= mem2);
   assert(addr < (mem2 + sizeof(mem2)));
   assert(mem_allocator_composite_is_valid_addr(allocator, addr));
 
   /*mem3*/
-  addr = mem_allocator_alloc(allocator, 66, __FUNCTION__, __LINE__);
+  addr = MEM_ALLOCATOR_ALLOC(allocator, 66);
   assert(addr >= mem3);
   assert(addr < (mem3 + sizeof(mem3)));
 
-  mem_allocator_free(allocator, addr);
-  addr = mem_allocator_alloc(allocator, 66, __FUNCTION__, __LINE__);
+  MEM_ALLOCATOR_FREE(allocator, addr);
+  addr = MEM_ALLOCATOR_ALLOC(allocator, 66);
   assert(addr >= mem3);
   assert(addr < (mem3 + sizeof(mem3)));
   assert(mem_allocator_composite_is_valid_addr(allocator, addr));
 
-  addr = mem_allocator_realloc(allocator, addr, 66 + 2, __FUNCTION__, __LINE__);
+  addr = MEM_ALLOCATOR_REALLOC(allocator, addr, 66 + 2);
   assert(addr >= mem3);
   assert(addr < (mem3 + sizeof(mem3)));
   assert(mem_allocator_composite_is_valid_addr(allocator, addr));

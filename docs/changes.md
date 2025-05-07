@@ -2,6 +2,7 @@
 
 2025/05/07
   * 增加函数 fscript_set_name
+  * 完善mem_allocator(感谢兆坤提供补丁)。
 
 2025/05/06
   * object hash 兼容32位系统(感谢兆坤提供补丁)。
