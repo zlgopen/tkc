@@ -220,7 +220,6 @@ static int tree_node_is_ancestor_or_self_cmp(const void* iter, const void* ctx) 
 
 TEST(Tree, remove) {
   tree_t tree;
-  tree_node_t* node = NULL;
   str_t str;
   str_init(&str, 1024);
   ASSERT_EQ(tree_init(&tree, NULL, NULL), RET_OK);
@@ -267,7 +266,6 @@ TEST(Tree, remove) {
 
 TEST(Tree, move) {
   tree_t tree;
-  tree_node_t* node = NULL;
   str_t str;
   str_init(&str, 1024);
   ASSERT_EQ(tree_init(&tree, NULL, NULL), RET_OK);
@@ -363,8 +361,6 @@ TEST(Tree, degree) {
   tree_node_t* root = tree.root;
   tree_node_t* node1 =
       tree_find(&tree, NULL, TREE_FOREACH_TYPE_BREADTH_FIRST, tk_pointer_from_int(1));
-  tree_node_t* node2 =
-      tree_find(&tree, NULL, TREE_FOREACH_TYPE_BREADTH_FIRST, tk_pointer_from_int(2));
   tree_node_t* node12 =
       tree_find(&tree, NULL, TREE_FOREACH_TYPE_BREADTH_FIRST, tk_pointer_from_int(12));
 
@@ -400,7 +396,7 @@ TEST(Tree, to_string) {
   ASSERT_EQ(tree_init(&tree, NULL, NULL), RET_OK);
 
   ASSERT_EQ(tree_to_string(&tree, NULL, &str, tree_node_str_append), RET_OK);
-  ASSERT_EQ(str.size, 0);
+  ASSERT_EQ(str.size, 0u);
 
   ASSERT_EQ(build_tree_for_test(&tree), RET_OK);
   ASSERT_EQ(tree_to_string(&tree, NULL, &str, tree_node_str_append), RET_OK);

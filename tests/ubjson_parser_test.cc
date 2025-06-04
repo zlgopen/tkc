@@ -264,20 +264,18 @@ TEST(UBJsonParser, ubjson_writer_write_kv_value) {
   ASSERT_EQ(tk_object_get_prop_int16(obj, "int16", 0), -4);
   ASSERT_EQ(tk_object_get_prop_int32(obj, "int32", 0), -5);
   ASSERT_EQ(tk_object_get_prop_int64(obj, "int64", 0), -6);
-  ASSERT_EQ(tk_object_get_prop_uint8(obj, "uint8", 0), 7);
-  ASSERT_EQ(tk_object_get_prop_uint16(obj, "uint16", 0), 8);
-  ASSERT_EQ(tk_object_get_prop_uint32(obj, "uint32", 0), 9);
-  ASSERT_EQ(tk_object_get_prop_uint64(obj, "uint64", 0), 10);
+  ASSERT_EQ(tk_object_get_prop_uint8(obj, "uint8", 0), 7u);
+  ASSERT_EQ(tk_object_get_prop_uint16(obj, "uint16", 0), 8u);
+  ASSERT_EQ(tk_object_get_prop_uint32(obj, "uint32", 0), 9u);
+  ASSERT_EQ(tk_object_get_prop_uint64(obj, "uint64", 0), 10u);
 
   tk_object_unref(obj);
 }
 
 TEST(UBJsonParser, optimized_array) {
-  uint8_t buff[256];
   uint8_t data[] = {0x7b, 0x55, 0x3,  0x6f, 0x70, 0x72, 0x55, 0x1,  0x55, 0x4,  0x6e, 0x61, 0x6d,
                     0x65, 0x53, 0x55, 0x3,  0x74, 0x6f, 0x6d, 0x55, 0x5,  0x64, 0x61, 0x74, 0x61,
                     0x73, 0x5b, 0x24, 0x55, 0x23, 0x55, 0x3,  0x1,  0x2,  0x3,  0x7d};
-  value_t v;
   tk_object_t* obj = NULL;
 
   ubjson_dump(data, sizeof(data));

@@ -33,39 +33,32 @@
 
 #include <stdio.h>
 
-#include "tkc.h"
+#include "awtk.h"
+#include "tkc/mem.h"
+#include "base/idle.h"
+#include "base/system_info.h"
+#include "ext_widgets/ext_widgets.h"
 #include "gtest/gtest.h"
-#include "fscript_ext/fscript_ext.h"
-#include "conf_io/app_conf.h"
-#include "conf_io/app_conf_init_json.h"
-#include "conf_io/app_conf_init_ubjson.h"
-#include "conf_io/app_conf_init_ini.h"
+#include "demos/assets.h"
+#include "tkc/socket_helper.h"
 
 GTEST_API_ int main(int argc, char** argv) {
   printf("Running main() from gtest_main.cc\n");
   testing::InitGoogleTest(&argc, argv);
 
-  return_value_if_fail(platform_prepare() == RET_OK, RET_FAIL);
+  return_value_if_fail(tk_pre_init() == RET_OK, RET_FAIL);
   tk_socket_init();
-  data_writer_factory_set(data_writer_factory_create());
-  data_reader_factory_set(data_reader_factory_create());
-  data_writer_factory_register(data_writer_factory(), "file", data_writer_file_create);
-  data_reader_factory_register(data_reader_factory(), "file", data_reader_file_create);
-  data_reader_factory_register(data_reader_factory(), "mem", data_reader_mem_create);
-  data_writer_factory_register(data_writer_factory(), "wbuffer", data_writer_wbuffer_create);
+  system_info_init(APP_SIMULATOR, NULL, NULL);
+  tk_init_internal();
 
-  fscript_global_init();
-  fscript_ext_init();
-
+  assets_init();
+  tk_init_assets();
+  tk_ext_widgets_init();
+  widget_resize(window_manager(), 1024, 800);
   int ret = RUN_ALL_TESTS();
 
+  tk_deinit_internal();
   tk_socket_deinit();
-  app_conf_deinit();
-  fscript_global_deinit();
-  data_writer_factory_destroy(data_writer_factory());
-  data_reader_factory_destroy(data_reader_factory());
-  data_writer_factory_set(NULL);
-  data_reader_factory_set(NULL);
 
   return ret;
 }
