@@ -1,5 +1,8 @@
 # 最新动态
 
+2025/06/09
+  * 完善 tkc.h(感谢兆坤提供补丁)。
+
 2025/06/07
   * 增加 fscript_create_ex2(修复awtk-mvvm data binding出现循环引用计数的问题)
   * 增加 tk_object_life_t
