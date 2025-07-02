@@ -2,6 +2,7 @@
 
 2025/07/02
   * 完善 tree_to_string (感谢兆坤提供补丁)。
+  * 完善 tree_to_string2 (感谢兆坤提供补丁)。
 
 2025/07/01
   * 增加函数 dlist_get
