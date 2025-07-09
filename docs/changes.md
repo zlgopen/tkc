@@ -1,5 +1,8 @@
 # 最新动态
 
+2025/07/09
+  * fscript 支持 obj.exec/obj.exec_ex
+
 2025/07/07
   * 增加函数 value_compare (感谢兆坤提供补丁)。 
 
