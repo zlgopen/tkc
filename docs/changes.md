@@ -4,6 +4,7 @@
   * 增加 return_ret_if_fail
   * 增加 tkc/tools/idl_gen/node_modules (感谢陈谭提供建议)
   * 完善编译脚本并同步AWTK文件 (感谢陈谭提供补丁)
+  * 增加 tk_str_trim_right/tk_str_trim_left
 
 2025/07/18
   * slist_remove_ex 替换 slist_remove_with_compare (感谢兆坤提供补丁)
