@@ -6,10 +6,8 @@ import awtk_config as config
 
 BIN_DIR = os.environ['BIN_DIR']
 LIB_DIR = os.environ['LIB_DIR']
-TOOLS_NAME = os.environ['TOOLS_NAME']
 
 env = DefaultEnvironment().Clone()
-config.setEnvSpawn(env)
 
 TK_SOURCES = Glob('tkc/*.c') + Glob('platforms/pc/*.c')
 env.Library(os.path.join(LIB_DIR, 'tkc_core'), TK_SOURCES, LIBS=[])

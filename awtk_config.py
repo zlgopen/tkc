@@ -30,8 +30,8 @@ TOOLS_PREFIX = compile_helper.get_unique_value('TOOLS_PREFIX', TOOLS_PREFIX)
 
 if TOOLS_PREFIX != '' :
     OS_PROJECTS.remove('3rd/SDL/SConscript')
-    OS_FLAGS = compile_helper.get_value('OS_FLAGS', '')
-    OS_LIBS = compile_helper.get_value('OS_LIBS', [])
+    OS_FLAGS += compile_helper.get_value('OS_FLAGS', '')
+    OS_LIBS += compile_helper.get_value('OS_LIBS', [])
     OS_LIBPATH += compile_helper.get_value('OS_LIBPATH', [])
     OS_CPPPATH += compile_helper.get_value('OS_CPPPATH', [])
 else :

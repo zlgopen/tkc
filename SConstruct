@@ -9,11 +9,12 @@ compile_helper.scons_user_sopt(ARGUMENTS)
 compile_config.set_curr_config(compile_helper)
 import awtk_config as awtk
 
+APP_TOOLS = ['default']
 awtk.scons_db_check_and_remove()
 
-APP_TOOLS = ['default']
 if awtk.TOOLS_NAME != '' :
-  APP_TOOLS = [awtk.TOOLS_NAME]
+  if awtk.TOOLS_NAME == 'mingw':
+    APP_TOOLS = ['mingw']
 
 awtk.genIdlAndDef();
 if awtk.TOOLS_PREFIX == '' :
@@ -29,9 +30,11 @@ if awtk.TOOLS_PREFIX == '' :
   )
 
   awtk.OS_PROJECTS += ['src/hal/tools/network_shell/SConscript']
-else :
+elif awtk.OS_NAME == 'Linux' :
   DefaultEnvironment(
     ENV = os.environ,
+    TOOLS=['gcc', 'g++', 'gnulink', 'ar', 'gas', 'gfortran', 'm4'],
+    PROGPREFIX='',PROGSUFFIX='',LIBPREFIX='lib',LIBSUFFIX='.a',SHLIBPREFIX='lib',SHLIBSUFFIX='.so',LIBPREFIXES=['lib'],LIBSUFFIXES=['.a', '.so'],
     CC = awtk.CC,
     CXX= awtk.CXX,
     LD = awtk.LD,
@@ -47,6 +50,9 @@ else :
     OS_SUBSYSTEM_CONSOLE = awtk.OS_SUBSYSTEM_CONSOLE,
     OS_SUBSYSTEM_WINDOWS = awtk.OS_SUBSYSTEM_WINDOWS
   )
+else :
+  print("Only support OS_NAME = Linux when TOOLS_PREFIX != NULL, Please setting OS_NAME in awtk_config_common.py")
+  exit(-1)
 
 SConscriptFiles=[
   '3rd/glad/SConscript',
@@ -79,6 +85,7 @@ SConscriptFiles += awtk.OS_PROJECTS
 os.environ['TK_ROOT'] = awtk.TK_ROOT;
 os.environ['BIN_DIR'] = awtk.TK_BIN_DIR;
 os.environ['LIB_DIR'] = awtk.TK_LIB_DIR;
+os.environ['TARGET_OS'] = awtk.OS_NAME;
 
 SConscript(SConscriptFiles)
 
