@@ -18,7 +18,7 @@ if awtk.TOOLS_NAME != '' :
 
 awtk.genIdlAndDef();
 if awtk.TOOLS_PREFIX == '' :
-  DefaultEnvironment(TOOLS = APP_TOOLS,
+  env = DefaultEnvironment(TOOLS = APP_TOOLS,
     CCFLAGS = awtk.AWTK_CCFLAGS + awtk.BUILD_DEBUG_FLAG,
     LIBS = awtk.LIBS,
     LIBPATH = awtk.LIBPATH,
@@ -28,6 +28,9 @@ if awtk.TOOLS_PREFIX == '' :
     OS_SUBSYSTEM_CONSOLE=awtk.OS_SUBSYSTEM_CONSOLE,
     OS_SUBSYSTEM_WINDOWS=awtk.OS_SUBSYSTEM_WINDOWS
   )
+
+  if awtk.OS_NAME == 'Darwin':
+    env.AppendUnique(SHLINKFLAGS=['-install_name', '@rpath/$TARGET.name'])
 
   awtk.OS_PROJECTS += ['src/hal/tools/network_shell/SConscript']
 elif awtk.OS_NAME == 'Linux' :

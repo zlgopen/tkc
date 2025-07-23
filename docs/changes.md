@@ -1,5 +1,8 @@
 # 最新动态
 
+2025/07/23
+  * 优化了linux和macos系统中awtk程序搜索动态库的路径，程序加载时会自动搜索同目录的动态库文件 (感谢陈谭提供补丁)
+
 2025/07/21
   * 增加 return_ret_if_fail
   * 增加 tkc/tools/idl_gen/node_modules (感谢陈谭提供建议)
