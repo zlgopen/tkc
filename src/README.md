@@ -12,10 +12,18 @@
 
 ## 使用方法
 
-应用程序只需包含awtk.h即可。
+如果只使用 tkc 核心库，包含 tkc.h 即可。
 
+```c
+#include "tkc.h"
 ```
-#include "awtk.h"
+
+如果使用 xml/ubjson/conf_io 等扩展库，则需要包含对应的头文件。如：
+
+
+```c
+#include "conf_io/conf_json.h"
 ```
+
 
 
