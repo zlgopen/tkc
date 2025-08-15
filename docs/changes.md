@@ -1,5 +1,8 @@
 # 最新动态
 
+2025/08/15
+  * log_get_log_level/log_get_log_level支持脚本。
+
 2025/08/12
   * improve tree(感谢兆坤提供补丁)
 
