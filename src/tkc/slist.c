@@ -367,6 +367,7 @@ ret_t slist_reverse(slist_t* slist) {
   slist_node_t* prev = NULL;
   return_value_if_fail(slist != NULL, RET_BAD_PARAMS);
 
+  slist->last = slist->first;
   iter = slist->first;
   while (iter != NULL) {
     slist_node_t* next = iter->next;
