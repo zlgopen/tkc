@@ -1102,7 +1102,6 @@ ret_t str_append_format(str_t* str, uint32_t size, const char* format, ...) {
 }
 
 ret_t str_append_vformat(str_t* str, uint32_t size, const char* format, va_list ap) {
-  va_list va;
   int32_t ret = 0;
   return_value_if_fail(str != NULL && format != NULL, RET_BAD_PARAMS);
   return_value_if_fail(str_extend(str, str->size + size + 1) == RET_OK, RET_OOM);
@@ -1193,6 +1192,19 @@ ret_t str_append_json_pair(str_t* str, const char* key, const value_t* value) {
     }
     str_reset(&hexstr);
   }
+
+  return RET_OK;
+}
+
+ret_t str_dequote(str_t* str, char quote_char) {
+  return_value_if_fail(str != NULL && str->str != NULL, RET_BAD_PARAMS);
+  return_value_if_fail(str->size >= 2, RET_BAD_PARAMS);
+  return_value_if_fail(str->str[0] == quote_char && str->str[str->size - 1] == quote_char,
+                       RET_BAD_PARAMS);
+
+  memmove(str->str, str->str + 1, str->size - 2);
+  str->size -= 2;
+  str->str[str->size] = '\0';
 
   return RET_OK;
 }
