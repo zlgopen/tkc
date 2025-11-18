@@ -579,10 +579,14 @@ static bool_t local_exec_method(network_interface_windows_t* network_interface,
   bool_t rt = FALSE;
   int last_error_code_ = 0;
   IWbemClassObject* results = NULL;
+  BSTR bstr_method = SysAllocString(method);
+  return_value_if_fail(bstr_method != NULL, FALSE);
 
-  auto res = network_interface->p_service_->lpVtbl->ExecMethod(
-      network_interface->p_service_, network_interface->path_.bstrVal, method, 0, NULL,
+  HRESULT res = network_interface->p_service_->lpVtbl->ExecMethod(
+      network_interface->p_service_, network_interface->path_.bstrVal, bstr_method, 0, NULL,
       params_instance, &results, NULL);
+  SysFreeString(bstr_method);
+
   if (SUCCEEDED(res)) {
     VARIANT vtRet;
     VariantInit(&vtRet);
@@ -693,7 +697,7 @@ static ret_t network_interface_windows_set_ipaddr(network_interface_t* network_i
   params->lpVtbl->SpawnInstance(params, 0, &paramsInst);
 
   darray_clear(windows_network_interface->arg);
-  darray_push(windows_network_interface->arg, ipaddr);
+  darray_push(windows_network_interface->arg, (void*)ipaddr);
   SAFEARRAY* p1 = create_SAFEARRAY(windows_network_interface->arg);
 
   VARIANT paramVt;
@@ -703,7 +707,7 @@ static ret_t network_interface_windows_set_ipaddr(network_interface_t* network_i
   SafeArrayDestroy(p1);
 
   darray_clear(windows_network_interface->arg);
-  darray_push(windows_network_interface->arg, netmask);
+  darray_push(windows_network_interface->arg, (void*)netmask);
   p1 = create_SAFEARRAY(windows_network_interface->arg);
   paramVt.parray = p1;
   paramsInst->lpVtbl->Put(paramsInst, L"SubnetMask", 0, &paramVt, 0);
@@ -734,7 +738,7 @@ static ret_t network_interface_windows_set_dns(network_interface_t* network_inte
   params->lpVtbl->SpawnInstance(params, 0, &paramsInst);
 
   darray_clear(windows_network_interface->arg);
-  darray_push(windows_network_interface->arg, dns);
+  darray_push(windows_network_interface->arg, (void*)dns);
   SAFEARRAY* p1 = create_SAFEARRAY(windows_network_interface->arg);
   VARIANT paramVt;
   paramVt.vt = VT_ARRAY | VT_BSTR;
@@ -765,7 +769,7 @@ static ret_t network_interface_windows_set_gateway(network_interface_t* network_
   params->lpVtbl->SpawnInstance(params, 0, &paramsInst);
 
   darray_clear(windows_network_interface->arg);
-  darray_push(windows_network_interface->arg, gateway);
+  darray_push(windows_network_interface->arg, (void*)gateway);
   SAFEARRAY* p1 = create_SAFEARRAY(windows_network_interface->arg);
 
   VARIANT paramVt;
@@ -831,8 +835,8 @@ static void network_interface_windows_destroy(network_interface_t* network_inter
 }
 
 static const network_interface_vtable_t s_windows_eth_vtable = {
-    .type = "linux_eth",
-    .desc = "vtable for linux eth device",
+    .type = "windows_eth",
+    .desc = "vtable for windows eth device",
     .enable = network_interface_windows_enable,
     .disable = network_interface_windows_disable,
     .destroy = network_interface_windows_destroy,
@@ -847,8 +851,8 @@ static const network_interface_vtable_t s_windows_eth_vtable = {
 };
 
 static const network_interface_vtable_t s_windows_wifi_vtable = {
-    .type = "linux_wifi",
-    .desc = "vtable for linux wifi device",
+    .type = "windows_wifi",
+    .desc = "vtable for windows wifi device",
     .enable = network_interface_windows_enable,
     .disable = network_interface_windows_disable,
     .destroy = network_interface_windows_destroy,
@@ -865,8 +869,8 @@ static const network_interface_vtable_t s_windows_wifi_vtable = {
 };
 
 static const network_interface_vtable_t s_windows_mobile_vtable = {
-    .type = "linux_mobile",
-    .desc = "vtable for linux mobile device",
+    .type = "windows_mobile",
+    .desc = "vtable for windows mobile device",
     .enable = network_interface_windows_enable,
     .disable = network_interface_windows_disable,
     .destroy = network_interface_windows_destroy,
@@ -875,8 +879,8 @@ static const network_interface_vtable_t s_windows_mobile_vtable = {
 };
 
 static const network_interface_vtable_t s_windows_unknown_vtable = {
-    .type = "linux_unknown_network",
-    .desc = "vtable for linux common network",
+    .type = "windows_unknown_network",
+    .desc = "vtable for windows common network",
     .get_ipaddr = network_interface_windows_get_ipaddr,
     .get_macaddr = network_interface_windows_get_macaddr,
 };
