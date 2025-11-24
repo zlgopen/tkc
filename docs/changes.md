@@ -1,7 +1,11 @@
 # 最新动态
 
+2025/11/24
+  * 增加函数 rbuffer_read_uint_from_hexstr(感谢林福提供补丁)
+
+
 2025/11/18
-  * 增加了 conf_doc_foreach_ex 和 conf_doc_foreach_path 函数 (感谢林福提供补丁)
+  * 增加函数 conf_doc_foreach_ex 和 conf_doc_foreach_path 函数 (感谢林福提供补丁)
   * 增加函数 tk_days_in_month。
 
 2025/11/6
