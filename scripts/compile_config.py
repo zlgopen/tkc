@@ -43,11 +43,12 @@ def get_curr_config_for_awtk() :
     return COMPILE_CONFIG
   else :
     COMPILE_CONFIG = compile_helper()
-    if not COMPILE_CONFIG.load_last_compile_argv() :
-      print('========================= Error ================================')
-      print('Please Recompile AWTK !!!!!')
-      sys.exit('Not found last compile argv config file !!!!!')
-    COMPILE_CONFIG.set_value('WIN32_RES', WIN32_RES)
+#  tkc only need not check it
+#    if not COMPILE_CONFIG.load_last_compile_argv() :
+#      print('========================= Error ================================')
+#      print('Please Recompile AWTK !!!!!')
+#      sys.exit('Not found last compile argv config file !!!!!')
+#    COMPILE_CONFIG.set_value('WIN32_RES', WIN32_RES)
     return COMPILE_CONFIG;
 
 def json_obj_load_file(file_path) :
