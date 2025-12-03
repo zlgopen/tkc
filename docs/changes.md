@@ -2,6 +2,7 @@
 
 2025/12/3
   * 修复 atomic 注释(感谢兆坤提供补丁)
+  * 完善 process_read_pipe_on_thread (感谢兆坤提供补丁)
 
 2025/12/2
   * 完善 atomic 函数(感谢兆坤提供补丁)
