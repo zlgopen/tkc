@@ -1,5 +1,8 @@
 # 最新动态
 
+2026/01/13
+  * object_overload\ 改名为\ object_override (感谢兆坤提供补丁)
+
 2026/01/04
   * 补充fscript_object (感谢兆坤提供补丁)
   * 修复主动关闭调试连接会导致debugger_lldb_disconnect函数会递归调用两次的问题(感谢智明提供补丁)
