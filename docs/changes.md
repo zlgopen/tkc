@@ -1,5 +1,8 @@
 # 最新动态
 
+2026/01/14
+  * 增加conf_yaml_load_ex  (感谢兆坤提供补丁)
+
 2026/01/13
   * object_overload\ 改名为\ object_override (感谢兆坤提供补丁)
 
