@@ -1,5 +1,8 @@
 # 最新动态
 
+2026/01/19
+  * improve object_load_conf (感谢兆坤提供补丁) 
+
 2026/01/16
   * 增加 object_load_conf (感谢兆坤提供补丁)
   * object_load_conf 可禁用路径访问 (感谢兆坤提供补丁)
