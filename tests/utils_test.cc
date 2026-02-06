@@ -1,4 +1,4 @@
-﻿#include <string>
+#include <string>
 #include "tkc/mem.h"
 #include "tkc/utils.h"
 #include "tkc/object_default.h"
@@ -916,6 +916,38 @@ TEST(Utils, str_ieq) {
   ASSERT_EQ(tk_str_ieq("a", "a"), TRUE);
   ASSERT_EQ(tk_str_ieq("a", "A"), TRUE);
   ASSERT_EQ(tk_str_ieq("aaa", "Aaa"), TRUE);
+}
+
+TEST(Utils, str_ieq_with_len) {
+  /* NULL 指针测试 */
+  ASSERT_EQ(tk_str_ieq_with_len(NULL, NULL, 0), FALSE);
+  ASSERT_EQ(tk_str_ieq_with_len("a", NULL, 1), FALSE);
+  ASSERT_EQ(tk_str_ieq_with_len(NULL, "a", 1), FALSE);
+
+  /* 相同字符串（相同大小写） */
+  ASSERT_EQ(tk_str_ieq_with_len("abc", "abc", 3), TRUE);
+  ASSERT_EQ(tk_str_ieq_with_len("abc", "abc", 2), TRUE);
+  ASSERT_EQ(tk_str_ieq_with_len("abc", "abc", 1), TRUE);
+
+  /* 相同字符串（不同大小写） */
+  ASSERT_EQ(tk_str_ieq_with_len("ABC", "abc", 3), TRUE);
+  ASSERT_EQ(tk_str_ieq_with_len("abc", "ABC", 3), TRUE);
+  ASSERT_EQ(tk_str_ieq_with_len("AbC", "aBc", 3), TRUE);
+  ASSERT_EQ(tk_str_ieq_with_len("Trigger", "trigger", 7), TRUE);
+
+  /* 不同字符串 */
+  ASSERT_EQ(tk_str_ieq_with_len("abc", "def", 3), FALSE);
+  ASSERT_EQ(tk_str_ieq_with_len("abc", "abd", 3), FALSE);
+
+  /* 长度限制测试 */
+  ASSERT_EQ(tk_str_ieq_with_len("abc", "abC", 2), TRUE);  /* 前2个字符相同（忽略大小写） */
+  ASSERT_EQ(tk_str_ieq_with_len("abc", "abD", 2), TRUE);  /* 前2个字符相同 */
+  ASSERT_EQ(tk_str_ieq_with_len("abc", "abD", 3), FALSE); /* 第3个字符不同 */
+  ASSERT_EQ(tk_str_ieq_with_len("abc", "ABCx", 3), TRUE); /* 前3个字符相同（忽略大小写） */
+
+  /* 空字符串测试 */
+  ASSERT_EQ(tk_str_ieq_with_len("", "", 0), TRUE);
+  ASSERT_EQ(tk_str_ieq_with_len("a", "", 0), TRUE);  /* 长度为0时总是相等 */
 }
 
 TEST(Utils, wstr_eq) {
