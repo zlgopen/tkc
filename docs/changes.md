@@ -2,6 +2,7 @@
 
 2026/02/26
   * 优化 tk_str_find 效率(感谢兆坤提供补丁)
+  * 增加 tcp_set_keep_info 函数(感谢智明提供补丁)
 
 2026/02/06
   * 增加 tk_str_ieq_with_len 和 tk_str_find (感谢兆坤提供补丁)
