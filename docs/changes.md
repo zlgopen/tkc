@@ -1,4 +1,7 @@
 # 最新动态
+2026/03/2
+  * 导出value_deep_copy_keep_type 接口(感谢雨欣提供补丁)
+  * object_load_conf 接口支持 keep_props_order(感谢雨欣提供补丁)
 
 2026/02/26
   * 优化 tk_str_find 效率(感谢兆坤提供补丁)
