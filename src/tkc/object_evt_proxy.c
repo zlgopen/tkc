@@ -1,4 +1,4 @@
-﻿/**
+/**
  * File:   object_evt_proxy.c
  * Author: AWTK Develop Team
  * Brief:  事件代理对象。
@@ -32,7 +32,7 @@ typedef struct _object_evt_proxy_register_info_t {
   object_evt_proxy_register_opt_t opt;
 } object_evt_proxy_register_info_t;
 
-inline static ret_t object_evt_proxy_register_info_deinit(object_evt_proxy_register_info_t* info) {
+static ret_t object_evt_proxy_register_info_deinit(object_evt_proxy_register_info_t* info) {
   return_value_if_fail(info != NULL, RET_BAD_PARAMS);
   if (info->publisher != NULL) {
     tk_object_unref(info->publisher);
@@ -47,7 +47,7 @@ static ret_t object_evt_proxy_register_info_destroy(object_evt_proxy_register_in
   return RET_OK;
 }
 
-inline static ret_t object_evt_proxy_register_info_init(
+static ret_t object_evt_proxy_register_info_init(
     object_evt_proxy_register_info_t* info, tk_object_t* publisher, int32_t evt_type,
     const object_evt_proxy_register_opt_t* opt) {
   return_value_if_fail(info != NULL, RET_BAD_PARAMS);
@@ -96,8 +96,11 @@ static ret_t object_evt_proxy_subscribe_info_destroy(object_evt_proxy_subscribe_
 static object_evt_proxy_subscribe_info_t* object_evt_proxy_subscribe_info_create(
     const char* topic, object_evt_proxy_subscribe_callback_t callback,
     const object_evt_proxy_subscribe_opt_t* opt) {
-  object_evt_proxy_subscribe_info_t* ret = TKMEM_ZALLOC(object_evt_proxy_subscribe_info_t);
-  return_value_if_fail(ret != NULL && callback != NULL, NULL);
+  object_evt_proxy_subscribe_info_t* ret = NULL;
+  return_value_if_fail(callback != NULL, NULL);
+
+  ret = TKMEM_ZALLOC(object_evt_proxy_subscribe_info_t);
+  return_value_if_fail(ret != NULL, NULL);
 
   if (topic != NULL) {
     ret->topic = tk_strdup(topic);
@@ -125,7 +128,11 @@ static int object_evt_proxy_subscribe_info_cmp(const object_evt_proxy_subscribe_
   if (0 != ret) {
     return ret;
   }
-  ret = memcmp(&info1->opt, &info2->opt, sizeof(object_evt_proxy_subscribe_opt_t));
+  ret = pointer_compare(info1->opt.subscriber, info2->opt.subscriber);
+  if (0 != ret) {
+    return ret;
+  }
+  ret = pointer_compare(info1->opt.callback_ctx, info2->opt.callback_ctx);
   if (0 != ret) {
     return ret;
   }
@@ -206,10 +213,10 @@ static ret_t object_evt_proxy_find_matched_subscribe_on_visit(void* ctx, const v
         info->opt.evt_filter(info->publisher, actx->e, info->opt.evt_filter_ctx)) {
       uint32_t i = 0;
       for (i = 0; i < actx->evt_proxy->subscribe_infos.size; i++) {
-        object_evt_proxy_subscribe_info_t* info =
+        object_evt_proxy_subscribe_info_t* sub_info =
             (object_evt_proxy_subscribe_info_t*)darray_get(&actx->evt_proxy->subscribe_infos, i);
-        if (NULL == info->topic || tk_str_eq(nv->name, info->topic)) {
-          darray_push_unique(actx->evt_proxy->matched_subscribe_infos, info);
+        if (NULL == sub_info->topic || tk_str_eq(nv->name, sub_info->topic)) {
+          darray_push_unique(actx->evt_proxy->matched_subscribe_infos, sub_info);
         }
       }
     }
@@ -218,8 +225,9 @@ static ret_t object_evt_proxy_find_matched_subscribe_on_visit(void* ctx, const v
   return RET_OK;
 }
 
-static ret_t object_evt_proxy_publish(object_evt_proxy_t* evt_proxy, event_t* e) {
-  object_evt_proxy_find_matched_subscribe_on_visit_ctx_t ctx = {
+static ret_t object_evt_proxy_on_publish(void* ctx, event_t* e) {
+  object_evt_proxy_t* evt_proxy = OBJECT_EVT_PROXY((tk_object_t*)ctx);
+  object_evt_proxy_find_matched_subscribe_on_visit_ctx_t actx = {
       .evt_proxy = evt_proxy,
       .e = e,
   };
@@ -233,11 +241,11 @@ static ret_t object_evt_proxy_publish(object_evt_proxy_t* evt_proxy, event_t* e)
 
   darray_clear(evt_proxy->matched_subscribe_infos);
   tk_object_foreach_prop(evt_proxy->register_infos,
-                         object_evt_proxy_find_matched_subscribe_on_visit, &ctx);
+                         object_evt_proxy_find_matched_subscribe_on_visit, &actx);
   for (i = 0; i < evt_proxy->matched_subscribe_infos->size; i++) {
-    object_evt_proxy_subscribe_info_t* info =
+    object_evt_proxy_subscribe_info_t* sub_info =
         (object_evt_proxy_subscribe_info_t*)darray_get(evt_proxy->matched_subscribe_infos, i);
-    info->callback(info->opt.subscriber, e, info->opt.callback_ctx);
+    sub_info->callback(sub_info->opt.subscriber, e, sub_info->opt.callback_ctx);
   }
 
   return RET_OK;
@@ -257,24 +265,31 @@ ret_t object_evt_proxy_register(tk_object_t* obj, const char* topic, tk_object_t
 
   ret = tk_object_set_prop_pointer_ex(evt_proxy->register_infos, topic, info,
                                       (tk_destroy_t)object_evt_proxy_register_info_destroy);
-  return_value_if_fail(RET_OK == ret, ret);
+  if (RET_OK != ret) {
+    object_evt_proxy_register_info_destroy(info);
+    return ret;
+  }
 
-  if (!emitter_exist(EMITTER(publisher), evt_type, (event_func_t)object_evt_proxy_publish, obj)) {
-    return_value_if_fail(TK_INVALID_ID != emitter_on(EMITTER(publisher), evt_type,
-                                                     (event_func_t)object_evt_proxy_publish, obj),
-                         (object_evt_proxy_unregister(obj, topic), ret = RET_FAIL));
+  if (!emitter_exist(EMITTER(publisher), evt_type, object_evt_proxy_on_publish, obj)) {
+    if (TK_INVALID_ID == emitter_on(EMITTER(publisher), evt_type, object_evt_proxy_on_publish, obj)) {
+      object_evt_proxy_unregister(obj, topic);
+      return RET_FAIL;
+    }
   }
 
   return ret;
 }
 
-static int object_evt_proxy_unregister_cmp(const object_evt_proxy_register_info_t* info1,
-                                           const object_evt_proxy_register_info_t* info2) {
-  int ret = info1->evt_type - info2->evt_type;
+static int object_evt_proxy_unregister_cmp(const void* data, const void* ctx) {
+  const named_value_t* nv = (const named_value_t*)data;
+  const object_evt_proxy_register_info_t* info =
+      (const object_evt_proxy_register_info_t*)value_pointer(&nv->value);
+  const object_evt_proxy_register_info_t* target = (const object_evt_proxy_register_info_t*)ctx;
+  int ret = info->evt_type - target->evt_type;
   if (0 != ret) {
     return ret;
   }
-  return pointer_compare(info1->publisher, info2->publisher);
+  return pointer_compare(info->publisher, target->publisher);
 }
 
 ret_t object_evt_proxy_unregister(tk_object_t* obj, const char* topic) {
@@ -297,7 +312,7 @@ ret_t object_evt_proxy_unregister(tk_object_t* obj, const char* topic) {
     if (NULL == tk_object_find_prop(evt_proxy->register_infos,
                                     (tk_compare_t)object_evt_proxy_unregister_cmp, &tmp_info)) {
       emitter_off_by_func(EMITTER(tmp_info.publisher), tmp_info.evt_type,
-                          (event_func_t)object_evt_proxy_publish, obj);
+                          object_evt_proxy_on_publish, obj);
     }
   }
 
