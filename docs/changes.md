@@ -1,5 +1,8 @@
 # 最新动态
 
+2026/04/7
+  * 修复 typed_array_extend_delta(感谢兆坤发现问题)
+
 2026/04/2
   * 增加函数 tk_count_lines / tk_wstr_count_lines 
 
