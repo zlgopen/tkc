@@ -2,6 +2,7 @@
 
 2026/04/7
   * 修复 typed_array_extend_delta(感谢兆坤发现问题)
+  * 优化 typed_array 效率 (感谢兆坤提供补丁)
 
 2026/04/2
   * 增加函数 tk_count_lines / tk_wstr_count_lines 
