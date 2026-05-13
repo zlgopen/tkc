@@ -1,8 +1,12 @@
 # 最新动态
 
+2026/5/13
+  * 完善 mem_allocator_fixed_block (感谢兆坤提供补丁)
+
 2026/5/12
   * 确保浮点数NaN转换会有确定的值(感谢兆坤提供补丁)
   * 完善 mem_allocator_fixed_block (感谢兆坤提供补丁)
+
 2026/5/9
   * 完善 value 浮点数转整数(感谢兆坤提供补丁) 
   * 增加 file_write_ex/file_write_sync_ex (感谢智明提供补丁)
