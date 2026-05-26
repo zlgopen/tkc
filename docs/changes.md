@@ -1,5 +1,8 @@
 # 最新动态
 
+2026/5/27
+  * 修复 darray/dlist/slist 销毁时重入的问题。
+
 2026/5/26
   * 完善value_bool和value_sub(感谢雨欣提供补丁)
 
