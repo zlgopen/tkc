@@ -1,5 +1,8 @@
 # 最新动态
 
+2026/6/11
+  * 完善 object_evt_router(感谢兆坤提供补丁)
+
 2026/6/10
   * 完善 object_evt_router(感谢兆坤提供补丁)
 
