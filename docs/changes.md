@@ -1,5 +1,8 @@
 # 最新动态
 
+2026/6/15
+  * improve object_evt_router clear_unregistered and unsubscribed(感谢兆坤提供补丁) 
+
 2026/6/12
   * 完善 object_evt_router avoid callstack overflow(感谢兆坤提供补丁)
   * 增加了 str_replace_ex 函数，支持设置起始位置以及增加了对应的测试用例(感谢智明提供补丁)
