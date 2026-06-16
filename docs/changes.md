@@ -1,5 +1,8 @@
 # 最新动态
 
+2026/6/16
+  * 修复value类型为 int64、uint64 和 uint32 时 wstr_from_value 的结果错误的问题(感谢朝泽提供补丁)
+
 2026/6/15
   * improve object_evt_router clear_unregistered and unsubscribed(感谢兆坤提供补丁) 
   * 修复darray_clear函数在释放的过程重入数组查找的问题导致报错的问题（第二版）(感谢智明提供补丁)
