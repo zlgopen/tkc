@@ -1,5 +1,8 @@
 # 最新动态
 
+2026/6/24
+  * add emitter_dispatch_log and str_append_vformat_simple (感谢兆坤提供补丁)
+
 2026/6/16
   * 修复value类型为 int64、uint64 和 uint32 时 wstr_from_value 的结果错误的问题(感谢朝泽提供补丁)
 
