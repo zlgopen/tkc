@@ -2,6 +2,7 @@
 
 2026/6/28
   * 完善 url.c 并增加单元测试
+  * 为 utils 增加单元测试
 
 2026/6/24
   * add emitter_dispatch_log and str_append_vformat_simple (感谢兆坤提供补丁)
