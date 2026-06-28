@@ -112,9 +112,9 @@ conf_node_t* conf_doc_create_node(conf_doc_t* doc, const char* name) {
   node->node_type = CONF_NODE_OBJECT;
   if (name != NULL) {
     uint32_t size = strlen(name);
-    if (size < sizeof(node->name)) {
+    if (size < sizeof(node->name.small_str)) {
       node->is_small_name = TRUE;
-      strcpy(node->name.small_str, name);
+      tk_strncpy(node->name.small_str, name, sizeof(node->name.small_str) - 1);
     } else {
       node->is_small_name = FALSE;
       node->name.str = tk_strdup(name);
@@ -600,8 +600,9 @@ ret_t conf_node_set_value(conf_node_t* node, const value_t* v) {
         node->value.str = NULL;
       } else {
         if (strlen(str) < sizeof(node->value.small_str)) {
+          node->is_small_str = TRUE;
           node->value_type = CONF_NODE_VALUE_SMALL_STR;
-          strcpy(node->value.small_str, str);
+          tk_strncpy(node->value.small_str, str, sizeof(node->value.small_str) - 1);
         } else {
           node->value_type = CONF_NODE_VALUE_STRING;
           node->value.str = tk_strdup(str);
