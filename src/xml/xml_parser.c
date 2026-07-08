@@ -569,8 +569,6 @@ static void xml_parser_parse_start_tag(XmlParser* parser) {
 static void xml_parser_parse_end_tag(XmlParser* parser) {
   char* tag_name = NULL;
   const char* start = parser->read_ptr;
-  int tag_line = parser->line;
-  int tag_col = parser->col;
 
   for (; *parser->read_ptr != '\0'; parser->read_ptr++) {
     char c = *parser->read_ptr;
