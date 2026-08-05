@@ -1,5 +1,8 @@
 # 最新动态
 
+2026/8/5
+  * improve object_orchestrator and add darray_extend(感谢兆坤提供补丁)
+
 2026/8/4
   * 修复 macOS 上信号量因命名信号量资源耗尽而失败的问题
   * 完善 object_orchestrator (感谢兆坤提供补丁)
