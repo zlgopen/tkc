@@ -1,5 +1,8 @@
 # 最新动态
 
+2026/8/12
+  * 修复mingw下clang编译器编译问题(感谢均权提供补丁)
+
 2026/8/10
   * object_workflow_cmd support clone(感谢兆坤提供补丁)
 
