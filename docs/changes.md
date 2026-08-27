@@ -2,6 +2,7 @@
 
 2026/8/27
   * improve object_evt_router(感谢兆坤提供补丁)
+  * improve darray_foreach(感谢兆坤提供补丁)
 
 2026/8/25
   * 增加 object_evt_router_publish(感谢兆坤提供补丁)
