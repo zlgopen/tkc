@@ -1,5 +1,8 @@
 # 最新动态
 
+2026/9/9
+  * 统一bsearch实现(感谢兆坤提供补丁)
+
 2026/9/8
   * improve emitter_dispatch_log(感谢兆坤提供补丁)
 
