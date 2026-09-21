@@ -16,6 +16,7 @@
  * History:
  * ================================================================
  * 2019-08-27 Li XianJing <xianjimli@hotmail.com> created
+ * 2026-09-21 use tk_ostream_flush instead of sleep_ms on EAGAIN
  *
  */
 
@@ -59,9 +60,15 @@ int32_t tk_ostream_write_len(tk_ostream_t* stream, const void* buff, uint32_t ma
       if (errno != EAGAIN) {
         break;
       } else {
-        sleep_ms(20);
+        tk_ostream_flush(stream);
         log_debug("write: %d/%d\n", offset, max_size);
-        log_debug("write:again, sleep 20ms\n");
+        log_debug("write:again, flush stream\n");
+
+        now = time_now_ms();
+        if (now > end) {
+          log_debug("write timeout\n");
+          break;
+        }
         continue;
       }
     }

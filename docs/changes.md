@@ -1,5 +1,8 @@
 # 最新动态
 
+2026/9/21
+  * tk_ostream_write_len 在 EAGAIN 时改为 flush，避免固定 sleep 影响串口时序
+
 2026/9/11
   * 完善 darray_remove_all (感谢兆坤提供补丁) 
   * 完善 0x7fffffff 和 0xffffffff 用标准宏替换(感谢兆坤提供补丁)
