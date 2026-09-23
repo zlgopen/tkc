@@ -1,5 +1,8 @@
 # 最新动态
 
+2026/9/23
+  * improve str_append_vformat_simple(感谢兆坤提供补丁)
+
 2026/9/21
   * tk_ostream_write_len 在 EAGAIN 时改为 flush，避免固定 sleep 影响串口时序
 

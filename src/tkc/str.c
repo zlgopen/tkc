@@ -1144,6 +1144,7 @@ ret_t str_append_vformat_simple(str_t* str, const char* format, va_list ap) {
   va_copy(ap_copy, ap);
   size = tk_vsnprintf(empty, sizeof(empty), format, ap_copy);
   va_end(ap_copy);
+  return_value_if_fail(size >= 0, RET_BAD_PARAMS);
 
   return str_append_vformat(str, size + 1, format, ap);
 }
