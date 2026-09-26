@@ -1,5 +1,8 @@
 # 最新动态
 
+2026/9/26
+  * 将 License 变更 为 Apache License。
+
 2026/9/23
   * improve str_append_vformat_simple(感谢兆坤提供补丁)
 
