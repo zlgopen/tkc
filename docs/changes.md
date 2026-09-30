@@ -3,6 +3,7 @@
 2026/9/30
   * improve mmap(感谢兆坤提供补丁)
   * 完善 object_fifo 中的 push 行为(感谢泽武提供补丁)
+  * 优化 mmap 代码结构(感谢兆坤提供补丁)
 
 2026/9/26
   * 将 License 变更 为 Apache License。
