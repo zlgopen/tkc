@@ -2,6 +2,7 @@
 
 2026/10/21
   * 完善 mem_allocator_fixed_block(感谢兆坤提供补丁)
+  * 补充 tk_mem_init 与 tk_mem_init_ex 的说明：buffer 地址必须按指针长度对齐(感谢兆坤提供建议)
 
 2026/10/16
   * 给debugger接口增加修改变量数据功能以及统一获取get_global接口的返回值结构(感谢智明提供补丁)
