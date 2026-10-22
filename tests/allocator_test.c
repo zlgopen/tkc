@@ -132,7 +132,8 @@ void allocator_test_composite0() {
 
 void allocator_test_composite1() {
   char mem1[36];
-  char mem2[64];
+  /* 需要留出 "块大小 + MIN_SIZE" 的余量才能拆分，否则整块给出，realloc 时会搬迁 */
+  char mem2[80];
   char mem3[1280];
   char* addr = NULL;
   mem_allocator_composite_t composite;
@@ -198,9 +199,65 @@ void allocator_test_composite1() {
   return;
 }
 
+/* 分配、扩容、释放多种尺寸，检查返回的地址都按机器字对齐 */
+static void allocator_test_alignment_impl(mem_allocator_t* allocator) {
+  static const uint32_t s_k_align_test_sizes[] = {1, 4, 8, 12, 16, 24, 32, 40, 64};
+  uint32_t i = 0;
+  uint32_t round = 0;
+  void* addrs[ARRAY_SIZE(s_k_align_test_sizes)];
+
+  for (round = 0; round < 3; round++) {
+    for (i = 0; i < ARRAY_SIZE(s_k_align_test_sizes); i++) {
+      uint32_t size = s_k_align_test_sizes[i];
+
+      addrs[i] = mem_allocator_alloc(allocator, size, __FUNCTION__, __LINE__);
+      assert(addrs[i] != NULL);
+      /* 载荷必须按机器字对齐，才能存放指针/double/uint64_t */
+      assert(((uintptr_t)addrs[i] % sizeof(void*)) == 0);
+      memset(addrs[i], 0x5a, size);
+    }
+
+    for (i = 0; i < ARRAY_SIZE(s_k_align_test_sizes); i++) {
+      uint32_t size = s_k_align_test_sizes[i] + 8;
+      void* addr = mem_allocator_realloc(allocator, addrs[i], size, __FUNCTION__, __LINE__);
+
+      /* realloc 可能搬迁，但新地址仍必须对齐 */
+      assert(addr != NULL);
+      assert(((uintptr_t)addr % sizeof(void*)) == 0);
+      memset(addr, 0x5a, size);
+      addrs[i] = addr;
+    }
+
+    for (i = 0; i < ARRAY_SIZE(s_k_align_test_sizes); i++) {
+      mem_allocator_free(allocator, addrs[i]);
+    }
+  }
+}
+
+void allocator_test_alignment(void) {
+  /* 用按机器字对齐的缓冲区，满足分配器对基址的要求 */
+  uintptr_t buff[2048];
+  mem_allocator_pool_t pool;
+  mem_allocator_simple_t simple;
+  mem_allocator_t* allocator = mem_allocator_simple_init(&simple, buff, sizeof(buff));
+
+  assert(allocator != NULL);
+
+  /* 1.直接使用简单分配器 */
+  allocator_test_alignment_impl(allocator);
+
+  /* 2.经过 mem_pool 包装后仍应保持对齐 */
+  allocator = mem_allocator_pool_init(&pool, allocator, 10, 10, 10, 10, 10);
+  assert(allocator != NULL);
+  allocator_test_alignment_impl(allocator);
+
+  mem_allocator_destroy(allocator);
+}
+
 void allocator_test() {
   allocator_test_composite1();
   allocator_test_basic();
   allocator_test_rand();
   allocator_test_simple();
+  allocator_test_alignment();
 }

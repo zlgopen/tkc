@@ -1,5 +1,8 @@
 # 最新动态
 
+2026/10/22
+  * improve mem_allocator_simple(感谢兆坤提供补丁)
+
 2026/10/21
   * 完善 mem_allocator_fixed_block(感谢兆坤提供补丁)
   * 补充 tk_mem_init 与 tk_mem_init_ex 的说明：buffer 地址必须按指针长度对齐(感谢兆坤提供建议)
