@@ -3,6 +3,7 @@
 2026/10/22
   * improve mem_allocator_simple(感谢兆坤提供补丁)
   * 完善 allocator_test，覆盖 simple、pool、composite 的异常与边界情况
+  * mem_allocator_simple_get_mem_size 改为返回去掉块头后的载荷容量，避免 composite 搬迁时读出块尾(感谢兆坤提供补丁)
 
 2026/10/21
   * 完善 mem_allocator_fixed_block(感谢兆坤提供补丁)
