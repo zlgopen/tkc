@@ -2,6 +2,9 @@
 
 2026/10/30
   * improve tk_memcpy(感谢兆坤提供补丁)
+  * 完善 str 和 wstr(感谢雪飞提供补丁)
+      - 修复 value_t 为 DOUBLE/UINT64/UINT32/INT64 时 str_from_value 的结果可能错误的问题
+      - 修复 value_t 为 DOUBLE 时 wstr_from_value 的结果可能错误的问题，并添加了对 BOOL 的支持
 
 2026/10/29
   * improve utils (感谢兆坤提供补丁) 
