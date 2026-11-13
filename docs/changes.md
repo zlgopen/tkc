@@ -2,6 +2,7 @@
 
 2026/11/04
   * improve color(感谢兆坤提供补丁)
+  * improve object_evt_router_publish(感谢兆坤提供补丁)
 
 2026/10/30
   * improve tk_memcpy(感谢兆坤提供补丁)
