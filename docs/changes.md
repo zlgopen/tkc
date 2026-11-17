@@ -1,5 +1,8 @@
 # 最新动态
 
+2026/11/17
+  * improve object_hash(感谢兆坤提供补丁)
+
 2026/11/13
   * improve object_evt_router_publish(感谢兆坤提供补丁)
 
