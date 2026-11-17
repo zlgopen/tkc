@@ -1,4 +1,4 @@
-#include "tkc.h"
+﻿#include "tkc.h"
 #include "conf_io/app_conf_init_json.h"
 
 #define NR 10000

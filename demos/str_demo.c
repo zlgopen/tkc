@@ -1,4 +1,4 @@
-#include "tkc.h"
+﻿#include "tkc.h"
 
 int main(void) {
   str_t str;
