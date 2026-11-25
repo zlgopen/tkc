@@ -2,6 +2,7 @@
 
 2026/11/25
   * add raw_hash_table (感谢兆坤提供补丁)
+  * improve raw_hash_table (感谢兆坤提供补丁)
 
 2026/11/17
   * improve object_hash(感谢兆坤提供补丁)
