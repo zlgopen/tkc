@@ -114,7 +114,8 @@ if OS_NAME == 'Darwin':
 
     TOOLS_NAME = ''
     OS_FLAGS = '-Wall -Wno-unused-function -fPIC -DWITHOUT_GLAD=1 '
-    OS_LIBS = ['stdc++', 'iconv', 'pthread', 'm', 'dl']
+    # clang++ 自己会加 -lc++。再链 stdc++ 时 ld 会报 ignoring duplicate libraries: '-lc++'。
+    OS_LIBS = ['iconv', 'pthread', 'm', 'dl']
     OS_LINKFLAGS = '-framework IOKit -framework Cocoa -framework QuartzCore -framework OpenGL -Wl,-rpath,@loader_path/'
     OS_FLAGS = OS_FLAGS + ' -DHAS_SEM_OPEN '
     OS_FLAGS = OS_FLAGS + ' -D__APPLE__ -DHAS_PTHREAD -DMACOS '
