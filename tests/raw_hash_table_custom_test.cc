@@ -59,13 +59,14 @@ static ret_t raw_hash_table_custom_visit_remove_all(void* ctx, const void* data)
   return RET_REMOVE;
 }
 
-/* 默认按地址判"同一个对象"：同一个指针算，内容相同的克隆不算 */
+/* 默认按地址判"同一个对象"：同一个指针算，内容相同的另一份指针不算 */
 TEST(RawHashTable, key_is_same_object) {
   char* key = tk_strdup("hello");
+  const char* same_text = "hello";
 
   ASSERT_TRUE(key != NULL);
   ASSERT_TRUE(TK_RAW_HASH_TABLE_KEY_IS_SAME_OBJECT(key, key, NULL));
-  ASSERT_FALSE(TK_RAW_HASH_TABLE_KEY_IS_SAME_OBJECT(key, "hello", NULL));
+  ASSERT_FALSE(TK_RAW_HASH_TABLE_KEY_IS_SAME_OBJECT(key, same_text, NULL));
 
   TKMEM_FREE(key);
 }
