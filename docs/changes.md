@@ -3,6 +3,7 @@
 2026/11/27
   * fix raw_hash_table key same-object test string compare warning
   * raw_hash_table value_destroy to ctx(感谢兆坤提供补丁)
+  * cache_clock data to value(感谢兆坤提供补丁)
 
 2026/11/26
   * improve cache_clock and raw_hash_table(感谢兆坤提供补丁) 
